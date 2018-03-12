@@ -4,82 +4,65 @@
       <div class="dialog" style="display: block; margin-top: -362px;">
 
         <!--登陆-->
-        <!--  <div v-if="loginPage" class="content">
-          <el-form :model="loginForm">
-            <ul class="common-form">
-              <li class="username border-1p">
-                <div class="input">
-                  <input type="text" v-model="loginForm.userName" placeholder="账号">
-                </div>
-              </li>
-              <li>
-                <div class="input">
-                  <input type="password" v-model="loginForm.userPwd" @keyup.enter="login" placeholder="密码">
-                </div>
-              </li>
-              <li style="text-align: right" class="pr">
-                <a href="javascript:;" style="padding: 0 5px" @click="loginPage = false">注册</a>
-              </li>
-            </ul>
-          </el-form>
-          <div>
-            <el-button @click="login" type="primary">登陆</el-button>
-          </div>
-        </div> -->
-        <el-card v-if="loginPage" style="text-align:center">
-          <div class="title" v-if="loginPage">
-            <h4>使用 Smartisan ID 登录官网</h4>
-          </div>
-          <el-form :model="loginForm">
-            <el-form-item>
-              <el-input style="width:350px" v-model="loginForm.userName" placeholder="账号"></el-input>
-            </el-form-item>
-            <el-form-item>
-              <el-input style="width:350px" v-model="loginForm.userPwd" placeholder="密码"></el-input>
-            </el-form-item>
-            <el-row>
-              <el-col :offset="9">
-                <el-button type="text" @click="loginPage = false">注册</el-button>
-              </el-col>
-            </el-row>
-            <el-button style="width:310px" @click="login" type="primary">登陆</el-button>
-          </el-form>
-        </el-card>
+        <el-card style="text-align:center">
 
-        <div class="registered" v-else>
-          <h4>注册 Smartisan ID</h4>
-          <div class="content" style="margin-top: 20px;">
-            <el-form :model="registerForm">
-              <ul class="common-form">
-                <li class="username border-1p">
-                  <div class="input">
-                    <input type="text" v-model="registerForm.userName" placeholder="账号">
-                  </div>
-                </li>
-                <li>
-                  <div class="input">
-                    <input type="password" v-model="registerForm.userPwd" placeholder="密码">
-                  </div>
-                </li>
-                <li>
-                  <div class="input">
-                    <input type="password" v-model="registerForm.userPwd2" placeholder="重复密码">
-                  </div>
+          <div v-if="loginPage">
+            <div class="title" v-if="loginPage">
+              <h4>使用账号登录官网</h4>
+            </div>
+            <div class="title" v-if="!loginPage">创建账号</div>
+            <el-form :model="loginForm">
+              <el-form-item>
+                <el-input style="width:350px" v-model="loginForm.userName" placeholder="账号"></el-input>
+              </el-form-item>
+              <el-form-item>
+                <el-input style="width:350px" v-model="loginForm.userPwd" placeholder="密码"></el-input>
+              </el-form-item>
+              <el-row>
+                <el-col :offset="9">
+                  <el-button type="text" @click="loginPage = false">注册</el-button>
+                </el-col>
+              </el-row>
+              <el-button style="width:310px" @click="login" type="primary">登陆</el-button>
+            </el-form>
+          </div>
+
+          <div class="registered" v-else>
+            <h4>注册账号</h4>
+            <div class="content" style="margin-top: 20px;">
+              <el-form :model="registerForm">
+                <ul class="common-form">
+                  <li class="username border-1p">
+                    <div class="input">
+                      <input type="text" v-model="registerForm.userName" placeholder="账号">
+                    </div>
+                  </li>
+                  <li>
+                    <div class="input">
+                      <input type="password" v-model="registerForm.userPwd" placeholder="密码">
+                    </div>
+                  </li>
+                  <li>
+                    <div class="input">
+                      <input type="password" v-model="registerForm.userPwd2" placeholder="重复密码">
+                    </div>
+                  </li>
+                </ul>
+              </el-form>
+              <div>
+                <el-button class="btn" @click="regist" type="primary">注册</el-button>
+              </div>
+              <ul class="common-form pr">
+                <li class="pa" style="left: 0;top: 0;margin: 0;color: #d44d44">{{registerForm.errMsg}}</li>
+                <li style="text-align: center;line-height: 48px;margin-bottom: 0;">
+                  <span>如果您已拥有 Smartisan ID，则可在此</span>
+                  <a href="javascript:;" style="margin: 0 5px" @click="loginPage = true">登陆</a>
                 </li>
               </ul>
-            </el-form>
-            <div>
-              <el-button class="btn" @click="regist" type="primary">注册</el-button>
             </div>
-            <ul class="common-form pr">
-              <li class="pa" style="left: 0;top: 0;margin: 0;color: #d44d44">{{registerForm.errMsg}}</li>
-              <li style="text-align: center;line-height: 48px;margin-bottom: 0;">
-                <span>如果您已拥有 Smartisan ID，则可在此</span>
-                <a href="javascript:;" style="margin: 0 5px" @click="loginPage = true">登陆</a>
-              </li>
-            </ul>
           </div>
-        </div>
+
+        </el-card>
       </div>
     </div>
   </div>
