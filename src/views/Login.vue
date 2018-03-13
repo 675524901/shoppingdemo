@@ -17,7 +17,7 @@
               </el-form-item>
 
               <el-form-item prop="loginPwd">
-                <el-input style="width:350px" v-model.trim="loginForm.loginPwd" placeholder="密码"></el-input>
+                <el-input style="width:350px" v-model.trim="loginForm.loginPwd" placeholder="密码" type="password"></el-input>
               </el-form-item>
 
               <el-row>
@@ -69,6 +69,17 @@
 <script>
 export default {
   data() {
+    var validateAccount = async (rule, value, callback) => {
+      if (value) {
+        const data = { account: this.loginForm.loginAccount }
+        const res = await this.$http.get('/nodeapi/users/checkAccount', {
+          params: data
+        })
+        if (res.data.status === '0') {
+          callback()
+        } else callback(new Error('此账号已经存在'))
+      }
+    }
     var validatePass2 = (rule, value, callback) => {
       if (value === '') {
         callback(new Error('请再次输入密码'))
@@ -93,7 +104,13 @@ export default {
       loginRules: {
         loginAccount: [
           { required: true, message: '请输入账号', trigger: 'blur' },
-          { min: 6, max: 20, message: '长度在 6 到 20 个字符', trigger: 'blur' }
+          {
+            min: 6,
+            max: 20,
+            message: '长度在 6 到 20 个字符',
+            trigger: 'blur'
+          },
+          { validator: validateAccount, trigger: 'blur' }
         ],
         loginPwd: [{ required: true, message: '请输入密码', trigger: 'blur' }]
       },
@@ -145,51 +162,21 @@ export default {
         }
         this.cart = cartArr */
     },
-    login() {
-      /* const {userName, userPwd} = this.ruleForm
-        if (!userName || !userPwd) {
-          this.ruleForm.errMsg = '账号或者密码不能为空!'
-        } else {
-          let params = {userName, userPwd}
-          userLogin(params).then(res => {
-            if (res.status === '0') {
-              if (this.cart.length) {
-                addCartBatch({productMsg: this.cart}).then(res => {
-                  if (res.status === '1') {
-                    removeStore('buyCart')
-                  }
-                }).then(this.$router.go(-1))
-              } else {
-                this.$router.go(-1)
-              }
-            } else {
-              this.ruleForm.errMsg = res.msg
-            }
-          })
-        } */
+    async login() {
+      const data = {
+        account: this.loginForm.loginAccount,
+        password: this.loginForm.loginPwd
+      }
+      const res = await this.$http.post('/nodeapi/users/login', data)
+      console.log(res)
     },
-    regist() {
-      /* const {userName, userPwd, userPwd2} = this.registered
-        if (!userName || !userPwd || !userPwd2) {
-          this.registered.errMsg = '账号密码不能为空'
-          return false
-        }
-        if (userPwd2 !== userPwd) {
-          this.registered.errMsg = '两次输入的密码不相同'
-          return false
-        }
-        register({userName, userPwd}).then(res => {
-          this.registered.errMsg = res.msg
-          if (res.status === '0') {
-            setTimeout(() => {
-              this.ruleForm.errMsg = ''
-              this.registered.errMsg = ''
-              this.loginPage = true
-            }, 500)
-          } else {
-            return false
-          }
-        }) */
+    async regist() {
+      const data = {
+        account: this.registerForm.registerAccount,
+        password: this.registerForm.registerPwd
+      }
+      const res = await this.$http.post('/nodeapi/users/register', data)
+      console.log(res)
     }
   }
 }
