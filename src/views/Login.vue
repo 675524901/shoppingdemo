@@ -7,59 +7,58 @@
         <el-card style="text-align:center">
 
           <div v-if="loginPage">
-            <div class="title" v-if="loginPage">
+            <div class="title" v-show="loginPage">
               <h4>使用账号登录官网</h4>
             </div>
-            <div class="title" v-if="!loginPage">创建账号</div>
-            <el-form :model="loginForm">
-              <el-form-item>
-                <el-input style="width:350px" v-model="loginForm.userName" placeholder="账号"></el-input>
+            <el-form :model="loginForm" :rules="loginRules" ref="loginForm">
+
+              <el-form-item prop="loginAccount">
+                <el-input style="width:350px" v-model.trim="loginForm.loginAccount" placeholder="账号"></el-input>
               </el-form-item>
-              <el-form-item>
-                <el-input style="width:350px" v-model="loginForm.userPwd" placeholder="密码"></el-input>
+
+              <el-form-item prop="loginPwd">
+                <el-input style="width:350px" v-model.trim="loginForm.loginPwd" placeholder="密码"></el-input>
               </el-form-item>
+
               <el-row>
                 <el-col :offset="9">
-                  <el-button type="text" @click="loginPage = false">注册</el-button>
+                  <el-button type="text" @click="handleRegister">注册</el-button>
                 </el-col>
               </el-row>
               <el-button style="width:310px" @click="login" type="primary">登陆</el-button>
             </el-form>
           </div>
 
-          <div class="registered" v-else>
-            <h4>注册账号</h4>
-            <div class="content" style="margin-top: 20px;">
-              <el-form :model="registerForm">
-                <ul class="common-form">
-                  <li class="username border-1p">
-                    <div class="input">
-                      <input type="text" v-model="registerForm.userName" placeholder="账号">
-                    </div>
-                  </li>
-                  <li>
-                    <div class="input">
-                      <input type="password" v-model="registerForm.userPwd" placeholder="密码">
-                    </div>
-                  </li>
-                  <li>
-                    <div class="input">
-                      <input type="password" v-model="registerForm.userPwd2" placeholder="重复密码">
-                    </div>
-                  </li>
-                </ul>
-              </el-form>
-              <div>
-                <el-button class="btn" @click="regist" type="primary">注册</el-button>
-              </div>
-              <ul class="common-form pr">
-                <li class="pa" style="left: 0;top: 0;margin: 0;color: #d44d44">{{registerForm.errMsg}}</li>
-                <li style="text-align: center;line-height: 48px;margin-bottom: 0;">
-                  <span>如果您已拥有 Smartisan ID，则可在此</span>
-                  <a href="javascript:;" style="margin: 0 5px" @click="loginPage = true">登陆</a>
-                </li>
-              </ul>
+          <div v-else>
+            <div class="title" v-show="!loginPage">
+              <h4>注册账号</h4>
             </div>
+            <el-form :model="registerForm" :rules="registerRules" ref="registerForm">
+
+              <el-form-item prop="registerAccount">
+                <el-input style="width:350px" v-model.trim="registerForm.registerAccount" placeholder="账号"></el-input>
+              </el-form-item>
+
+              <el-form-item prop="registerPwd">
+                <el-input style="width:350px" v-model.trim="registerForm.registerPwd" placeholder="密码"></el-input>
+              </el-form-item>
+
+              <el-form-item prop="registerPwd2">
+                <el-input style="width:350px" v-model.trim="registerForm.registerPwd2" placeholder="确认密码"></el-input>
+              </el-form-item>
+
+            </el-form>
+            <el-row>
+              <el-col>
+                <el-button style="width:310px" @click="regist" type="primary">注册</el-button>
+              </el-col>
+            </el-row>
+            <el-row style="margin-top:20px">
+              <el-col>
+                <span style="font-size:14px">如果您已拥有账号，则可在此</span>
+                <el-button type="text" @click="handleLogin">登陆</el-button>
+              </el-col>
+            </el-row>
           </div>
 
         </el-card>
@@ -70,23 +69,68 @@
 <script>
 export default {
   data() {
+    var validatePass2 = (rule, value, callback) => {
+      if (value === '') {
+        callback(new Error('请再次输入密码'))
+      } else if (value !== this.registerForm.registerPwd) {
+        callback(new Error('两次密码不一致!'))
+      } else {
+        callback()
+      }
+    }
     return {
       cart: [],
       loginPage: true,
       loginForm: {
-        userName: '',
-        userPwd: '',
-        errMsg: ''
+        loginAccount: '',
+        loginPwd: ''
       },
       registerForm: {
-        userName: '',
-        userPwd: '',
-        userPwd2: '',
-        errMsg: ''
+        registerAccount: '',
+        registerPwd: '',
+        registerPwd2: ''
+      },
+      loginRules: {
+        loginAccount: [
+          { required: true, message: '请输入账号', trigger: 'blur' },
+          { min: 6, max: 20, message: '长度在 6 到 20 个字符', trigger: 'blur' }
+        ],
+        loginPwd: [{ required: true, message: '请输入密码', trigger: 'blur' }]
+      },
+      registerRules: {
+        registerAccount: [
+          { required: true, message: '请输入账号', trigger: 'blur' },
+          { min: 6, max: 20, message: '长度在 6 到 20 个字符', trigger: 'blur' }
+        ],
+        registerPwd: [
+          { required: true, message: '请输入密码', trigger: 'blur' },
+          { min: 6, max: 20, message: '长度在 6 到 20 之间', trigger: 'blur' },
+          {
+            pattern: /^[A-Za-z0-9_@.*]*$/,
+            message: '请输入有效字符',
+            trigger: 'blur'
+          }
+        ],
+        registerPwd2: [
+          { validator: validatePass2, trigger: 'blur' },
+          {
+            pattern: /^[A-Za-z0-9_@.*]*$/,
+            message: '请输入有效字符',
+            trigger: 'blur'
+          }
+        ]
       }
     }
   },
   methods: {
+    handleRegister() {
+      this.$refs.loginForm.resetFields()
+      this.loginPage = false
+    },
+    handleLogin() {
+      this.$refs.registerForm.resetFields()
+      this.loginPage = true
+    },
     // 登陆时将本地的添加到用户购物车
     login_addCart() {
       /* let cartArr = []
