@@ -21,9 +21,12 @@ export default {
   }
 }
 </script>
-<style lang="scss" rel="stylesheet/scss" scoped>
+<style lang="scss">
 @import '../assets/style/mixin';
-
+body {
+  padding: 0;
+  margin: 0;
+}
 .main {
   min-height: calc(100vh - 454px);
   background: #ededed;
