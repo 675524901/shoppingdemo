@@ -1,12 +1,17 @@
 <template>
   <div class="goods">
-    <!-- <el-row>
-      <el-col>
-        <el-button type="text" size="small">价格从低到高</el-button>
-      </el-col>
-    </el-row> -->
-    <div class="nav">
 
+    <el-row class="mt20">
+      <el-col :offset="2">
+        <el-radio-group @change="handleSort" size="small" v-model="sort">
+          <el-radio-button label="综合排序"></el-radio-button>
+          <el-radio-button label="价格升序"></el-radio-button>
+          <el-radio-button label="价格降序"></el-radio-button>
+        </el-radio-group>
+      </el-col>
+    </el-row>
+
+    <!-- <div class="nav">
       <div class="w">
         <a href="javascript:;" :class="{active:sortType===1}">综合排序</a>
         <a href="javascript:;" :class="{active:sortType===2}">价格从低到高</a>
@@ -15,12 +20,13 @@
           <input type="number" class="input" placeholder="价格">
           <span style="margin: 0 5px"> - </span>
           <input type="number" placeholder="价格">
-          <y-button text="确定" classStyle="main-btn" style="margin-left: 10px;"></y-button>
+        
+          <el-button type="text" style="margin-left: 10px;">确定</el-button>
         </div>
       </div>
-    </div>
+    </div> -->
     <!--商品-->
-    <div class="goods-box w">
+    <div class="goods-box w mt20">
       <h-goods v-for="(item,i) in goodsList" :key="i" :msg="item"></h-goods>
     </div>
     <!--下拉无限滚动-->
@@ -38,6 +44,8 @@ export default {
   },
   data() {
     return {
+      sort: '综合排序',
+      sortType: 1,
       goodsList: [
         {
           productName: '名字1',
@@ -105,7 +113,8 @@ export default {
       setTimeout(() => {
         this.busy = false
       }, 500)
-    }
+    },
+    handleSort() {}
   }
 }
 </script>
@@ -114,6 +123,9 @@ export default {
 @import '../../assets/style/mixin';
 @import '../../assets/style/theme';
 
+.mt20 {
+  margin-top: 20px;
+}
 .nav {
   height: 60px;
   line-height: 60px;
