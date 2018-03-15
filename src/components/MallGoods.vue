@@ -2,7 +2,7 @@
   <div class="good-item">
     <div>
       <div class="good-img">
-        <router-link :to="'goodsDetails?productId='+msg.productId">
+        <router-link :to="'goodsDetail?productId='+msg.productId">
           <img :src="msg.productImageBig" :alt="msg.productName">
         </router-link>
       </div>
@@ -10,7 +10,7 @@
       <h3 class="sub-title ellipsis">{{msg.sub_title}}</h3>
       <div class="good-price pr">
         <div class="ds pa">
-          <router-link :to="'goodsDetails?productId='+msg.productId">
+          <router-link :to="'goodsDetail?productId='+msg.productId">
             <el-button style="margin: 0 5px" size="small" type="primary" plain>查看详情</el-button>
           </router-link>
           <el-button style="margin: 0 5px" type="primary" size="small" @click="addCart()">计入购物车</el-button>

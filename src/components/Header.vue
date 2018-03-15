@@ -9,7 +9,7 @@
         </div>
         <div class="right-box">
           <div class="nav-list">
-            <router-link to="/goods">全部商品</router-link>
+            <router-link to="/goodsList">全部商品</router-link>
           </div>
           <div class="nav-aside" ref="aside" :class="{fixed: (st && showNav)}">
             <div class="user pr">
@@ -56,7 +56,7 @@
                           <li class="clearfix" v-for="(item,i) in cartList" :key="i">
                             <div class="cart-item">
                               <div class="cart-item-inner">
-                                <router-link :to="'goodsDetails?productId='+item.productId">
+                                <router-link :to="'goodsDetail?productId='+item.productId">
                                   <div class="item-thumb">
                                     <img :src="item.productImg">
                                   </div>
@@ -64,7 +64,7 @@
                                 <div class="item-desc">
                                   <div class="cart-cell">
                                     <h4>
-                                      <router-link :to="'goodsDetails?productId='+item.productId"
+                                      <router-link :to="'goodsDetail?productId='+item.productId"
                                                    v-text="item.productName"></router-link>
                                     </h4>
                                     <p class="attrs"><span>白色</span>
@@ -116,11 +116,14 @@
               <router-link to="/">首页</router-link>
             </li>
             <li>
-              <router-link to="/goods">喂养</router-link>
+              <router-link to="/goodsList">喂养</router-link>
             </li>
             <li>
-              <router-link to="/goods">玩具</router-link>
+              <router-link to="/goodsList">玩具</router-link>
             </li>
+            <el-input style="width:250px;margin-left:100px;" placeholder="请输入内容" v-model="searchContent" size="mini" prefix-icon="el-icon-search">
+              <!-- <el-button slot="append" icon="el-icon-search"></el-button> -->
+            </el-input>
           </ul>
         </div>
       </div>
@@ -141,7 +144,8 @@ export default {
     return {
       st: false,
       cartShow: false, // 头部购物车显示
-      timerCartShow: null // 定时隐藏购物车
+      timerCartShow: null, // 定时隐藏购物车,
+      searchContent: ''
     }
   },
   computed: {
@@ -180,9 +184,9 @@ export default {
     // 控制顶部
     navFixed() {
       if (
-        this.$route.path === '/goods' ||
+        this.$route.path === '/goodsList' ||
         this.$route.path === '/home' ||
-        this.$route.path === '/goodsDetails'
+        this.$route.path === '/goodsDetail'
       ) {
         // 计算是否吸顶
         if (this.showNav) {
