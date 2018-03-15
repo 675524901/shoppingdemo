@@ -3,7 +3,7 @@
     <div>
       <div class="good-img">
         <router-link :to="'goodsDetails?productId='+msg.productId">
-          <img v-lazy="msg.productImageBig" :alt="msg.productName">
+          <img :src="msg.productImageBig" :alt="msg.productName">
         </router-link>
       </div>
       <h6 class="good-title">{{msg.productName}}</h6>
@@ -11,10 +11,9 @@
       <div class="good-price pr">
         <div class="ds pa">
           <router-link :to="'goodsDetails?productId='+msg.productId">
-            <y-button text="查看详情" style="margin: 0 5px" />
+            <el-button style="margin: 0 5px" size="small" type="primary" plain>查看详情</el-button>
           </router-link>
-          <y-button text="加入购物车" style="margin: 0 5px" @btnClick="addCart(msg.productId,msg.salePrice,msg.productName,msg.productImageBig)" classStyle="main-btn"></y-button>
-          <el-button type="primary" @click="addCart()"></el-button>
+          <el-button style="margin: 0 5px" type="primary" size="small" @click="addCart()">计入购物车</el-button>
         </div>
         <p>
           <span style="font-size: 16px">￥</span>
@@ -27,15 +26,18 @@
 import { mapState } from 'vuex'
 export default {
   props: {
-    msg: { type: [Object, Array] }
+    msg: ''
   },
   data() {
     return {}
   },
+  created() {
+    /* if(this.msg){
+      if(!Array.isArray(this.msg){
+      })
+    } */
+  },
   methods: {
-    goodsDetails(id) {
-      this.$router.push({ path: 'goodsDetails/productId=' + id })
-    },
     addCart() {}
     /* addCart (id, price, name, img) {
         if (!this.showMoveImg) {     // 动画是否在运动

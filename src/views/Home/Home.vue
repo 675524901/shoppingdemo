@@ -1,42 +1,85 @@
 <template>
   <div>
-
+    <!--轮播图片-->
     <div style="width:64%;margin-top:30px;margin-left:18%;">
       <el-carousel height="400px">
         <el-carousel-item v-for="item in 4" :key="item">
-
         </el-carousel-item>
       </el-carousel>
     </div>
 
+    <!--热门商品-->
     <section class="w mt30 clearfix">
-      <y-shelf title="热门商品">
-        <div slot="content" class="hot">
-
+      <h-shelf title="热门商品">
+        <div slot="content" class="floors">
+          <h-goods v-for="(item,i) in hotGoods" :msg="item" :key="i"></h-goods>
         </div>
-      </y-shelf>
+      </h-shelf>
     </section>
 
-    <section class="w mt30 clearfix">
-      <y-shelf title="热门商品">
-        <div slot="content" class="hot">
+    <section class="w mt30 clearfix" v-for="(item,i) in saleGoods" :key="i">
+      <h-shelf :title="item.title">
+        <div slot="content" class="floors">
+          <div class="imgbanner">
+            <img :src="saleGoods[i].image" :alt="item.title">
+          </div>
+          <h-goods :msg="tab" v-for="(tab,i) in item.tabs" :key="i"></h-goods>
         </div>
-      </y-shelf>
+      </h-shelf>
     </section>
-
-    <section class="w mt30 clearfix">
-      <y-shelf title="热门商品">
-      </y-shelf>
-    </section>
-
   </div>
 </template>
 <script>
-import YShelf from '@/components/Shelf'
+import HShelf from '@/components/Shelf'
+import HGoods from '@/components/MallGoods'
 export default {
   name: 'HomePage',
   data() {
     return {
+      hotGoods: [
+        {
+          productName: '名字1',
+          sub_title: 'subTitle111',
+          productId: '111',
+          salePrice: '50',
+          productImageBig: '/static/images/smartisan_4ada7fecea.png'
+        },
+        {
+          productName: '名字2',
+          sub_title: 'subTitle222',
+          productId: '222',
+          salePrice: '50',
+          productImageBig: '/static/images/smartisan_4ada7fecea.png'
+        }
+      ],
+      saleGoods: [
+        {
+          tabs: [
+            {
+              productName: '名字1',
+              sub_title: 'subTitle111',
+              productId: '111',
+              salePrice: '50',
+              productImageBig: '/static/images/smartisan_4ada7fecea.png'
+            }
+          ],
+          image: '/static/images/smartisan_4ada7fecea.png',
+          title: '111'
+        },
+        {
+          tabs: [
+            {
+              productName: '名字2',
+              sub_title: 'subTitle222',
+              productId: '222',
+              salePrice: '50',
+              productImageBig: '/static/images/smartisan_4ada7fecea.png'
+            }
+          ],
+          image: '/static/images/smartisan_4ada7fecea.png',
+          title: '222'
+        }
+      ],
       banner: {},
       bgOpt: {
         offsetLeft: 0,
@@ -49,7 +92,8 @@ export default {
     }
   },
   components: {
-    YShelf
+    HShelf,
+    HGoods
   },
   methods: {}
 }

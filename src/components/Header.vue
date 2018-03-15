@@ -96,7 +96,7 @@
 
                   </div>
                   <div v-show="!totalNum" style="height: 313px;text-align: center" class="cart-con">
-                    <p>你的购物车竟然是空的!</p>
+                    <p>您还没有添加商品!</p>
                   </div>
                 </div>
               </div>
@@ -116,7 +116,10 @@
               <router-link to="/">首页</router-link>
             </li>
             <li>
-              <router-link to="/goods">全部商品</router-link>
+              <router-link to="/goods">喂养</router-link>
+            </li>
+            <li>
+              <router-link to="/goods">玩具</router-link>
             </li>
           </ul>
         </div>
@@ -188,12 +191,11 @@ export default {
           st >= 100 ? (this.st = true) : (this.st = false)
         }
         // 计算小圆当前位置
-        const num = this.$refs.num
-        const { left, top } = num.getBoundingClientRect()
+        /* const { left, top } = this.$refs.num.getBoundingClientRect()
         this.$store.commit('ADD_ANIMATION', {
           cartPositionL: left,
           cartPositionT: top
-        })
+        }) */
       }
     }
   }
