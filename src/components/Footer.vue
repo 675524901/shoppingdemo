@@ -13,15 +13,10 @@
   </div>
 </template>
 <style lang="scss" scoped>
-* {
-  padding: 0px;
-  margin: 0px;
-  border: 0px;
-}
 .footer {
   padding: 50px 0 20px;
   background: #fff;
-  margin-top: 20px;
+  // margin-top: 20px;
 }
 .tag {
   display: flex;

@@ -17,8 +17,8 @@ export default new Router({
       redirect: '/home',
       children: [
         { path: 'home', component: Home },
-        { path: '/goodsDetail', name: 'GoodsDetail', component: GoodsDetail },
-        { path: 'goodsList', name: 'GoodsList', component: GoodsList }
+        { path: 'goodsDetail', component: GoodsDetail },
+        { path: 'goodsList', component: GoodsList }
       ]
     },
     {
