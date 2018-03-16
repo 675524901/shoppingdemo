@@ -8,7 +8,14 @@ import 'element-ui/lib/theme-chalk/index.css'
 import axios from 'axios'
 import store from './store/index'
 import infiniteScroll from 'vue-infinite-scroll'
+import VueLazyload from 'vue-lazyload'
 
+Vue.use(VueLazyload, {
+  // preLoad: 1.3,
+  // error: 'dist/error.png',
+  loading: '/static/images/load.gif'
+  // attempt: 1
+})
 Vue.prototype.$http = axios
 Vue.config.productionTip = false
 Vue.use(ElementUI)

@@ -2,7 +2,7 @@
   <div class="goods">
 
     <el-row class="mt20">
-      <el-col :offset="2">
+      <el-col style="margin-left:18%">
         <el-radio-group @change="handleSort" size="small" v-model="sort">
           <el-radio-button label="综合排序"></el-radio-button>
           <el-radio-button label="价格升序"></el-radio-button>

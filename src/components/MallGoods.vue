@@ -3,7 +3,7 @@
     <div>
       <div class="good-img">
         <router-link :to="'goodsDetail?productId='+msg.productId">
-          <img :src="msg.productImageBig" :alt="msg.productName">
+          <img v-lazy="msg.productImageBig" :alt="msg.productName">
         </router-link>
       </div>
       <h6 class="good-title">{{msg.productName}}</h6>
