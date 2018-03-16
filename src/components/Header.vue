@@ -285,10 +285,12 @@ export default {
 }
 
 .header-box {
-  background: $head-bgc;
-  background-image: -webkit-linear-gradient(#000, #121212);
-  background-image: linear-gradient(#000, #121212);
+  // background: $head-bgc;
+  // background-image: -webkit-linear-gradient(rgb(0, 0, 0), #121212);
+  // background-image: linear-gradient(#000, #121212);
   width: 100%;
+  background-image: -webkit-linear-gradient(#46a3ff, #2894ff);
+  background-image: linear-gradient(#46a3ff, #2894ff);
 }
 
 header {
