@@ -68,7 +68,7 @@ export default {
   data() {
     var validateAccount = async (rule, value, callback) => {
       if (value) {
-        const data = { account: this.loginForm.loginAccount }
+        const data = { account: this.registerForm.registerAccount }
         const res = await this.$http.get('/nodeapi/users/checkAccount', {
           params: data
         })
@@ -106,15 +106,20 @@ export default {
             max: 20,
             message: '长度在 6 到 20 个字符',
             trigger: 'blur'
-          },
-          { validator: validateAccount, trigger: 'blur' }
+          }
         ],
         loginPwd: [{ required: true, message: '请输入密码', trigger: 'blur' }]
       },
       registerRules: {
         registerAccount: [
           { required: true, message: '请输入账号', trigger: 'blur' },
-          { min: 6, max: 20, message: '长度在 6 到 20 个字符', trigger: 'blur' }
+          {
+            min: 6,
+            max: 20,
+            message: '长度在 6 到 20 个字符',
+            trigger: 'blur'
+          },
+          { validator: validateAccount, trigger: 'blur' }
         ],
         registerPwd: [
           { required: true, message: '请输入密码', trigger: 'blur' },
@@ -161,20 +166,28 @@ export default {
     },
     // 登陆时需要添加本地购物车到服务器购物车
     async login() {
-      const data = {
-        account: this.loginForm.loginAccount,
-        password: this.loginForm.loginPwd
-      }
-      const res = await this.$http.post('/nodeapi/users/login', data)
-      console.log(res)
+      this.$refs.loginForm.validate(async valid => {
+        if (valid) {
+          const data = {
+            account: this.loginForm.loginAccount,
+            password: this.loginForm.loginPwd
+          }
+          const res = await this.$http.post('/nodeapi/users/login', data)
+          console.log(res)
+        } else return false
+      })
     },
     async regist() {
-      const data = {
-        account: this.registerForm.registerAccount,
-        password: this.registerForm.registerPwd
-      }
-      const res = await this.$http.post('/nodeapi/users/register', data)
-      console.log(res)
+      this.$refs.registerForm.validate(async valid => {
+        if (valid) {
+          const data = {
+            account: this.registerForm.registerAccount,
+            password: this.registerForm.registerPwd
+          }
+          const res = await this.$http.post('/nodeapi/users/register', data)
+          console.log(res)
+        } else return false
+      })
     }
   }
 }
