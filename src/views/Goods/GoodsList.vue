@@ -10,6 +10,7 @@
         </el-radio-group>
       </el-col>
     </el-row>
+
     <!--商品-->
     <div class="goods-box w mt20">
       <h-goods v-for="(item,i) in goodsList" :key="i" :msg="item"></h-goods>

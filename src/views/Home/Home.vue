@@ -42,14 +42,14 @@ export default {
           sub_title: 'subTitle111',
           productId: '111',
           salePrice: '50',
-          productImageBig: '/static/images/smartisan_4ada7fecea.png'
+          productImageBig: '/images/pic01.jpg'
         },
         {
           productName: '名字2',
           sub_title: 'subTitle222',
           productId: '222',
           salePrice: '50',
-          productImageBig: '/static/images/smartisan_4ada7fecea.png'
+          productImageBig: '/images/pic02.jpg'
         }
       ],
       saleGoods: [
@@ -60,10 +60,10 @@ export default {
               sub_title: 'subTitle111',
               productId: '111',
               salePrice: '50',
-              productImageBig: '/static/images/smartisan_4ada7fecea.png'
+              productImageBig: '/images/pic03.jpg'
             }
           ],
-          image: '/static/images/smartisan_4ada7fecea.png',
+          image: '/images/pic01.jpg',
           title: '111'
         },
         {
@@ -73,10 +73,10 @@ export default {
               sub_title: 'subTitle222',
               productId: '222',
               salePrice: '50',
-              productImageBig: '/static/images/smartisan_4ada7fecea.png'
+              productImageBig: '/images/pic01.jpg'
             }
           ],
-          image: '/static/images/smartisan_4ada7fecea.png',
+          image: '/images/pic01.jpg',
           title: '222'
         }
       ],
