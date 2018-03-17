@@ -1,73 +1,70 @@
 <template>
-  <div class="login v2">
-    <div class="wrapper">
-      <div class="dialog" style="display: block; margin-top: -362px;">
-
-        <!--登陆-->
-        <el-card style="text-align:center">
-
-          <div v-if="loginPage">
-            <div class="title" v-show="loginPage">
-              <h4>使用账号登录官网</h4>
-            </div>
-            <el-form :model="loginForm" :rules="loginRules" ref="loginForm">
-
-              <el-form-item prop="loginAccount">
-                <el-input style="width:350px" v-model.trim="loginForm.loginAccount" placeholder="账号"></el-input>
-              </el-form-item>
-
-              <el-form-item prop="loginPwd">
-                <el-input style="width:350px" v-model.trim="loginForm.loginPwd" placeholder="密码" type="password"></el-input>
-              </el-form-item>
-
-              <el-row>
-                <el-col :offset="9">
-                  <el-button type="text" @click="handleRegister">注册</el-button>
-                </el-col>
-              </el-row>
-              <el-button style="width:310px" @click="login" type="primary">登陆</el-button>
-            </el-form>
+  <div class="login-page">
+    <div class="login-center">
+      <el-card>
+        <div v-if="loginPage">
+          <div class="title" v-show="loginPage">
+            <h4>使用账号登录官网</h4>
           </div>
+          <el-form :model="loginForm" :rules="loginRules" ref="loginForm" label-position="left">
 
-          <div v-else>
-            <div class="title" v-show="!loginPage">
-              <h4>注册账号</h4>
-            </div>
-            <el-form :model="registerForm" :rules="registerRules" ref="registerForm">
+            <el-form-item prop="loginAccount">
+              <el-input v-model.trim="loginForm.loginAccount" placeholder="账号"></el-input>
+            </el-form-item>
 
-              <el-form-item prop="registerAccount">
-                <el-input style="width:350px" v-model.trim="registerForm.registerAccount" placeholder="账号"></el-input>
-              </el-form-item>
+            <el-form-item prop="loginPwd">
+              <el-input v-model.trim="loginForm.loginPwd" placeholder="密码" type="password"></el-input>
+            </el-form-item>
 
-              <el-form-item prop="registerPwd">
-                <el-input style="width:350px" v-model.trim="registerForm.registerPwd" placeholder="密码"></el-input>
-              </el-form-item>
-
-              <el-form-item prop="registerPwd2">
-                <el-input style="width:350px" v-model.trim="registerForm.registerPwd2" placeholder="确认密码"></el-input>
-              </el-form-item>
-
-            </el-form>
             <el-row>
-              <el-col>
-                <el-button style="width:310px" @click="regist" type="primary">注册</el-button>
+              <el-col :offset="9">
+                <el-button type="text" @click="handleRegister">注册</el-button>
               </el-col>
             </el-row>
-            <el-row style="margin-top:20px">
-              <el-col>
-                <span style="font-size:14px">如果您已拥有账号，则可在此</span>
-                <el-button type="text" @click="handleLogin">登陆</el-button>
-              </el-col>
-            </el-row>
-          </div>
+            <el-button style="width:350px" @click="login" type="primary">登陆</el-button>
+          </el-form>
+        </div>
 
-        </el-card>
-      </div>
+        <div v-else>
+          <div class="title" v-show="!loginPage">
+            <h4>注册账号</h4>
+          </div>
+          <el-form :model="registerForm" :rules="registerRules" ref="registerForm">
+
+            <el-form-item prop="registerAccount">
+              <el-input v-model.trim="registerForm.registerAccount" placeholder="账号"></el-input>
+            </el-form-item>
+
+            <el-form-item prop="registerPwd">
+              <el-input v-model.trim="registerForm.registerPwd" placeholder="密码"></el-input>
+            </el-form-item>
+
+            <el-form-item prop="registerPwd2">
+              <el-input v-model.trim="registerForm.registerPwd2" placeholder="确认密码"></el-input>
+            </el-form-item>
+
+          </el-form>
+          <el-row>
+            <el-col>
+              <el-button style="width:350px" @click="regist" type="primary">注册</el-button>
+            </el-col>
+          </el-row>
+          <el-row class="mt20">
+            <el-col>
+              <span style="font-size:14px">如果您已拥有账号，则可在此</span>
+              <el-button type="text" @click="handleLogin">登陆</el-button>
+            </el-col>
+          </el-row>
+        </div>
+
+      </el-card>
     </div>
   </div>
 </template>
+
 <script>
 export default {
+  name: 'loginPage',
   data() {
     var validateAccount = async (rule, value, callback) => {
       if (value) {
@@ -162,6 +159,7 @@ export default {
         }
         this.cart = cartArr */
     },
+    // 登陆时需要添加本地购物车到服务器购物车
     async login() {
       const data = {
         account: this.loginForm.loginAccount,
@@ -181,155 +179,48 @@ export default {
   }
 }
 </script>
-<style lang="scss" rel="stylesheet/scss" scoped>
-* {
-  box-sizing: content-box;
-}
 
-.login {
-  overflow-x: hidden;
-  overflow-y: hidden;
-  .input {
-    height: 50px;
-    display: flex;
-    align-items: center;
-    input {
-      font-size: 16px;
-      width: 100%;
-      height: 100%;
-      padding: 10px 15px;
-      box-sizing: border-box;
-      border: 1px solid #ccc;
-      border-radius: 6px;
-    }
-  }
-  .wrapper {
-    background: url(/static/images/bg_9b9dcb65ff.png) repeat;
-    background-size: 100px;
-    min-height: 800px;
-    min-width: 630px;
-  }
-  .btn {
-    margin: 0;
-    width: 100%;
-    height: 48px;
-    font-size: 18px;
-    line-height: 48px;
-  }
-}
+<style lang="scss" >
+.login-page {
+  width: 100vw;
+  height: 100vh;
+  background: url(/static/images/bg_9b9dcb65ff.png) repeat;
+  background-size: 100px;
+  overflow: hidden;
 
-.v2 .dialog {
-  width: 450px;
-  border: 1px solid #dadada;
-  border-radius: 10px;
-  top: 50%;
-  left: 50%;
-  margin-left: -225px;
-  position: absolute;
-  .title {
-    background: linear-gradient(#fff, #f5f5f5);
-    overflow: visible;
-    position: relative;
-    background-image: url(/static/images/smartisan_4ada7fecea.png);
-    background-size: 160px;
-    background-position: top center;
-    background-repeat: no-repeat;
-    height: 92px;
-    margin: 23px 0 50px;
-    padding: 75px 0 0;
-    box-shadow: none;
-    h4 {
-      padding: 0;
+  .login-center {
+    top: 50%;
+    left: 50%;
+    margin-left: -225px;
+    margin-top: -225px;
+    position: absolute;
+    .el-card {
       text-align: center;
-      border-bottom: 1px solid #dcdcdc;
-      position: absolute;
-      bottom: 0;
-      width: 100%;
-      margin: 0;
-      border-bottom: 0;
-      box-shadow: none;
-      line-height: 1em;
-      height: auto;
-      color: #333;
-      font-weight: 400;
-    }
-  }
-  .content {
-    padding: 0 40px 22px;
-    height: auto;
-    .common-form {
-      li {
-        clear: both;
-        margin-bottom: 15px;
-        position: relative;
+      width: 450px;
+      .title {
+        h4 {
+          color: #666;
+          font-size: 20px;
+        }
       }
     }
   }
-}
-
-.dialog-shadow,
-.v2 .bbs .dialog-shadow,
-.v2 .dialog-shadow {
-  -webkit-box-shadow: 0 9px 30px -6px rgba(0, 0, 0, 0.2),
-    0 18px 20px -10px rgba(0, 0, 0, 0.04), 0 18px 20px -10px rgba(0, 0, 0, 0.04),
-    0 10px 20px -10px rgba(0, 0, 0, 0.04);
-  -moz-box-shadow: 0 9px 30px -6px rgba(0, 0, 0, 0.2),
-    0 18px 20px -10px rgba(0, 0, 0, 0.04), 0 18px 20px -10px rgba(0, 0, 0, 0.04),
-    0 10px 20px -10px rgba(0, 0, 0, 0.04);
-  box-shadow: 0 9px 30px -6px rgba(0, 0, 0, 0.2),
-    0 18px 20px -10px rgba(0, 0, 0, 0.04), 0 18px 20px -10px rgba(0, 0, 0, 0.04),
-    0 10px 20px -10px rgba(0, 0, 0, 0.04);
-}
-
-@media screen and (min-width: 737px),
-  screen and (-webkit-max-device-pixel-ratio: 1.9) and (max-width: 736px) and (min-device-width: 737px) {
-  .wrapper {
-    background: url(/static/images/con-bg_04f25dbf8e.jpg) repeat-x;
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
+  .mt30 {
+    margin-top: 30px;
   }
-  .dialog {
-    background: url(/static/images/dialog-gray-bg.png) #fff bottom repeat-x;
-    border-radius: 12px;
-    display: none;
-    margin: -163px 0 0 -218px;
-    width: 436px;
-    position: fixed;
-    left: 50%;
-    top: 50%;
+  .mt20 {
+    margin-top: 20px;
   }
-  .dialog .title h4 {
-    border-bottom: #d1d1d1 solid 1px;
-    box-shadow: 0 2px 6px #d1d1d1;
-    color: #666;
-    font-size: 20px;
-    height: 61px;
-    line-height: 61px;
-    padding: 0 0 0 35px;
+  .el-input {
+    width: 350px;
   }
-  .common-form li {
-    clear: both;
-    margin-bottom: 15px;
-    position: relative;
+  .el-form {
+    margin-top: 20px;
   }
-}
-
-.registered {
-  h4 {
-    padding: 0;
-    text-align: center;
-    color: #666;
-    border-bottom: 1px solid #dcdcdc;
-    -webkit-box-shadow: none;
-    -moz-box-shadow: none;
-    box-shadow: none;
-    font-weight: 700;
-    font-size: 20px;
-    height: 60px;
-    line-height: 60px;
+  .el-form-item {
+    width: 350px;
+    margin-left: 30px;
+    margin-top: 20px;
   }
 }
 </style>

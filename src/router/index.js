@@ -32,7 +32,8 @@ export default new Router({
       component: Login
     },
     { path: '/cart', name: '购物车', component: Cart },
-    { path: '/user',
+    {
+      path: '/user',
       name: 'UserIndex',
       redirect: '/user/orderList',
       component: UserIndex,

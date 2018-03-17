@@ -10,21 +10,6 @@
         </el-radio-group>
       </el-col>
     </el-row>
-
-    <!-- <div class="nav">
-      <div class="w">
-        <a href="javascript:;" :class="{active:sortType===1}">综合排序</a>
-        <a href="javascript:;" :class="{active:sortType===2}">价格从低到高</a>
-        <a href="javascript:;" :class="{active:sortType===3}">价格从高到低</a>
-        <div class="price-interval">
-          <input type="number" class="input" placeholder="价格">
-          <span style="margin: 0 5px"> - </span>
-          <input type="number" placeholder="价格">
-        
-          <el-button type="text" style="margin-left: 10px;">确定</el-button>
-        </div>
-      </div>
-    </div> -->
     <!--商品-->
     <div class="goods-box w mt20">
       <h-goods v-for="(item,i) in goodsList" :key="i" :msg="item"></h-goods>
