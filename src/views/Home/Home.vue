@@ -39,17 +39,17 @@ export default {
       hotGoods: [
         {
           productName: '名字1',
-          sub_title: 'subTitle111',
+          desc: 'subTitle111',
           productId: '111',
           salePrice: '50',
-          productImageBig: '/images/pic01.jpg'
+          productImg: '/images/pic01.jpg'
         },
         {
           productName: '名字2',
-          sub_title: 'subTitle222',
+          desc: 'subTitle222',
           productId: '222',
           salePrice: '50',
-          productImageBig: '/images/pic02.jpg'
+          productImg: '/images/pic02.jpg'
         }
       ],
       saleGoods: [
@@ -57,10 +57,10 @@ export default {
           tabs: [
             {
               productName: '名字1',
-              sub_title: 'subTitle111',
-              productId: '111',
+              desc: 'subTitle111',
+              productId: '101',
               salePrice: '50',
-              productImageBig: '/images/pic03.jpg'
+              productImg: '/images/pic03.jpg'
             }
           ],
           image: '/images/pic01.jpg',
@@ -70,10 +70,10 @@ export default {
           tabs: [
             {
               productName: '名字2',
-              sub_title: 'subTitle222',
-              productId: '222',
+              desc: 'subTitle222',
+              productId: '102',
               salePrice: '50',
-              productImageBig: '/images/pic01.jpg'
+              productImg: '/images/pic01.jpg'
             }
           ],
           image: '/images/pic01.jpg',

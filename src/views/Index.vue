@@ -3,13 +3,20 @@
     <y-header></y-header>
     <router-view class="main"></router-view>
     <y-footer></y-footer>
-
+    <!--抛物图片-->
+    <transition @after-enter='afterEnter' @before-enter="beforeEnter">
+      <!--整张图片-->
+      <div class="move_img" v-if="showMoveImg" :style="{left:(cartPositionL-10) + 'px',top:(cartPositionT-10) + 'px'}">
+        <div><img :src="moveImgUrl"></div>
+      </div>
+    </transition>
   </div>
 </template>
 
 <script>
 import YHeader from '@/components/Header'
 import YFooter from '@/components/Footer'
+import { mapState } from 'vuex'
 export default {
   name: 'outerIndex',
   components: {
@@ -18,6 +25,51 @@ export default {
   },
   data() {
     return {}
+  },
+  computed: {
+    ...mapState([
+      'cartPositionT',
+      'cartPositionL',
+      'showMoveImg',
+      'elLeft',
+      'elTop',
+      'moveImgUrl'
+    ])
+  },
+  methods: {
+    // 动画结束后的回调，
+    listenInCart() {
+      this.$store.commit('ADD_ANIMATION', {
+        moveShow: false,
+        receiveInCart: true
+      })
+    },
+    beforeEnter(el) {
+      const elStyle = el.style
+      const elChild = el.children[0]
+      const elChildSty = elChild.style
+      elStyle.transform = `translate3d(0,${this.elTop -
+        this.cartPositionT}px,0)`
+      elChildSty.transform = `translate3d(${-(
+        this.cartPositionL - this.elLeft
+      )}px,0,0) scale(1.2)`
+    },
+    afterEnter(el) {
+      const elStyle = el.style
+      const elChild = el.children[0]
+      const elChildSty = elChild.style
+      elStyle.transform = `translate3d(0,0,0)`
+      elChildSty.transform = `translate3d(0,0,0) scale(.2)`
+      elStyle.transition = 'transform .55s cubic-bezier(.29,.55,.51,1.08)'
+      elChildSty.transition = 'transform .55s linear'
+      // 动画结束
+      elChild.addEventListener('transitionend', () => {
+        this.listenInCart()
+      })
+      elChild.addEventListener('webkitAnimationEnd', () => {
+        this.listenInCart()
+      })
+    }
   }
 }
 </script>
