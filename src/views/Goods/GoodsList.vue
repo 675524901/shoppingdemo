@@ -34,60 +34,60 @@ export default {
       sortType: 1,
       goodsList: [
         {
-          productName: '名字1',
-          sub_title: 'subTitle111',
           productId: '001',
-          salePrice: '50',
-          productImageBig: '/images/pic01.jpg'
+          productName: '名字1',
+          desc: 'subTitle111',
+          productPrice: '50',
+          productImg: '/images/pic01.jpg'
         },
         {
-          productName: '名字2',
-          sub_title: 'subTitle222',
           productId: '002',
-          salePrice: '50',
-          productImageBig: '/images/pic01.jpg'
+          productName: '名字1',
+          desc: 'subTitle111',
+          productPrice: '50',
+          productImg: '/images/pic01.jpg'
         },
         {
-          productName: '名字2',
-          sub_title: 'subTitle222',
           productId: '003',
-          salePrice: '50',
-          productImageBig: '/images/pic01.jpg'
+          productName: '名字1',
+          desc: 'subTitle111',
+          productPrice: '50',
+          productImg: '/images/pic01.jpg'
         },
         {
-          productName: '名字2',
-          sub_title: 'subTitle222',
           productId: '004',
-          salePrice: '50',
-          productImageBig: '/images/pic01.jpg'
+          productName: '名字1',
+          desc: 'subTitle111',
+          productPrice: '50',
+          productImg: '/images/pic01.jpg'
         },
         {
-          productName: '名字2',
-          sub_title: 'subTitle222',
           productId: '005',
-          salePrice: '50',
-          productImageBig: '/images/pic01.jpg'
+          productName: '名字1',
+          desc: 'subTitle111',
+          productPrice: '50',
+          productImg: '/images/pic01.jpg'
         },
         {
-          productName: '名字2',
-          sub_title: 'subTitle222',
           productId: '006',
-          salePrice: '50',
-          productImageBig: '/images/pic01.jpg'
+          productName: '名字1',
+          desc: 'subTitle111',
+          productPrice: '50',
+          productImg: '/images/pic01.jpg'
         },
         {
-          productName: '名字2',
-          sub_title: 'subTitle222',
           productId: '007',
-          salePrice: '50',
-          productImageBig: '/images/pic01.jpg'
+          productName: '名字1',
+          desc: 'subTitle111',
+          productPrice: '50',
+          productImg: '/images/pic01.jpg'
         },
         {
-          productName: '名字2',
-          sub_title: 'subTitle222',
           productId: '008',
-          salePrice: '50',
-          productImageBig: '/images/pic01.jpg'
+          productName: '名字1',
+          desc: 'subTitle111',
+          productPrice: '50',
+          productImg: '/images/pic01.jpg'
         }
       ],
       busy: false

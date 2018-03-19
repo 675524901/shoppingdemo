@@ -73,8 +73,6 @@
                   <div class="choose-all">
                     <span :class="{'checkbox-on':checkAllFlag}" class="blue-checkbox-new" @click="editCheckAll"></span>全选
                   </div>
-                  <div class="delete-choose-goods">删除选中的商品
-                  </div>
                 </div>
               </div>
               <div class="shipping">
@@ -90,11 +88,10 @@
                       <span>￥</span>
                       <i v-text="checkPrice"></i>
                     </h4>
-                    <h5 class="shipping-tips ng-scope">实际支付金额</h5>
+                    <h5 class="shipping-tips ng-scope">包含所需运费</h5>
                   </div>
                 </div>
-                <el-button :disabled="checkNum>0?false:true" @click="checkout">去结算</el-button>
-                <!-- <y-button :classStyle="checkNum > 0?'main-btn':'disabled-btn'" class="big-main-btn" style="margin: 0;width: 130px;height: 50px;line-height: 50px;font-size: 16px" text="现在结算" @btnClick="checkout"></y-button> -->
+                <el-button :disabled="checkNum>0?false:true" @click="checkout" type="primary" plain>去结算</el-button>
               </div>
             </div>
           </div>
