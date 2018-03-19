@@ -12,7 +12,7 @@
     <section class="w mt30 clearfix">
       <h-shelf title="热门商品">
         <div slot="content" class="floors">
-          <h-goods v-for="(item,i) in hotGoods" :msg="item" :key="i"></h-goods>
+          <goods-card v-for="(item,i) in hotGoods" :msg="item" :key="i"></goods-card>
         </div>
       </h-shelf>
     </section>
@@ -23,7 +23,7 @@
           <div class="imgbanner">
             <img :src="saleGoods[i].image" :alt="item.title">
           </div>
-          <h-goods :msg="tab" v-for="(tab,i) in item.tabs" :key="i"></h-goods>
+          <goods-card :msg="tab" v-for="(tab,i) in item.tabs" :key="i"></goods-card>
         </div>
       </h-shelf>
     </section>
@@ -31,7 +31,7 @@
 </template>
 <script>
 import HShelf from '@/components/Shelf'
-import HGoods from '@/components/MallGoods'
+import GoodsCard from '@/components/GoodsCard'
 export default {
   name: 'HomePage',
   data() {
@@ -40,15 +40,15 @@ export default {
         {
           productName: '名字1',
           desc: 'subTitle111',
-          productId: '111',
-          salePrice: '50',
+          productId: '001',
+          productPrice: '50',
           productImg: '/images/pic01.jpg'
         },
         {
           productName: '名字2',
           desc: 'subTitle222',
-          productId: '222',
-          salePrice: '50',
+          productId: '002',
+          productPrice: '50',
           productImg: '/images/pic02.jpg'
         }
       ],
@@ -58,8 +58,8 @@ export default {
             {
               productName: '名字1',
               desc: 'subTitle111',
-              productId: '101',
-              salePrice: '50',
+              productId: '003',
+              productPrice: '50',
               productImg: '/images/pic03.jpg'
             }
           ],
@@ -71,8 +71,8 @@ export default {
             {
               productName: '名字2',
               desc: 'subTitle222',
-              productId: '102',
-              salePrice: '50',
+              productId: '004',
+              productPrice: '50',
               productImg: '/images/pic01.jpg'
             }
           ],
@@ -93,7 +93,10 @@ export default {
   },
   components: {
     HShelf,
-    HGoods
+    GoodsCard
+  },
+  created() {
+    // 获取轮播图，热卖商品等列表
   },
   methods: {}
 }

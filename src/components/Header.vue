@@ -199,8 +199,10 @@ export default {
         this.$store.commit('EDIT_CART', { productId })
       }
     },
-    toCart() {},
-    // 控制顶部
+    toCart() {
+      this.$router.push({ path: '/cart' })
+    },
+    // 控制顶部，动态更新购物车小图标的视口参数
     navFixed() {
       if (
         this.$route.path === '/goodsList' ||

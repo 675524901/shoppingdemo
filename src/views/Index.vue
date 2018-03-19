@@ -37,7 +37,7 @@ export default {
     ])
   },
   methods: {
-    // 动画结束后的回调，
+    // 动画结束后的回调，更新vuex数据
     listenInCart() {
       this.$store.commit('ADD_ANIMATION', {
         moveShow: false,
@@ -63,9 +63,11 @@ export default {
       elStyle.transition = 'transform .55s cubic-bezier(.29,.55,.51,1.08)'
       elChildSty.transition = 'transform .55s linear'
       // 动画结束
+      // transitionend事件在css完成过渡后触发
       elChild.addEventListener('transitionend', () => {
         this.listenInCart()
       })
+      // webkitAnimationEnd事件在css动画结束后触发
       elChild.addEventListener('webkitAnimationEnd', () => {
         this.listenInCart()
       })

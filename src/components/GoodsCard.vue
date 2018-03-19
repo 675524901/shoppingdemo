@@ -13,11 +13,11 @@
           <router-link :to="'goodsDetail?productId='+msg.productId">
             <el-button style="margin: 0 5px" size="small" type="primary" plain>查看详情</el-button>
           </router-link>
-          <el-button style="margin: 0 5px" type="primary" size="small" @click="handleAddCart(msg.productId,msg.salePrice,msg.productName,msg.productImg)">加入购物车</el-button>
+          <el-button style="margin: 0 5px" type="primary" size="small" @click="handleAddCart(msg.productId,msg.productPrice,msg.productName,msg.productImg)">加入购物车</el-button>
         </div>
         <p>
           <span style="font-size: 16px">￥</span>
-          {{msg.salePrice}}</p>
+          {{msg.productPrice}}</p>
       </div>
     </div>
   </div>
@@ -62,7 +62,7 @@ export default {
         // 获取点击的坐标
         const elLeft = dom.getBoundingClientRect().left + dom.offsetWidth / 2
         const elTop = dom.getBoundingClientRect().top + dom.offsetHeight / 2
-        // 需要触发
+        // 处罚加入购物车动画
         this.$store.commit('ADD_ANIMATION', {
           moveShow: true,
           elLeft: elLeft,

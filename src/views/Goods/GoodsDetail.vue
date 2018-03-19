@@ -28,7 +28,7 @@
             <span>{{product.desc}}</span>
             <span class="price">
               <em>¥</em>
-              <i>{{product.price}}</i>
+              <i>{{product.productPrice}}</i>
             </span>
           </h6>
         </div>
@@ -41,12 +41,12 @@
           <el-row style="margin-top:15px;">
             <el-col>
               <span class="params-name">数量</span>
-              <el-input-number v-model="product.num" :min="1" :max="parseInt(`${product.totalNum}`)" label="描述文字"></el-input-number>
+              <el-input-number v-model="product.productNum" :min="1" :max="parseInt(`${product.totalNum}`)" label="描述文字"></el-input-number>
             </el-col>
           </el-row>
         </div>
         <div class="buy">
-          <el-button style="width: 145px" type="primary" plain>加入购物车</el-button>
+          <el-button style="width: 145px" type="primary" plain @click="handleAddCart()">加入购物车</el-button>
           <el-button style="width: 145px" type="primary">现在购买</el-button>
         </div>
       </div>
@@ -74,17 +74,20 @@
   </div>
 </template>
 <script>
+import { mapState } from 'vuex'
 export default {
   data() {
     return {
       activeName: 'first',
       productTable: [],
       product: {
+        productId: '001',
         productName: 'name',
         desc: 'desc sad',
-        price: '123',
-        num: '',
-        totalNum: '5'
+        productPrice: '123',
+        productNum: '',
+        totalNum: '5',
+        productImg: '/images/pic02.jpg'
       },
       small: [
         { src: '/static/images/smartisan_4ada7fecea.png' },
@@ -97,7 +100,43 @@ export default {
     // 模拟初始化时有大图
     this.big = this.small[0]
   },
-  methods: {}
+  computed: {
+    ...mapState(['login', 'showMoveImg', 'showCart'])
+  },
+  methods: {
+    handleAddCart() {
+      // 判断动画是否在运动
+      if (!this.showMoveImg) {
+        if (this.login) {
+          // 已经登陆
+        } else {
+          // 未登录
+          this.$store.commit('ADD_CART', {
+            productId: this.product.productId,
+            productPrice: this.product.productPrice,
+            productName: this.product.productName,
+            productImg: this.product.productImg,
+            productNum: this.product.productNum
+          })
+        }
+        // 加入购物车动画
+        var dom = event.target
+        // 获取点击的坐标
+        const elLeft = dom.getBoundingClientRect().left + dom.offsetWidth / 2
+        const elTop = dom.getBoundingClientRect().top + dom.offsetHeight / 2
+        // 需要触发
+        this.$store.commit('ADD_ANIMATION', {
+          moveShow: true,
+          elLeft: elLeft,
+          elTop: elTop,
+          img: this.product.productImg
+        })
+        if (!this.showCart) {
+          this.$store.commit('SHOW_CART', { showCart: true })
+        }
+      }
+    }
+  }
 }
 </script>
 <style lang="scss" scoped>

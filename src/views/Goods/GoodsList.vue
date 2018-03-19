@@ -13,7 +13,7 @@
 
     <!--商品-->
     <div class="goods-box w mt20">
-      <h-goods v-for="(item,i) in goodsList" :key="i" :msg="item"></h-goods>
+      <goods-card v-for="(item,i) in goodsList" :key="i" :msg="item"></goods-card>
     </div>
     <!--下拉无限滚动-->
     <div v-show="!busy" class="w load-more" v-infinite-scroll="loadMore" infinite-scroll-disabled="busy" infinite-scroll-distance="100">
@@ -22,11 +22,11 @@
   </div>
 </template>
 <script>
-import HGoods from '@/components/MallGoods'
+import GoodsCard from '@/components/GoodsCard'
 export default {
   name: 'GoodsList',
   components: {
-    HGoods
+    GoodsCard
   },
   data() {
     return {
@@ -36,58 +36,58 @@ export default {
         {
           productName: '名字1',
           sub_title: 'subTitle111',
-          productId: '111',
+          productId: '001',
           salePrice: '50',
-          productImageBig: '/static/images/smartisan_4ada7fecea.png'
+          productImageBig: '/images/pic01.jpg'
         },
         {
           productName: '名字2',
           sub_title: 'subTitle222',
-          productId: '222',
+          productId: '002',
           salePrice: '50',
-          productImageBig: '/static/images/smartisan_4ada7fecea.png'
+          productImageBig: '/images/pic01.jpg'
         },
         {
           productName: '名字2',
           sub_title: 'subTitle222',
-          productId: '222',
+          productId: '003',
           salePrice: '50',
-          productImageBig: '/static/images/smartisan_4ada7fecea.png'
+          productImageBig: '/images/pic01.jpg'
         },
         {
           productName: '名字2',
           sub_title: 'subTitle222',
-          productId: '222',
+          productId: '004',
           salePrice: '50',
-          productImageBig: '/static/images/smartisan_4ada7fecea.png'
+          productImageBig: '/images/pic01.jpg'
         },
         {
           productName: '名字2',
           sub_title: 'subTitle222',
-          productId: '222',
+          productId: '005',
           salePrice: '50',
-          productImageBig: '/static/images/smartisan_4ada7fecea.png'
+          productImageBig: '/images/pic01.jpg'
         },
         {
           productName: '名字2',
           sub_title: 'subTitle222',
-          productId: '222',
+          productId: '006',
           salePrice: '50',
-          productImageBig: '/static/images/smartisan_4ada7fecea.png'
+          productImageBig: '/images/pic01.jpg'
         },
         {
           productName: '名字2',
           sub_title: 'subTitle222',
-          productId: '222',
+          productId: '007',
           salePrice: '50',
-          productImageBig: '/static/images/smartisan_4ada7fecea.png'
+          productImageBig: '/images/pic01.jpg'
         },
         {
           productName: '名字2',
           sub_title: 'subTitle222',
-          productId: '222',
+          productId: '008',
           salePrice: '50',
-          productImageBig: '/static/images/smartisan_4ada7fecea.png'
+          productImageBig: '/images/pic01.jpg'
         }
       ],
       busy: false
