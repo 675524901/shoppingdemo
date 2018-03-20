@@ -173,7 +173,22 @@ export default {
             password: this.loginForm.loginPwd
           }
           const res = await this.$http.post('/nodeapi/users/login', data)
-          console.log(res)
+          if (res.data.status && res.data.status === '0') {
+            sessionStorage.setItem('token', res.data.token) // 用sessionStorage把token存下来
+            this.$message({
+              showClose: true,
+              message: '登陆成功',
+              type: 'success'
+            })
+            this.$router.push({ path: '/home' })
+          } else {
+            this.$message({
+              showClose: true,
+              message: '账号或密码错误',
+              type: 'error'
+            })
+            sessionStorage.setItem('token', null) // 将token清空
+          }
         } else return false
       })
     },
@@ -185,7 +200,20 @@ export default {
             password: this.registerForm.registerPwd
           }
           const res = await this.$http.post('/nodeapi/users/register', data)
-          console.log(res)
+          if (res.data.status && res.data.status === '0') {
+            this.handleLogin()
+            this.$message({
+              showClose: true,
+              message: '注册成功',
+              type: 'success'
+            })
+          } else {
+            this.$message({
+              showClose: true,
+              message: '注册失败',
+              type: 'error'
+            })
+          }
         } else return false
       })
     }

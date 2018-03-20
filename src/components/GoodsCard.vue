@@ -62,7 +62,7 @@ export default {
         // 获取点击的坐标
         const elLeft = dom.getBoundingClientRect().left + dom.offsetWidth / 2
         const elTop = dom.getBoundingClientRect().top + dom.offsetHeight / 2
-        // 处罚加入购物车动画
+        // 触发加入购物车动画
         this.$store.commit('ADD_ANIMATION', {
           moveShow: true,
           elLeft: elLeft,

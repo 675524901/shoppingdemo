@@ -42,14 +42,16 @@ export default {
           desc: 'subTitle111',
           productId: '001',
           productPrice: '50',
-          productImg: '/images/pic01.jpg'
+          productImg: '/images/pic01.jpg',
+          totalNum: '5'
         },
         {
           productName: '名字2',
           desc: 'subTitle222',
           productId: '002',
           productPrice: '50',
-          productImg: '/images/pic02.jpg'
+          productImg: '/images/pic02.jpg',
+          totalNum: '5'
         }
       ],
       saleGoods: [
@@ -60,7 +62,8 @@ export default {
               desc: 'subTitle111',
               productId: '003',
               productPrice: '50',
-              productImg: '/images/pic03.jpg'
+              productImg: '/images/pic03.jpg',
+              totalNum: '5'
             }
           ],
           image: '/images/pic01.jpg',
@@ -73,7 +76,8 @@ export default {
               desc: 'subTitle222',
               productId: '004',
               productPrice: '50',
-              productImg: '/images/pic01.jpg'
+              productImg: '/images/pic01.jpg',
+              totalNum: '5'
             }
           ],
           image: '/images/pic01.jpg',
@@ -97,6 +101,9 @@ export default {
   },
   created() {
     // 获取轮播图，热卖商品等列表
+    // sessionStorage.removeItem('token')
+    const token = sessionStorage.getItem('token')
+    console.log(token)
   },
   methods: {}
 }

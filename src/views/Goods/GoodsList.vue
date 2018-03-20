@@ -38,56 +38,64 @@ export default {
           productName: '名字1',
           desc: 'subTitle111',
           productPrice: '50',
-          productImg: '/images/pic01.jpg'
+          productImg: '/images/pic01.jpg',
+          totalNum: '5'
         },
         {
           productId: '002',
           productName: '名字1',
           desc: 'subTitle111',
           productPrice: '50',
-          productImg: '/images/pic01.jpg'
+          productImg: '/images/pic01.jpg',
+          totalNum: '5'
         },
         {
           productId: '003',
           productName: '名字1',
           desc: 'subTitle111',
           productPrice: '50',
-          productImg: '/images/pic01.jpg'
+          productImg: '/images/pic01.jpg',
+          totalNum: '5'
         },
         {
           productId: '004',
           productName: '名字1',
           desc: 'subTitle111',
           productPrice: '50',
-          productImg: '/images/pic01.jpg'
+          productImg: '/images/pic01.jpg',
+          totalNum: '5'
         },
         {
           productId: '005',
           productName: '名字1',
           desc: 'subTitle111',
           productPrice: '50',
-          productImg: '/images/pic01.jpg'
+          productImg: '/images/pic01.jpg',
+          totalNum: '5'
         },
         {
           productId: '006',
           productName: '名字1',
           desc: 'subTitle111',
           productPrice: '50',
-          productImg: '/images/pic01.jpg'
+          productImg: '/images/pic01.jpg',
+          totalNum: '5'
         },
         {
           productId: '007',
           productName: '名字1',
           desc: 'subTitle111',
           productPrice: '50',
-          productImg: '/images/pic01.jpg'
+          productImg: '/images/pic01.jpg',
+          totalNum: '5'
         },
         {
           productId: '008',
           productName: '名字1',
           desc: 'subTitle111',
           productPrice: '50',
-          productImg: '/images/pic01.jpg'
+          productImg: '/images/pic01.jpg',
+          totalNum: '5'
         }
       ],
       busy: false
