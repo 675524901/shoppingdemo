@@ -75,35 +75,49 @@
 </template>
 <script>
 import { mapState } from 'vuex'
+import { fetchGoodsDetail } from '@/api/goods'
 export default {
   data() {
     return {
       activeName: 'first',
       productTable: [],
-      product: {
-        productId: '001',
-        productName: 'name',
-        desc: 'desc sad',
-        productPrice: '123',
-        productNum: '',
-        totalNum: '5',
-        productImg: '/images/pic02.jpg'
-      },
-      small: [
-        { src: '/static/images/smartisan_4ada7fecea.png' },
-        { src: '/static/images/cart-empty_@2x.png' }
-      ],
+      product: {},
+      small: [],
       big: {}
     }
   },
   created() {
-    // 模拟初始化时有大图
-    this.big = this.small[0]
+    this.init()
   },
   computed: {
     ...mapState(['login', 'showMoveImg', 'showCart'])
   },
   methods: {
+    init() {
+      this.getGoodsDetail()
+    },
+    async getGoodsDetail() {
+      const data = { productId: this.$route.query.productId }
+      /* const res = await this.$http.get('/nodeapi/goods/fetchGoodsDetail', {
+        params: data
+      }) */
+      const res = await fetchGoodsDetail(data)
+      if (res.data.status && res.data.status === '0') {
+        this.product = res.data.data
+        // 页面初始化选择数量默认为1
+        this.product.productNum = '1'
+        if (res.data.data.showImgs) {
+          const arr = res.data.data.showImgs.split(',')
+          this.small = arr.map(item => {
+            return {
+              src: item
+            }
+          })
+          // 模拟初始化时有大图
+          this.big = this.small[0]
+        }
+      }
+    },
     handleAddCart() {
       // 判断动画是否在运动
       if (!this.showMoveImg) {

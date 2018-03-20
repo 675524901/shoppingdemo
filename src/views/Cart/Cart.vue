@@ -88,7 +88,7 @@
                       <span>￥</span>
                       <i v-text="checkPrice"></i>
                     </h4>
-                    <h5 class="shipping-tips ng-scope">包含所需运费</h5>
+                    <h5 class="shipping-tips ng-scope">已包含所需运费</h5>
                   </div>
                 </div>
                 <el-button :disabled="checkNum>0?false:true" @click="checkout" type="primary" plain>去结算</el-button>
@@ -99,7 +99,7 @@
         <div v-else style="padding:50px">
           <div class="cart-e">
           </div>
-          <p style="text-align: center;padding: 20px;color: #8d8d8d">你的购物车空空如也</p>
+          <p style="text-align: center;padding: 20px;color: #8d8d8d">购物车是空的哦</p>
           <div style="text-align: center">
             <router-link to="/goodsList">
               <!-- <y-button text="现在选购" style="width: 150px;height: 40px;line-height: 38px;color: #8d8d8d"></y-button> -->
@@ -180,8 +180,16 @@ export default {
   },
   created() {
     this.$store.commit('INIT_BUYCART')
+    this.test()
   },
   methods: {
+    async test() {
+      const add = await this.$http.post(
+        '/nodeapi/cart/addServalCart',
+        JSON.parse(localStorage.getItem('buyCart'))
+      )
+      console.log(add)
+    },
     // 修改购物车
     handleEdit(productId, productNum, checked) {
       /* cartEdit({

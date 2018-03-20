@@ -63,15 +63,18 @@
 </template>
 
 <script>
+import { userLogin, userRegister, checkAccount } from '@/api/login'
+import { addSeveralCart } from '@/api/cart'
 export default {
   name: 'loginPage',
   data() {
     var validateAccount = async (rule, value, callback) => {
       if (value) {
         const data = { account: this.registerForm.registerAccount }
-        const res = await this.$http.get('/nodeapi/users/checkAccount', {
+        /* const res = await this.$http.get('/nodeapi/users/checkAccount', {
           params: data
-        })
+        }) */
+        const res = await checkAccount(data)
         if (res.data.status === '0') {
           callback()
         } else callback(new Error('此账号已经存在'))
@@ -141,6 +144,9 @@ export default {
       }
     }
   },
+  created() {
+    this.cart = JSON.parse(localStorage.getItem('buyCart'))
+  },
   methods: {
     handleRegister() {
       this.$refs.loginForm.resetFields()
@@ -172,15 +178,19 @@ export default {
             account: this.loginForm.loginAccount,
             password: this.loginForm.loginPwd
           }
-          const res = await this.$http.post('/nodeapi/users/login', data)
+          // const res = await this.$http.post('/nodeapi/users/login', data)
+          const res = await userLogin(data)
           if (res.data.status && res.data.status === '0') {
-            sessionStorage.setItem('token', res.data.token) // 用sessionStorage把token存下来
+            await sessionStorage.setItem('token', res.data.token) // 用sessionStorage把token存下来
             this.$message({
               showClose: true,
               message: '登陆成功',
               type: 'success'
             })
-            this.$router.push({ path: '/home' })
+            const add = await addSeveralCart(this.cart)
+            console.log(add)
+
+            this.$router.go(-1)
           } else {
             this.$message({
               showClose: true,
@@ -199,7 +209,8 @@ export default {
             account: this.registerForm.registerAccount,
             password: this.registerForm.registerPwd
           }
-          const res = await this.$http.post('/nodeapi/users/register', data)
+          // const res = await this.$http.post('/nodeapi/users/register', data)
+          const res = await userRegister(data)
           if (res.data.status && res.data.status === '0') {
             this.handleLogin()
             this.$message({

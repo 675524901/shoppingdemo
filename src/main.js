@@ -22,12 +22,12 @@ Vue.use(VueLazyload, {
 })
 
 // 路由白名单
-const whiteList = ['/home', '/goodsList', '/login', '/goodsDetails']
+const whiteList = ['/home', '/goodsList', '/login', '/goodsDetail']
 router.beforeEach((to, from, next) => {
   const token = sessionStorage.getItem('token')
   if (token !== '' && token !== null) {
     // 已经登陆
-    Vue.prototype.$http.defaults.headers.common['Authorization'] = 'Bearer ' + token // 全局设定header的token验证，注意Bearer后有个空格
+    // store.state.login = true
     next()
   } else {
     // 跳转的路径在白名单上的话
