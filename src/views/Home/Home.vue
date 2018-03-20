@@ -1,7 +1,7 @@
 <template>
   <div>
     <!--轮播图片-->
-    <div style="width:64%;margin-top:30px;margin-left:18%;">
+    <div style="width:1220px;margin:30px auto;">
       <el-carousel height="400px">
         <el-carousel-item v-for="item in 4" :key="item">
         </el-carousel-item>
@@ -12,7 +12,7 @@
     <section class="w mt30 clearfix">
       <h-shelf title="热门商品">
         <div slot="content" class="floors">
-          <h-goods v-for="(item,i) in hotGoods" :msg="item" :key="i"></h-goods>
+          <goods-card v-for="(item,i) in hotGoods" :msg="item" :key="i"></goods-card>
         </div>
       </h-shelf>
     </section>
@@ -23,7 +23,7 @@
           <div class="imgbanner">
             <img :src="saleGoods[i].image" :alt="item.title">
           </div>
-          <h-goods :msg="tab" v-for="(tab,i) in item.tabs" :key="i"></h-goods>
+          <goods-card :msg="tab" v-for="(tab,i) in item.tabs" :key="i"></goods-card>
         </div>
       </h-shelf>
     </section>
@@ -31,7 +31,7 @@
 </template>
 <script>
 import HShelf from '@/components/Shelf'
-import HGoods from '@/components/MallGoods'
+import GoodsCard from '@/components/GoodsCard'
 export default {
   name: 'HomePage',
   data() {
@@ -39,17 +39,19 @@ export default {
       hotGoods: [
         {
           productName: '名字1',
-          sub_title: 'subTitle111',
-          productId: '111',
-          salePrice: '50',
-          productImageBig: '/static/images/smartisan_4ada7fecea.png'
+          desc: 'subTitle111',
+          productId: '001',
+          productPrice: '50',
+          productImg: '/images/pic01.jpg',
+          totalNum: '5'
         },
         {
           productName: '名字2',
-          sub_title: 'subTitle222',
-          productId: '222',
-          salePrice: '50',
-          productImageBig: '/static/images/smartisan_4ada7fecea.png'
+          desc: 'subTitle222',
+          productId: '002',
+          productPrice: '50',
+          productImg: '/images/pic02.jpg',
+          totalNum: '5'
         }
       ],
       saleGoods: [
@@ -57,26 +59,28 @@ export default {
           tabs: [
             {
               productName: '名字1',
-              sub_title: 'subTitle111',
-              productId: '111',
-              salePrice: '50',
-              productImageBig: '/static/images/smartisan_4ada7fecea.png'
+              desc: 'subTitle111',
+              productId: '003',
+              productPrice: '50',
+              productImg: '/images/pic03.jpg',
+              totalNum: '5'
             }
           ],
-          image: '/static/images/smartisan_4ada7fecea.png',
+          image: '/images/pic01.jpg',
           title: '111'
         },
         {
           tabs: [
             {
               productName: '名字2',
-              sub_title: 'subTitle222',
-              productId: '222',
-              salePrice: '50',
-              productImageBig: '/static/images/smartisan_4ada7fecea.png'
+              desc: 'subTitle222',
+              productId: '004',
+              productPrice: '50',
+              productImg: '/images/pic01.jpg',
+              totalNum: '5'
             }
           ],
-          image: '/static/images/smartisan_4ada7fecea.png',
+          image: '/images/pic01.jpg',
           title: '222'
         }
       ],
@@ -93,7 +97,13 @@ export default {
   },
   components: {
     HShelf,
-    HGoods
+    GoodsCard
+  },
+  created() {
+    // 获取轮播图，热卖商品等列表
+    // sessionStorage.removeItem('token')
+    const token = sessionStorage.getItem('token')
+    console.log(token)
   },
   methods: {}
 }

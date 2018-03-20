@@ -2,7 +2,7 @@
   <div class="goods">
 
     <el-row class="mt20">
-      <el-col :offset="2">
+      <el-col style="margin-left:18%">
         <el-radio-group @change="handleSort" size="small" v-model="sort">
           <el-radio-button label="综合排序"></el-radio-button>
           <el-radio-button label="价格升序"></el-radio-button>
@@ -11,23 +11,9 @@
       </el-col>
     </el-row>
 
-    <!-- <div class="nav">
-      <div class="w">
-        <a href="javascript:;" :class="{active:sortType===1}">综合排序</a>
-        <a href="javascript:;" :class="{active:sortType===2}">价格从低到高</a>
-        <a href="javascript:;" :class="{active:sortType===3}">价格从高到低</a>
-        <div class="price-interval">
-          <input type="number" class="input" placeholder="价格">
-          <span style="margin: 0 5px"> - </span>
-          <input type="number" placeholder="价格">
-        
-          <el-button type="text" style="margin-left: 10px;">确定</el-button>
-        </div>
-      </div>
-    </div> -->
     <!--商品-->
     <div class="goods-box w mt20">
-      <h-goods v-for="(item,i) in goodsList" :key="i" :msg="item"></h-goods>
+      <goods-card v-for="(item,i) in goodsList" :key="i" :msg="item"></goods-card>
     </div>
     <!--下拉无限滚动-->
     <div v-show="!busy" class="w load-more" v-infinite-scroll="loadMore" infinite-scroll-disabled="busy" infinite-scroll-distance="100">
@@ -36,11 +22,11 @@
   </div>
 </template>
 <script>
-import HGoods from '@/components/MallGoods'
+import GoodsCard from '@/components/GoodsCard'
 export default {
   name: 'GoodsList',
   components: {
-    HGoods
+    GoodsCard
   },
   data() {
     return {
@@ -48,60 +34,68 @@ export default {
       sortType: 1,
       goodsList: [
         {
+          productId: '001',
           productName: '名字1',
-          sub_title: 'subTitle111',
-          productId: '111',
-          salePrice: '50',
-          productImageBig: '/static/images/smartisan_4ada7fecea.png'
+          desc: 'subTitle111',
+          productPrice: '50',
+          productImg: '/images/pic01.jpg',
+          totalNum: '5'
         },
         {
-          productName: '名字2',
-          sub_title: 'subTitle222',
-          productId: '222',
-          salePrice: '50',
-          productImageBig: '/static/images/smartisan_4ada7fecea.png'
+          productId: '002',
+          productName: '名字1',
+          desc: 'subTitle111',
+          productPrice: '50',
+          productImg: '/images/pic01.jpg',
+          totalNum: '5'
         },
         {
-          productName: '名字2',
-          sub_title: 'subTitle222',
-          productId: '222',
-          salePrice: '50',
-          productImageBig: '/static/images/smartisan_4ada7fecea.png'
+          productId: '003',
+          productName: '名字1',
+          desc: 'subTitle111',
+          productPrice: '50',
+          productImg: '/images/pic01.jpg',
+          totalNum: '5'
         },
         {
-          productName: '名字2',
-          sub_title: 'subTitle222',
-          productId: '222',
-          salePrice: '50',
-          productImageBig: '/static/images/smartisan_4ada7fecea.png'
+          productId: '004',
+          productName: '名字1',
+          desc: 'subTitle111',
+          productPrice: '50',
+          productImg: '/images/pic01.jpg',
+          totalNum: '5'
         },
         {
-          productName: '名字2',
-          sub_title: 'subTitle222',
-          productId: '222',
-          salePrice: '50',
-          productImageBig: '/static/images/smartisan_4ada7fecea.png'
+          productId: '005',
+          productName: '名字1',
+          desc: 'subTitle111',
+          productPrice: '50',
+          productImg: '/images/pic01.jpg',
+          totalNum: '5'
         },
         {
-          productName: '名字2',
-          sub_title: 'subTitle222',
-          productId: '222',
-          salePrice: '50',
-          productImageBig: '/static/images/smartisan_4ada7fecea.png'
+          productId: '006',
+          productName: '名字1',
+          desc: 'subTitle111',
+          productPrice: '50',
+          productImg: '/images/pic01.jpg',
+          totalNum: '5'
         },
         {
-          productName: '名字2',
-          sub_title: 'subTitle222',
-          productId: '222',
-          salePrice: '50',
-          productImageBig: '/static/images/smartisan_4ada7fecea.png'
+          productId: '007',
+          productName: '名字1',
+          desc: 'subTitle111',
+          productPrice: '50',
+          productImg: '/images/pic01.jpg',
+          totalNum: '5'
         },
         {
-          productName: '名字2',
-          sub_title: 'subTitle222',
-          productId: '222',
-          salePrice: '50',
-          productImageBig: '/static/images/smartisan_4ada7fecea.png'
+          productId: '008',
+          productName: '名字1',
+          desc: 'subTitle111',
+          productPrice: '50',
+          productImg: '/images/pic01.jpg',
+          totalNum: '5'
         }
       ],
       busy: false

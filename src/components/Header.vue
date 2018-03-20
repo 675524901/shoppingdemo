@@ -43,7 +43,7 @@
             <div class="shop pr" @mouseover="cartShowState(true)" @mouseout="cartShowState(false)" ref="positionMsg">
               <router-link to="/cart"></router-link>
               <span class="cart-num">
-                <i class="num" ref="num" :class="{no:totalNum <= 0,move_in_cart:receiveInCart}">{{totalNum}}</i>
+                <i class="num" ref="totalNum" :class="{no:totalNum <= 0,move_in_cart:receiveInCart}">{{totalNum}}</i>
               </span>
               <!-- 购物车显示模块 -->
               <div class="nav-user-wrapper pa active" v-show="showCart">
@@ -51,38 +51,41 @@
                   <div class="full" v-show="totalNum">
                     <!--购物列表-->
                     <div class="nav-cart-items">
-                      <!-- 
-                          <ul>
-                          <li class="clearfix" v-for="(item,i) in cartList" :key="i">
-                            <div class="cart-item">
-                              <div class="cart-item-inner">
-                                <router-link :to="'goodsDetail?productId='+item.productId">
-                                  <div class="item-thumb">
-                                    <img :src="item.productImg">
-                                  </div>
-                                </router-link>
-                                <div class="item-desc">
-                                  <div class="cart-cell">
-                                    <h4>
-                                      <router-link :to="'goodsDetail?productId='+item.productId"
-                                                   v-text="item.productName"></router-link>
-                                    </h4>
-                                    <p class="attrs"><span>白色</span>
-                                    </p> <h6><span class="price-icon">¥</span><span
-                                    class="price-num">{{item.productPrice}}</span><span
-                                    class="item-num">x {{item.productNum}}</span>
-                                  </h6></div>
-                                </div>
 
-                                <div class="del-btn del" @click="delGoods(item.productId)">删除</div>
+                      <ul>
+                        <li class="clearfix" v-for="(item,i) in cartList" :key="i">
+                          <div class="cart-item">
+                            <div class="cart-item-inner">
+                              <router-link :to="'goodsDetail?productId='+item.productId">
+                                <div class="item-thumb">
+                                  <img :src="item.productImg">
+                                </div>
+                              </router-link>
+                              <div class="item-desc">
+                                <div class="cart-cell">
+                                  <h4>
+                                    <router-link :to="'goodsDetail?productId='+item.productId" v-text="item.productName"></router-link>
+                                  </h4>
+                                  <p class="attrs">
+                                    <span>白色</span>
+                                  </p>
+                                  <h6>
+                                    <span class="price-icon">¥</span>
+                                    <span class="price-num">{{item.productPrice}}</span>
+                                    <span class="item-num">x {{item.productNum}}</span>
+                                  </h6>
+                                </div>
                               </div>
+
+                              <div class="del-btn del" @click="delGoods(item.productId)">删除</div>
                             </div>
-                          </li>
-                        </ul>
-                         -->
+                          </div>
+                        </li>
+                      </ul>
+
                     </div>
                     <!--总件数-->
-                    <!-- <div class="nav-cart-total">
+                    <div class="nav-cart-total">
                       <p>共
                         <strong>{{totalNum}}</strong> 件商品</p>
                       <h5>合计：
@@ -90,9 +93,10 @@
                         <span class="price-num">{{totalPrice}}</span>
                       </h5>
                       <h6>
-                        <y-button classStyle="main-btn" style="height: 40px;width: 100%;margin: 0;color: #fff;font-size: 14px;line-height: 38px" text="去购物车" @btnClick="toCart"></y-button>
+                        <!-- <y-button classStyle="main-btn" style="height: 40px;width: 100%;margin: 0;color: #fff;font-size: 14px;line-height: 38px" text="去购物车" @btnClick="toCart"></y-button> -->
+                        <el-button @click="toCart">去购物车</el-button>
                       </h6>
-                    </div> -->
+                    </div>
 
                   </div>
                   <div v-show="!totalNum" style="height: 313px;text-align: center" class="cart-con">
@@ -170,6 +174,12 @@ export default {
     }
   },
   mounted() {
+    // window.localStorage.removeItem('buyCart')
+    if (this.login) {
+      // 从后台获取购物车数据
+    } else {
+      this.$store.commit('INIT_BUYCART')
+    }
     setTimeout(() => {
       this.navFixed()
     }, 300)
@@ -181,7 +191,18 @@ export default {
     cartShowState(state) {
       this.$store.commit('SHOW_CART', { showCart: state })
     },
-    // 控制顶部
+    // 删除购物车中某件商品
+    delGoods(productId) {
+      if (this.login) {
+        // 如果登陆从后台删除购物车数据，并删除本地数据
+      } else {
+        this.$store.commit('EDIT_CART', { productId })
+      }
+    },
+    toCart() {
+      this.$router.push({ path: '/cart' })
+    },
+    // 控制顶部，动态更新购物车小图标的视口参数
     navFixed() {
       if (
         this.$route.path === '/goodsList' ||
@@ -195,11 +216,13 @@ export default {
           st >= 100 ? (this.st = true) : (this.st = false)
         }
         // 计算小圆当前位置
-        /* const { left, top } = this.$refs.num.getBoundingClientRect()
-        this.$store.commit('ADD_ANIMATION', {
-          cartPositionL: left,
-          cartPositionT: top
-        }) */
+        if (this.$refs.totalNum) {
+          const { left, top } = this.$refs.totalNum.getBoundingClientRect()
+          this.$store.commit('ADD_ANIMATION', {
+            cartPositionL: left,
+            cartPositionT: top
+          })
+        }
       }
     }
   }
@@ -286,9 +309,11 @@ export default {
 
 .header-box {
   background: $head-bgc;
-  background-image: -webkit-linear-gradient(#000, #121212);
+  background-image: -webkit-linear-gradient(rgb(0, 0, 0), #121212);
   background-image: linear-gradient(#000, #121212);
   width: 100%;
+  // background-image: -webkit-linear-gradient(#46a3ff, #2894ff);
+  // background-image: linear-gradient(#46a3ff, #2894ff);
 }
 
 header {

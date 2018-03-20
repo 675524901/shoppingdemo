@@ -1,7 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import mutations from './mutations'
-import action from './action'
 Vue.use(Vuex)
 
 const state = {
@@ -26,7 +25,6 @@ const state = {
 }
 const store = new Vuex.Store({
   state,
-  action,
   mutations
 })
 
