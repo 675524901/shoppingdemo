@@ -187,10 +187,8 @@ export default {
               message: '登陆成功',
               type: 'success'
             })
-            const add = await addSeveralCart(this.cart)
-            console.log(add)
-
             this.$router.go(-1)
+            await this.addSeveralCart()
           } else {
             this.$message({
               showClose: true,
@@ -227,6 +225,10 @@ export default {
           }
         } else return false
       })
+    },
+    async addSeveralCart() {
+      const add = await addSeveralCart(this.cart)
+      console.log(add)
     }
   }
 }

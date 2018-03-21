@@ -121,6 +121,7 @@ import CHeader from '@/components/Header'
 import CFooter from '@/components/Footer'
 import NumberSelect from '@/components/NumberSelect'
 import { mapState } from 'vuex'
+import { addSeveralCart } from '@/api/cart'
 export default {
   name: 'ShoppingCart',
   components: {
@@ -184,10 +185,8 @@ export default {
   },
   methods: {
     async test() {
-      const add = await this.$http.post(
-        '/nodeapi/cart/addServalCart',
-        JSON.parse(localStorage.getItem('buyCart'))
-      )
+      const data = JSON.parse(localStorage.getItem('buyCart'))
+      const add = await addSeveralCart(data)
       console.log(add)
     },
     // 修改购物车
