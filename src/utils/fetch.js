@@ -1,5 +1,4 @@
 import axios from 'axios'
-
 // 创建axios实例
 const fetch = axios.create({
   baseURL: process.env.BASE_API, // api的base_url
@@ -8,10 +7,9 @@ const fetch = axios.create({
 
 // request拦截器
 fetch.interceptors.request.use(config => {
-  // 让每个请求携带token--['token']为自定义key
+  // 让每个请求携带token
   const token = sessionStorage.getItem('token')
-  // config.headers['X-Token']=token
-  config.headers.Authorization = `token ${token}`
+  config.headers.common['Authorization'] = 'Bearer ' + token
   return config
 }, error => {
   // Do something with request error
@@ -24,11 +22,11 @@ fetch.interceptors.response.use(
   response => response,
   error => {
     console.log('err' + error)
-    this.$message({
+    /* this.$message({
       message: '服务器繁忙，请稍后再试',
       type: 'error',
       duration: 2000
-    })
+    }) */
 
     return Promise.reject(error)
   })

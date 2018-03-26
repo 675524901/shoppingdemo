@@ -38,18 +38,18 @@ export default {
     return {
       hotGoods: [
         {
-          productName: '名字1',
+          productName: '音响',
           desc: 'subTitle111',
           productId: '001',
-          productPrice: '50',
+          productPrice: '12',
           productImg: '/images/pic01.jpg',
           totalNum: '5'
         },
         {
-          productName: '名字2',
+          productName: '充电器',
           desc: 'subTitle222',
           productId: '002',
-          productPrice: '50',
+          productPrice: '14',
           productImg: '/images/pic02.jpg',
           totalNum: '5'
         }
