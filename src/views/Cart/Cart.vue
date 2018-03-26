@@ -186,8 +186,10 @@ export default {
   methods: {
     async test() {
       const data = JSON.parse(localStorage.getItem('buyCart'))
-      const add = await addSeveralCart(data)
-      console.log(add)
+      if (data && data.length) {
+        const add = await addSeveralCart(data)
+        console.log(add)
+      }
     },
     // 修改购物车
     handleEdit(productId, productNum, checked) {

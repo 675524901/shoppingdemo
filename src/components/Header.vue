@@ -174,7 +174,6 @@ export default {
     }
   },
   mounted() {
-    // window.localStorage.removeItem('buyCart')
     if (this.login) {
       // 从后台获取购物车数据
     } else {

@@ -188,7 +188,7 @@ export default {
               type: 'success'
             })
             this.$router.go(-1)
-            await this.addSeveralCart()
+            await this.handleAddSeveralCart()
           } else {
             this.$message({
               showClose: true,
@@ -226,9 +226,11 @@ export default {
         } else return false
       })
     },
-    async addSeveralCart() {
-      const add = await addSeveralCart(this.cart)
-      console.log(add)
+    async handleAddSeveralCart() {
+      if (this.cart && this.cart.length) {
+        const add = await addSeveralCart(this.cart)
+        console.log(add)
+      }
     }
   }
 }
