@@ -136,6 +136,7 @@
 </template>
 <script>
 import { mapState } from 'vuex'
+import { fetchCartList } from '@/api/cart'
 export default {
   name: 'Header',
   props: {
@@ -173,9 +174,10 @@ export default {
       return totalNum
     }
   },
-  mounted() {
+  created() {
     if (this.login) {
       // 从后台获取购物车数据
+      this.getCartList()
     } else {
       this.$store.commit('INIT_BUYCART')
     }
@@ -186,12 +188,18 @@ export default {
     window.addEventListener('resize', this.navFixed)
   },
   methods: {
+    async getCartList() {
+      const res = await fetchCartList()
+      if (res.data.status === '0') {
+        // this.cartList = res.data.data.list
+      }
+    },
     // 控制购物车显示
     cartShowState(state) {
       this.$store.commit('SHOW_CART', { showCart: state })
     },
     // 删除购物车中某件商品
-    delGoods(productId) {
+    async delGoods(productId) {
       if (this.login) {
         // 如果登陆从后台删除购物车数据，并删除本地数据
       } else {

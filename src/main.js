@@ -27,7 +27,7 @@ router.beforeEach((to, from, next) => {
   const token = sessionStorage.getItem('token')
   if (token !== '' && token !== null) {
     // 已经登陆
-    // store.state.login = true
+    store.state.login = true
     next()
   } else {
     // 跳转的路径在白名单上的话

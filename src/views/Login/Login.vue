@@ -71,9 +71,6 @@ export default {
     var validateAccount = async (rule, value, callback) => {
       if (value) {
         const data = { account: this.registerForm.registerAccount }
-        /* const res = await this.$http.get('/nodeapi/users/checkAccount', {
-          params: data
-        }) */
         const res = await checkAccount(data)
         if (res.data.status === '0') {
           callback()
@@ -156,20 +153,6 @@ export default {
       this.$refs.registerForm.resetFields()
       this.loginPage = true
     },
-    // 登陆时将本地的添加到用户购物车
-    login_addCart() {
-      /* let cartArr = []
-        let locaCart = JSON.parse(getStore('buyCart'))
-        if (locaCart && locaCart.length) {
-          cartArr = locaCart.map(item => {
-            return {
-              'productId': item.productId,
-              'productNum': item.productNum
-            }
-          })
-        }
-        this.cart = cartArr */
-    },
     // 登陆时需要添加本地购物车到服务器购物车
     async login() {
       this.$refs.loginForm.validate(async valid => {
@@ -188,7 +171,11 @@ export default {
               type: 'success'
             })
             this.$router.go(-1)
-            await this.handleAddSeveralCart()
+            // 成功登陆后同步数据库购物车,删除本地购物车
+            const add = await this.handleAddSeveralCart()
+            if (add.data.status === '0') {
+              window.localStorage.removeItem('buyCart')
+            }
           } else {
             this.$message({
               showClose: true,
@@ -228,8 +215,7 @@ export default {
     },
     async handleAddSeveralCart() {
       if (this.cart && this.cart.length) {
-        const add = await addSeveralCart(this.cart)
-        console.log(add)
+        await addSeveralCart(this.cart)
       }
     }
   }

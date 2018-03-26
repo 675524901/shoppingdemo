@@ -121,7 +121,7 @@ import CHeader from '@/components/Header'
 import CFooter from '@/components/Footer'
 import NumberSelect from '@/components/NumberSelect'
 import { mapState } from 'vuex'
-import { addSeveralCart } from '@/api/cart'
+// import { addSeveralCart } from '@/api/cart'
 export default {
   name: 'ShoppingCart',
   components: {
@@ -181,16 +181,8 @@ export default {
   },
   created() {
     this.$store.commit('INIT_BUYCART')
-    this.test()
   },
   methods: {
-    async test() {
-      const data = JSON.parse(localStorage.getItem('buyCart'))
-      if (data && data.length) {
-        const add = await addSeveralCart(data)
-        console.log(add)
-      }
-    },
     // 修改购物车
     handleEdit(productId, productNum, checked) {
       /* cartEdit({

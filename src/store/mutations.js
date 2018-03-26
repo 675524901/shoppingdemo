@@ -7,6 +7,10 @@ export default {
       state.cartList = JSON.parse(initCart)
     }
   },
+  // 给vuex购物车设置新数组
+  SET_CART(state, { }) {
+
+  },
   // 加入购物车
   ADD_CART(state, { productId, productPrice, productName, productImg, productNum = 1 }) {
     const cart = state.cartList // 购物车
