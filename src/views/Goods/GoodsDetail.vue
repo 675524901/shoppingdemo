@@ -101,9 +101,9 @@ export default {
       const data = { productId: this.$route.query.productId }
       const res = await fetchGoodsDetail(data)
       if (res.data.status && res.data.status === '0') {
-        this.product = { ...res.data.data, productNum: 1 }
-        if (res.data.data.showImgs) {
-          const arr = res.data.data.showImgs.split(',')
+        this.product = { ...res.data.item, productNum: 1 }
+        if (res.data.item.showImgs) {
+          const arr = res.data.item.showImgs.split(',')
           this.small = arr.map(item => {
             return {
               src: item

@@ -21,12 +21,21 @@ fetch.interceptors.request.use(config => {
 fetch.interceptors.response.use(
   response => response,
   error => {
-    console.log('err' + error)
     /* this.$message({
       message: '服务器繁忙，请稍后再试',
       type: 'error',
       duration: 2000
     }) */
+    if (error.response) {
+      switch (error.response.status) {
+        case 401:
+          // 返回 401 清除token信息并跳转到登录页面
+          sessionStorage.removeItem('token')
+          this.$router.push({
+            path: '/login'
+          })
+      }
+    }
 
     return Promise.reject(error)
   })

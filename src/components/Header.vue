@@ -193,7 +193,7 @@ export default {
     async getCartList() {
       const res = await fetchCartList()
       if (res.data.status === '0') {
-        const list = res.data.data.list
+        const list = res.data.list
         this.$store.commit('SET_CART', { list })
       }
     },
