@@ -45,7 +45,7 @@
                       </div>
                       <!--删除按钮-->
                       <div class="operation">
-                        <a class="items-delete-btn" @click="cartdel(item.productId)"></a>
+                        <a class="items-delete-btn" @click="handleDelete(item.productId)"></a>
                       </div>
                       <!--商品数量-->
                       <div>
@@ -219,7 +219,7 @@ export default {
         console.log('缺少所需参数')
       }
     },
-    async cartdel(productId) {
+    async handleDelete(productId) {
       // 后台删除此条购物车
       const res = await deleteCart({ productId: productId })
       if (res.data.status === '0') {
