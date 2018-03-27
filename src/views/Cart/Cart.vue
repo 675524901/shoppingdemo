@@ -121,7 +121,7 @@ import CHeader from '@/components/Header'
 import CFooter from '@/components/Footer'
 import NumberSelect from '@/components/NumberSelect'
 import { mapState } from 'vuex'
-// import { addSeveralCart } from '@/api/cart'
+import { deleteCart } from '@/api/cart'
 export default {
   name: 'ShoppingCart',
   components: {
@@ -219,10 +219,16 @@ export default {
         console.log('缺少所需参数')
       }
     },
-    cartdel(productId) {
+    async cartdel(productId) {
       // 后台删除此条购物车
-
-      this.$store.commit('EDIT_CART', { productId })
+      const res = await deleteCart({ productId: productId })
+      if (res.data.status === '0') {
+        this.$message({
+          type: 'success',
+          message: '删除成功'
+        })
+        this.$store.commit('EDIT_CART', { productId })
+      }
     },
     editCheckAll() {
       const checkAll = !this.checkAllFlag

@@ -100,6 +100,8 @@ export default {
     GoodsCard
   },
   created() {
+    console.log('login', this.$store.state.login)
+
     // 获取轮播图，热卖商品等列表
     // sessionStorage.removeItem('token')
     const token = sessionStorage.getItem('token')

@@ -24,6 +24,7 @@
 </template>
 <script>
 import { mapState } from 'vuex'
+import { addCart } from '@/api/cart'
 export default {
   props: {
     msg: ''
@@ -43,10 +44,15 @@ export default {
         // 动画是否在运动
         if (this.login) {
           // 登录了 直接存在用户名下
-          /* addCart({productId: id}).then(res => {
-              // 并不重新请求数据
-              this.ADD_CART({productId: id, productPrice: price, productName: name, productImg: img})
-            }) */
+          addCart({ productId: id }).then(res => {
+            // 并不重新请求数据
+            this.$store.commit('ADD_CART', {
+              productId: id,
+              productPrice: price,
+              productName: name,
+              productImg: img
+            })
+          })
         } else {
           // 未登录 vuex
           this.$store.commit('ADD_CART', {

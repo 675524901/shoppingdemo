@@ -77,7 +77,7 @@
                                 </div>
                               </div>
 
-                              <div class="del-btn del" @click="delGoods(item.productId)">删除</div>
+                              <div class="del-btn del" @click="handleDelete(item.productId)">删除</div>
                             </div>
                           </div>
                         </li>
@@ -137,6 +137,7 @@
 <script>
 import { mapState } from 'vuex'
 import { fetchCartList } from '@/api/cart'
+import { deleteCart } from '@/api/cart'
 export default {
   name: 'Header',
   props: {
@@ -181,6 +182,7 @@ export default {
     } else {
       this.$store.commit('INIT_BUYCART')
     }
+
     setTimeout(() => {
       this.navFixed()
     }, 300)
@@ -191,7 +193,8 @@ export default {
     async getCartList() {
       const res = await fetchCartList()
       if (res.data.status === '0') {
-        // this.cartList = res.data.data.list
+        const list = res.data.data.list
+        this.$store.commit('SET_CART', { list })
       }
     },
     // 控制购物车显示
@@ -199,9 +202,17 @@ export default {
       this.$store.commit('SHOW_CART', { showCart: state })
     },
     // 删除购物车中某件商品
-    async delGoods(productId) {
+    async handleDelete(productId) {
       if (this.login) {
         // 如果登陆从后台删除购物车数据，并删除本地数据
+        const res = await deleteCart({ productId: productId })
+        if (res.data.status === '0') {
+          this.$message({
+            type: 'success',
+            message: '删除成功'
+          })
+          this.$store.commit('EDIT_CART', { productId })
+        }
       } else {
         this.$store.commit('EDIT_CART', { productId })
       }

@@ -41,7 +41,7 @@
           <el-row style="margin-top:15px;">
             <el-col>
               <span class="params-name">数量</span>
-              <el-input-number v-model="product.productNum" :min="1" :max="parseInt(`${product.totalNum}`)" label="描述文字"></el-input-number>
+              <el-input-number v-model="product.productNum" :min="1" :max="parseInt(`${product.totalNum}`)"></el-input-number>
             </el-col>
           </el-row>
         </div>
@@ -76,6 +76,7 @@
 <script>
 import { mapState } from 'vuex'
 import { fetchGoodsDetail } from '@/api/goods'
+import { addCart } from '@/api/cart'
 export default {
   data() {
     return {
@@ -98,14 +99,9 @@ export default {
     },
     async getGoodsDetail() {
       const data = { productId: this.$route.query.productId }
-      /* const res = await this.$http.get('/nodeapi/goods/fetchGoodsDetail', {
-        params: data
-      }) */
       const res = await fetchGoodsDetail(data)
       if (res.data.status && res.data.status === '0') {
-        this.product = res.data.data
-        // 页面初始化选择数量默认为1
-        this.product.productNum = '1'
+        this.product = { ...res.data.data, productNum: 1 }
         if (res.data.data.showImgs) {
           const arr = res.data.data.showImgs.split(',')
           this.small = arr.map(item => {
@@ -118,11 +114,32 @@ export default {
         }
       }
     },
-    handleAddCart() {
+    async handleAddCart() {
       // 判断动画是否在运动
       if (!this.showMoveImg) {
         if (this.login) {
           // 已经登陆
+          const add = await addCart(this.product)
+          if (add.data.status === '0') {
+            this.$store.commit('ADD_CART', {
+              productId: this.product.productId,
+              productPrice: this.product.productPrice,
+              productName: this.product.productName,
+              productImg: this.product.productImg,
+              productNum: this.product.productNum
+            })
+            this.$message({
+              showClose: true,
+              type: 'success',
+              message: '添加成功'
+            })
+          } else {
+            this.$message({
+              showClose: true,
+              type: 'error',
+              message: '添加失败'
+            })
+          }
         } else {
           // 未登录
           this.$store.commit('ADD_CART', {
@@ -134,11 +151,9 @@ export default {
           })
         }
         // 加入购物车动画
-        var dom = event.target
-        // 获取点击的坐标
+        /* const dom = event.target
         const elLeft = dom.getBoundingClientRect().left + dom.offsetWidth / 2
         const elTop = dom.getBoundingClientRect().top + dom.offsetHeight / 2
-        // 需要触发
         this.$store.commit('ADD_ANIMATION', {
           moveShow: true,
           elLeft: elLeft,
@@ -147,7 +162,7 @@ export default {
         })
         if (!this.showCart) {
           this.$store.commit('SHOW_CART', { showCart: true })
-        }
+        } */
       }
     }
   }
