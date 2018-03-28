@@ -35,7 +35,7 @@ export default {
     }
     if (!cart.length || falg) {
       goods.productNum = productNum
-      goods.checked = '1'
+      goods.checked = true
       cart.push(goods)
     }
     state.cartList = cart
@@ -101,7 +101,9 @@ export default {
       })
     } else {
       cart.forEach((item) => {
-        item.checked = checked ? '1' : '0'
+        if (checked) {
+          item.checked = true
+        } else item.checked = false
       })
     }
     state.cartList = cart

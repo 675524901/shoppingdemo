@@ -27,7 +27,8 @@
                     <div class="cart-items clearfix">
                       <!--勾选-->
                       <div class="items-choose">
-                        <span class="blue-checkbox-new " :class="{'checkbox-on':item.checked === '1'}" @click="handleSelect('check',item)"></span>
+                        <!-- <span class="blue-checkbox-new " :class="{'checkbox-on':item.checked === '1'}" @click="handleSelect('check',item)"></span> -->
+                        <el-checkbox v-model="item.checked" :checked="item.checked===1" @change="handleSelect(item)"></el-checkbox>
                       </div>
                       <!--图片-->
                       <div class="items-thumb fl">
@@ -52,11 +53,11 @@
                         <!--总价格-->
                         <div class="subtotal" style="font-size: 14px">¥ {{item.productPrice * item.productNum}}</div>
                         <!--编辑数量-->
-                        <number-select :num="parseInt(item.productNum)" :id="item.productId" :checked="item.checked" :cartId="item.cartId" style="height: 140px;
+                        <!-- <number-select :num="parseInt(item.productNum)" :id="item.productId" :checked="item.checked" :cartId="item.cartId" style="height: 140px;
                                    display: flex;
                                    align-items: center;
-                                   justify-content: center;" :limit="parseInt(5)" @edit-num="handleEdit">
-                        </number-select>
+                                   justify-content: center;" :limit="parseInt(5)" @edit-num="handleEditNum">
+                        </number-select> -->
                         <!--单价-->
                         <div class="price1">¥ {{item.productPrice}}</div>
                       </div>
@@ -71,7 +72,8 @@
               <div class="cart-bar-operation">
                 <div>
                   <div class="choose-all">
-                    <span :class="{'checkbox-on':checkAllFlag}" class="blue-checkbox-new" @click="editCheckAll"></span>全选
+                    <!-- <span :class="{'checkbox-on':checkAllFlag}" class="blue-checkbox-new" @click="handleSelectAll"></span>全选 -->
+                    <el-checkbox :checked="checkAllFlag" @change="handleSelectAll"></el-checkbox>全选
                   </div>
                 </div>
               </div>
@@ -140,7 +142,7 @@ export default {
       var i = 0
       this.cartList &&
         this.cartList.forEach(item => {
-          if (item.checked === '1') i++
+          if (item.checked === true) i++
         })
       return Number(i)
     },
@@ -158,7 +160,7 @@ export default {
       var totalPrice = 0
       this.cartList &&
         this.cartList.forEach(item => {
-          if (item.checked === '1') {
+          if (item.checked === true) {
             totalPrice += item.productNum * item.productPrice
           }
         })
@@ -169,7 +171,7 @@ export default {
       var checkNum = 0
       this.cartList &&
         this.cartList.forEach(item => {
-          if (item.checked === '1') {
+          if (item.checked === true) {
             checkNum += item.productNum
           }
         })
@@ -180,13 +182,11 @@ export default {
     return {}
   },
   created() {
-    this.$store.commit('INIT_BUYCART')
+    /* this.$store.commit('INIT_BUYCART') */
   },
   methods: {
     // 修改购物车
-    async handleEdit(productId, productNum, checked, cartId) {
-      console.log('poductNum', productNum)
-
+    async handleEditNum(productId, productNum, checked, cartId) {
       const edit = await editCart({
         productId: productId,
         productNum: productNum,
@@ -194,26 +194,25 @@ export default {
       })
       if (edit.data.status === '0') {
         this.$store.commit('EDIT_CART', {
-          productId,
-          checked,
-          productNum
+          productId: productId,
+          productNum: productNum,
+          checked: checked
         })
       }
     },
     // 修改购物车
-    handleSelect(type, item) {
-      if (type && item) {
-        const checked = item.checked
-        const productId = item.productId
-        const productNum = item.productNum
-        // 勾选
-        if (type === 'check') {
-          const newChecked = checked === '1' ? '0' : '1'
-          this.handleEdit(productId, productNum, newChecked)
-        }
-      } else {
-        console.log('缺少所需参数')
-      }
+    handleSelect(item) {
+      this.$store.commit('EDIT_CART', {
+        productId: item.productId,
+        productNum: item.productNum,
+        checked: item.checked
+      })
+      const data = this.$store.state.cartList
+      console.log(data)
+    },
+    handleSelectAll() {
+      const checkAll = !this.checkAllFlag
+      this.$store.commit('EDIT_CART', { checked: checkAll })
     },
     async handleDelete(productId) {
       // 后台删除此条购物车
@@ -225,10 +224,6 @@ export default {
         })
         this.$store.commit('EDIT_CART', { productId })
       }
-    },
-    editCheckAll() {
-      const checkAll = !this.checkAllFlag
-      this.$store.commit('EDIT_CART', { checked: checkAll })
     },
     checkout() {}
   }
