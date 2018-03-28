@@ -30,6 +30,9 @@ export default {
     limit: {
       type: Number,
       default: 10
+    },
+    cartId: {
+      type: String
     }
   },
   computed: {},
@@ -56,7 +59,7 @@ export default {
     },
     blur() {
       this.Num = this.Num > this.limit ? Number(this.limit) : Number(this.Num)
-      this.$emit('edit-num', this.Num, this.id, this.checked)
+      this.$emit('edit-num', this.id, this.Num, this.checked, this.cartId)
     },
     ani(opera) {
       this.flag = false
@@ -84,7 +87,7 @@ export default {
         this.domInt(ulStyle)
         this.flag = true
       })
-      this.$emit('edit-num', this.Num, this.id, this.checked)
+      this.$emit('edit-num', this.id, this.Num, this.checked, this.cartId)
     },
     domInt(domStyle) {
       domStyle.zIndex = '1'

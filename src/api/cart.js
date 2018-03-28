@@ -34,3 +34,13 @@ export function deleteCart(data) {
     params: data
   })
 }
+
+// 编辑购物车
+export function editCart(data) {
+  return fetch({
+    url: '/nodeapi/cart/editCart',
+    method: 'post',
+    data
+  })
+}
+
