@@ -38,7 +38,7 @@ export default {
           productName: '名字1',
           desc: 'subTitle111',
           productPrice: '50',
-          productImg: '/images/pic01.jpg',
+          productImg: '/images/goods/pic01.jpg',
           totalNum: '5'
         },
         {
@@ -46,7 +46,7 @@ export default {
           productName: '名字1',
           desc: 'subTitle111',
           productPrice: '50',
-          productImg: '/images/pic01.jpg',
+          productImg: '/images/goods/pic01.jpg',
           totalNum: '5'
         },
         {
@@ -54,7 +54,7 @@ export default {
           productName: '名字1',
           desc: 'subTitle111',
           productPrice: '50',
-          productImg: '/images/pic01.jpg',
+          productImg: '/images/goods/pic01.jpg',
           totalNum: '5'
         },
         {
@@ -62,7 +62,7 @@ export default {
           productName: '名字1',
           desc: 'subTitle111',
           productPrice: '50',
-          productImg: '/images/pic01.jpg',
+          productImg: '/images/goods/pic01.jpg',
           totalNum: '5'
         },
         {
@@ -70,7 +70,7 @@ export default {
           productName: '名字1',
           desc: 'subTitle111',
           productPrice: '50',
-          productImg: '/images/pic01.jpg',
+          productImg: '/images/goods/pic01.jpg',
           totalNum: '5'
         },
         {
@@ -78,7 +78,7 @@ export default {
           productName: '名字1',
           desc: 'subTitle111',
           productPrice: '50',
-          productImg: '/images/pic01.jpg',
+          productImg: '/images/goods/pic01.jpg',
           totalNum: '5'
         },
         {
@@ -86,7 +86,7 @@ export default {
           productName: '名字1',
           desc: 'subTitle111',
           productPrice: '50',
-          productImg: '/images/pic01.jpg',
+          productImg: '/images/goods/pic01.jpg',
           totalNum: '5'
         },
         {
@@ -94,7 +94,7 @@ export default {
           productName: '名字1',
           desc: 'subTitle111',
           productPrice: '50',
-          productImg: '/images/pic01.jpg',
+          productImg: '/images/goods/pic01.jpg',
           totalNum: '5'
         }
       ],

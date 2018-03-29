@@ -24,3 +24,9 @@ export function checkAccount(data) {
   })
 }
 
+export function getUserInfo() {
+  return fetch({
+    url: '/nodeapi/users/fetchUserInfo',
+    method: 'get'
+  })
+}

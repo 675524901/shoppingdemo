@@ -46,8 +46,8 @@
           </el-row>
         </div>
         <div class="buy">
-          <el-button style="width: 145px" type="primary" plain @click="handleAddCart()">加入购物车</el-button>
-          <el-button style="width: 145px" type="primary">现在购买</el-button>
+          <el-button style="width: 145px" type="primary" :disabled="Number(product.totalNum)===0" plain @click="handleAddCart()">加入购物车</el-button>
+          <el-button style="width: 145px" type="primary" :disabled="Number(product.totalNum)===0">现在购买</el-button>
         </div>
       </div>
     </div>

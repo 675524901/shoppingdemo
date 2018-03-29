@@ -15,29 +15,27 @@
             <div class="user pr">
               <router-link to="/user">个人中心</router-link>
               <!--用户信息显示,待完善-->
-              <!-- 
-                <div class="nav-user-wrapper pa" v-if="login">
-                  <div class="nav-user-list">
-                    <ul>
-                      // 头像
-                      <li class="nav-user-avatar">
-                        <div>
-                          <span class="avatar" :style="{backgroundImage:'url('+userInfo.info.avatar+')'}">
-                          </span>
-                        </div>
-                        <p class="name">{{userInfo.info.name}}</p>
-                      </li>
-                      // 用户选项，从navList循环
-                      <li v-for="(item, i) in navList" :key="i">
-                        <router-link :to="item.link">{{item.text}}</router-link>
-                      </li>
-                      <li>
-                        <a href="javascript:;" @click="_loginOut">退出</a>
-                      </li>
-                    </ul>
-                  </div>
+
+              <div class="nav-user-wrapper pa" v-if="login">
+                <div class="nav-user-list">
+                  <ul>
+                    <li class="nav-user-avatar">
+                      <div>
+                        <span class="avatar" :style="{backgroundImage:'url('+userInfo.image+')'}">
+                        </span>
+                      </div>
+                      <p class="name">{{userInfo.name}}</p>
+                    </li>
+                    <li v-for="(item, i) in navList" :key="i">
+                      <router-link :to="item.link">{{item.label}}</router-link>
+                    </li>
+                    <li>
+                      <a href="javascript:;" @click="loginOut">退出</a>
+                    </li>
+                  </ul>
                 </div>
-               -->
+              </div>
+
             </div>
             <!-- 购物车 -->
             <div class="shop pr" @mouseover="cartShowState(true)" @mouseout="cartShowState(false)" ref="positionMsg">
@@ -138,6 +136,7 @@
 import { mapState } from 'vuex'
 import { fetchCartList } from '@/api/cart'
 import { deleteCart } from '@/api/cart'
+import { removeStore } from '@/utils/storage'
 export default {
   name: 'Header',
   props: {
@@ -151,7 +150,21 @@ export default {
       st: false,
       cartShow: false, // 头部购物车显示
       timerCartShow: null, // 定时隐藏购物车,
-      searchContent: ''
+      searchContent: '',
+      navList: [
+        {
+          label: '订单管理',
+          link: '/user/orderList'
+        },
+        {
+          label: '用户信息',
+          link: '/user/information'
+        },
+        {
+          label: '收货地址',
+          link: '/user/addressList'
+        }
+      ]
     }
   },
   computed: {
@@ -199,6 +212,11 @@ export default {
         })
         this.$store.commit('SET_CART', { list })
       }
+    },
+    async loginOut() {
+      await sessionStorage.removeItem('token')
+      removeStore('buyCart')
+      this.$router.push({ path: '/login' })
     },
     // 控制购物车显示
     cartShowState(state) {
