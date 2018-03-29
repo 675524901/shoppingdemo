@@ -44,3 +44,11 @@ export function editCart(data) {
   })
 }
 
+// 处理全部勾选
+export function editSelectAll(data) {
+  return fetch({
+    url: '/nodeapi/cart/editSelectAll',
+    method: 'get',
+    params: data
+  })
+}

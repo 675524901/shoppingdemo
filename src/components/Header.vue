@@ -194,6 +194,9 @@ export default {
       const res = await fetchCartList()
       if (res.data.status === '0') {
         const list = res.data.list
+        list.forEach(item => {
+          item.checked = item.checked === 1
+        })
         this.$store.commit('SET_CART', { list })
       }
     },

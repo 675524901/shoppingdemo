@@ -105,7 +105,7 @@ export default {
     // 获取轮播图，热卖商品等列表
     // sessionStorage.removeItem('token')
     const token = sessionStorage.getItem('token')
-    console.log(token)
+    console.log('token', token)
   },
   methods: {}
 }

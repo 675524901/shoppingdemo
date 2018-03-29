@@ -28,7 +28,7 @@
                       <!--勾选-->
                       <div class="items-choose">
                         <!-- <span class="blue-checkbox-new " :class="{'checkbox-on':item.checked === '1'}" @click="handleSelect('check',item)"></span> -->
-                        <el-checkbox v-model="item.checked" :checked="item.checked===1" @change="handleSelect(item)"></el-checkbox>
+                        <el-checkbox v-model="item.checked" @change="handleSelect(item)"></el-checkbox>
                       </div>
                       <!--图片-->
                       <div class="items-thumb fl">
@@ -53,11 +53,11 @@
                         <!--总价格-->
                         <div class="subtotal" style="font-size: 14px">¥ {{item.productPrice * item.productNum}}</div>
                         <!--编辑数量-->
-                        <!-- <number-select :num="parseInt(item.productNum)" :id="item.productId" :checked="item.checked" :cartId="item.cartId" style="height: 140px;
+                        <number-select :num="parseInt(item.productNum)" :id="item.productId" :checked="item.checked" :cartId="item.cartId" style="height: 140px;
                                    display: flex;
                                    align-items: center;
                                    justify-content: center;" :limit="parseInt(5)" @edit-num="handleEditNum">
-                        </number-select> -->
+                        </number-select>
                         <!--单价-->
                         <div class="price1">¥ {{item.productPrice}}</div>
                       </div>
@@ -72,8 +72,7 @@
               <div class="cart-bar-operation">
                 <div>
                   <div class="choose-all">
-                    <!-- <span :class="{'checkbox-on':checkAllFlag}" class="blue-checkbox-new" @click="handleSelectAll"></span>全选 -->
-                    <el-checkbox :checked="checkAllFlag" @change="handleSelectAll"></el-checkbox>全选
+                    <el-checkbox v-model="isSelectAll" @change="handleSelectAll"></el-checkbox>&nbsp;&nbsp;&nbsp;&nbsp;全选
                   </div>
                 </div>
               </div>
@@ -123,13 +122,18 @@ import CHeader from '@/components/Header'
 import CFooter from '@/components/Footer'
 import NumberSelect from '@/components/NumberSelect'
 import { mapState } from 'vuex'
-import { deleteCart, editCart } from '@/api/cart'
+import { deleteCart, editCart, editSelectAll } from '@/api/cart'
 export default {
   name: 'ShoppingCart',
   components: {
     CHeader,
     CFooter,
     NumberSelect
+  },
+  watch: {
+    checkAllFlag() {
+      this.isSelectAll = this.checkAllFlag
+    }
   },
   computed: {
     ...mapState(['cartList']),
@@ -179,10 +183,12 @@ export default {
     }
   },
   data() {
-    return {}
+    return {
+      isSelectAll: this.checkAllFlag
+    }
   },
   created() {
-    /* this.$store.commit('INIT_BUYCART') */
+    this.isSelectAll = this.checkAllFlag
   },
   methods: {
     // 修改购物车
@@ -190,6 +196,7 @@ export default {
       const edit = await editCart({
         productId: productId,
         productNum: productNum,
+        checked: checked,
         cartId: cartId
       })
       if (edit.data.status === '0') {
@@ -201,18 +208,27 @@ export default {
       }
     },
     // 修改购物车
-    handleSelect(item) {
-      this.$store.commit('EDIT_CART', {
+    async handleSelect(item) {
+      const edit = await editCart({
         productId: item.productId,
         productNum: item.productNum,
-        checked: item.checked
+        checked: item.checked,
+        cartId: item.cartId
       })
-      const data = this.$store.state.cartList
-      console.log(data)
+      if (edit.data.status === '0') {
+        this.$store.commit('EDIT_CART', {
+          productId: item.productId,
+          productNum: item.productNum,
+          checked: item.checked
+        })
+      }
     },
-    handleSelectAll() {
-      const checkAll = !this.checkAllFlag
-      this.$store.commit('EDIT_CART', { checked: checkAll })
+    async handleSelectAll() {
+      const edit = await editSelectAll({ checked: this.isSelectAll })
+      if (edit.data.status === '0') {
+        const checkAll = !this.checkAllFlag
+        this.$store.commit('EDIT_CART', { checked: checkAll })
+      }
     },
     async handleDelete(productId) {
       // 后台删除此条购物车

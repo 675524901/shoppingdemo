@@ -1,4 +1,5 @@
 import axios from 'axios'
+import { removeStore } from '@/utils/storage'
 // 创建axios实例
 const fetch = axios.create({
   baseURL: process.env.BASE_API, // api的base_url
@@ -31,6 +32,7 @@ fetch.interceptors.response.use(
         case 401:
           // 返回 401 清除token信息并跳转到登录页面
           sessionStorage.removeItem('token')
+          removeStore('buyCart')
           this.$router.push({
             path: '/login'
           })
