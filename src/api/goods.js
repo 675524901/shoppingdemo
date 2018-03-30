@@ -7,3 +7,11 @@ export function fetchGoodsDetail(data) {
     params: data
   })
 }
+// 获取商品列表
+export function fetchGoodsList(data) {
+  return fetch({
+    url: '/nodeapi/goods/fetchGoodsList',
+    method: 'get',
+    params: data
+  })
+}

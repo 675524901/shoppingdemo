@@ -22,11 +22,6 @@ fetch.interceptors.request.use(config => {
 fetch.interceptors.response.use(
   response => response,
   error => {
-    /* this.$message({
-      message: '服务器繁忙，请稍后再试',
-      type: 'error',
-      duration: 2000
-    }) */
     if (error.response) {
       switch (error.response.status) {
         case 401:

@@ -118,13 +118,12 @@
               <router-link to="/">首页</router-link>
             </li>
             <li>
-              <router-link to="/goodsList">喂养</router-link>
+              <router-link to="/goodsList?type=food">喂养</router-link>
             </li>
             <li>
-              <router-link to="/goodsList">玩具</router-link>
+              <router-link to="/goodsList?type=toy">玩具</router-link>
             </li>
-            <el-input style="width:250px;margin-left:100px;" placeholder="请输入内容" v-model="searchContent" size="mini" prefix-icon="el-icon-search">
-              <!-- <el-button slot="append" icon="el-icon-search"></el-button> -->
+            <el-input style="width:250px;margin-left:100px;" placeholder="请输入名称" v-model="searchContent" size="mini" prefix-icon="el-icon-search" @keyup.enter.native="handleSearch">
             </el-input>
           </ul>
         </div>
@@ -237,6 +236,11 @@ export default {
       } else {
         this.$store.commit('EDIT_CART', { productId })
       }
+    },
+    handleSearch() {
+      this.$router.push({
+        path: `/goodsList?searchContent=${this.searchContent}`
+      })
     },
     toCart() {
       this.$router.push({ path: '/cart' })
