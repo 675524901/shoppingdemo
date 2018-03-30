@@ -54,10 +54,12 @@ export default {
       const res = await fetchGoodsList(this.listQuery)
       if (res.data.status === '0') {
         const list = res.data.list
-        if (flag) {
-          this.goodsList = this.goodsList.concat(list)
-        } else {
-          this.goodsList = list
+        if (list && list.length) {
+          if (flag) {
+            this.goodsList = this.goodsList.concat(list)
+          } else {
+            this.goodsList = list
+          }
         }
       } else {
         clearTimeout(this.timer)
