@@ -60,10 +60,10 @@ export default {
           } else {
             this.goodsList = list
           }
+        } else {
+          clearTimeout(this.timer)
+          this.busy = true
         }
-      } else {
-        clearTimeout(this.timer)
-        this.busy = true
       }
     },
     loadMore() {
@@ -74,7 +74,11 @@ export default {
         this.busy = false
       }, 500)
     },
-    handleSort() {}
+    handleSort() {
+      this.busy = false
+      this.listQuery.pageNum = 1
+      this.getGoodsList()
+    }
   }
 }
 </script>
