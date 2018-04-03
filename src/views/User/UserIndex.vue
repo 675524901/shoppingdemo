@@ -7,9 +7,9 @@
         <div class="account-sidebar">
           <div class="avatar gray-box ">
             <div>
-              <img :src="userInfo.info.avatar">
+              <img :src="userInfo.image">
               <h5>
-                {{userInfo.info.name}}</h5>
+                {{userInfo.name}}</h5>
             </div>
             <div class="box-inner">
               <ul class="account-nav">
@@ -32,7 +32,7 @@
 <script>
 import UHeader from '@/components/Header'
 import UFooter from '@/components/Footer'
-// import { mapState } from 'vuex'
+import { mapState } from 'vuex'
 export default {
   name: 'UserIndex',
   components: {
@@ -40,7 +40,7 @@ export default {
     UFooter
   },
   computed: {
-    // ...mapState(['userInfo'])
+    ...mapState(['userInfo'])
   },
   data() {
     return {
@@ -49,10 +49,7 @@ export default {
         { name: '我的订单', path: 'orderList' },
         { name: '账户资料', path: 'information' },
         { name: '收货地址', path: 'addressList' }
-      ],
-      userInfo: {
-        info: { name: 'Jack', avatar: '/static/images/user-avatar.png' }
-      }
+      ]
     }
   },
   watch: {
