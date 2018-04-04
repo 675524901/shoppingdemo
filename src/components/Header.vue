@@ -65,7 +65,7 @@
                                     <router-link :to="'goodsDetail?productId='+item.productId" v-text="item.productName"></router-link>
                                   </h4>
                                   <p class="attrs">
-                                    <span>白色</span>
+
                                   </p>
                                   <h6>
                                     <span class="price-icon">¥</span>
