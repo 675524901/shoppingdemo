@@ -1,5 +1,4 @@
-// The Vue build version to load with the `import` command
-// (runtime-only or standalone) has been set in webpack.base.conf with an alias.
+
 import Vue from 'vue'
 import App from './App'
 import router from './router'
@@ -22,8 +21,6 @@ Vue.use(VueLazyload, {
   // attempt: 1
 })
 
-// 路由白名单
-const whiteList = ['/home', '/goodsList', '/login', '/goodsDetail']
 router.beforeEach(async (to, from, next) => {
   const token = sessionStorage.getItem('token')
   // 已经登陆
@@ -35,11 +32,10 @@ router.beforeEach(async (to, from, next) => {
     store.state.login = true
     next()
   } else {
-    // 跳转的路径在白名单上的话
-    if (whiteList.indexOf(to.path) !== -1) {
-      next()
-    } else {
+    if (to.meta.requireAuth) {
       next('/login')
+    } else {
+      next()
     }
   }
 })
