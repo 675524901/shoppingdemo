@@ -1,4 +1,5 @@
 import axios from 'axios'
+import router from 'vue-router'
 import { removeStore } from '@/utils/storage'
 // 创建axios实例
 const fetch = axios.create({
@@ -28,7 +29,7 @@ fetch.interceptors.response.use(
           // 返回 401 清除token信息并跳转到登录页面
           sessionStorage.removeItem('token')
           removeStore('buyCart')
-          this.$router.push({
+          router.push({
             path: '/login'
           })
       }

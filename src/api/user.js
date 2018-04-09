@@ -42,3 +42,12 @@ export function updateAddress(data) {
     data
   })
 }
+
+// 上传用户图片
+export function uploadUserImg(data) {
+  return fetch({
+    url: 'nodeapi/users/uploadUserImg',
+    methods: 'post',
+    data
+  })
+}
