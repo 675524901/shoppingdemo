@@ -1,4 +1,5 @@
 import { setStore, getStore } from '@/utils/storage'
+
 export default {
   // 网页初始化时从本地缓存获取购物车数据
   INIT_BUYCART(state) {
@@ -8,8 +9,8 @@ export default {
     }
   },
   // 给vuex购物车设置新数组
-  SET_CART(state, { }) {
-
+  SET_CART(state, { list }) {
+    state.cartList = list
   },
   // 加入购物车
   ADD_CART(state, { productId, productPrice, productName, productImg, productNum = 1 }) {
@@ -34,7 +35,7 @@ export default {
     }
     if (!cart.length || falg) {
       goods.productNum = productNum
-      goods.checked = '1'
+      goods.checked = true
       cart.push(goods)
     }
     state.cartList = cart
@@ -100,7 +101,9 @@ export default {
       })
     } else {
       cart.forEach((item) => {
-        item.checked = checked ? '1' : '0'
+        if (checked) {
+          item.checked = true
+        } else item.checked = false
       })
     }
     state.cartList = cart

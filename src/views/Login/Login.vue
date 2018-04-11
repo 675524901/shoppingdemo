@@ -161,7 +161,6 @@ export default {
             account: this.loginForm.loginAccount,
             password: this.loginForm.loginPwd
           }
-          // const res = await this.$http.post('/nodeapi/users/login', data)
           const res = await userLogin(data)
           if (res.data.status && res.data.status === '0') {
             await sessionStorage.setItem('token', res.data.token) // 用sessionStorage把token存下来
@@ -170,11 +169,15 @@ export default {
               message: '登陆成功',
               type: 'success'
             })
-            this.$router.go(-1)
             // 成功登陆后同步数据库购物车,删除本地购物车
-            const add = await this.handleAddSeveralCart()
-            if (add.data.status === '0') {
-              window.localStorage.removeItem('buyCart')
+            if (this.cart && this.cart.length) {
+              const add = await addSeveralCart(this.cart)
+              if (add.data.status === '0') {
+                localStorage.removeItem('buyCart')
+                this.$router.go(-1)
+              }
+            } else {
+              this.$router.go(-1)
             }
           } else {
             this.$message({
@@ -184,7 +187,7 @@ export default {
             })
             sessionStorage.setItem('token', null) // 将token清空
           }
-        } else return false
+        }
       })
     },
     async regist() {
@@ -212,11 +215,6 @@ export default {
           }
         } else return false
       })
-    },
-    async handleAddSeveralCart() {
-      if (this.cart && this.cart.length) {
-        await addSeveralCart(this.cart)
-      }
     }
   }
 }

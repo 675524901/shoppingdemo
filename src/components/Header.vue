@@ -15,29 +15,27 @@
             <div class="user pr">
               <router-link to="/user">个人中心</router-link>
               <!--用户信息显示,待完善-->
-              <!-- 
-                <div class="nav-user-wrapper pa" v-if="login">
-                  <div class="nav-user-list">
-                    <ul>
-                      // 头像
-                      <li class="nav-user-avatar">
-                        <div>
-                          <span class="avatar" :style="{backgroundImage:'url('+userInfo.info.avatar+')'}">
-                          </span>
-                        </div>
-                        <p class="name">{{userInfo.info.name}}</p>
-                      </li>
-                      // 用户选项，从navList循环
-                      <li v-for="(item, i) in navList" :key="i">
-                        <router-link :to="item.link">{{item.text}}</router-link>
-                      </li>
-                      <li>
-                        <a href="javascript:;" @click="_loginOut">退出</a>
-                      </li>
-                    </ul>
-                  </div>
+
+              <div class="nav-user-wrapper pa" v-if="login">
+                <div class="nav-user-list">
+                  <ul>
+                    <li class="nav-user-avatar">
+                      <div>
+                        <span class="avatar" :style="{backgroundImage:'url('+userInfo.image+')'}">
+                        </span>
+                      </div>
+                      <p class="name">{{userInfo.name}}</p>
+                    </li>
+                    <li v-for="(item, i) in navList" :key="i">
+                      <router-link :to="item.link">{{item.label}}</router-link>
+                    </li>
+                    <li>
+                      <a href="javascript:;" @click="loginOut">退出</a>
+                    </li>
+                  </ul>
                 </div>
-               -->
+              </div>
+
             </div>
             <!-- 购物车 -->
             <div class="shop pr" @mouseover="cartShowState(true)" @mouseout="cartShowState(false)" ref="positionMsg">
@@ -67,7 +65,7 @@
                                     <router-link :to="'goodsDetail?productId='+item.productId" v-text="item.productName"></router-link>
                                   </h4>
                                   <p class="attrs">
-                                    <span>白色</span>
+
                                   </p>
                                   <h6>
                                     <span class="price-icon">¥</span>
@@ -77,7 +75,7 @@
                                 </div>
                               </div>
 
-                              <div class="del-btn del" @click="delGoods(item.productId)">删除</div>
+                              <div class="del-btn del" @click="handleDelete(item.productId)">删除</div>
                             </div>
                           </div>
                         </li>
@@ -120,13 +118,12 @@
               <router-link to="/">首页</router-link>
             </li>
             <li>
-              <router-link to="/goodsList">喂养</router-link>
+              <router-link to="/goodsList?type=food">喂养</router-link>
             </li>
             <li>
-              <router-link to="/goodsList">玩具</router-link>
+              <router-link to="/goodsList?type=toy">玩具</router-link>
             </li>
-            <el-input style="width:250px;margin-left:100px;" placeholder="请输入内容" v-model="searchContent" size="mini" prefix-icon="el-icon-search">
-              <!-- <el-button slot="append" icon="el-icon-search"></el-button> -->
+            <el-input style="width:250px;margin-left:100px;" placeholder="请输入名称" v-model="searchContent" size="mini" prefix-icon="el-icon-search" @keyup.enter.native="handleSearch">
             </el-input>
           </ul>
         </div>
@@ -137,6 +134,8 @@
 <script>
 import { mapState } from 'vuex'
 import { fetchCartList } from '@/api/cart'
+import { deleteCart } from '@/api/cart'
+import { removeStore } from '@/utils/storage'
 export default {
   name: 'Header',
   props: {
@@ -150,7 +149,21 @@ export default {
       st: false,
       cartShow: false, // 头部购物车显示
       timerCartShow: null, // 定时隐藏购物车,
-      searchContent: ''
+      searchContent: '',
+      navList: [
+        {
+          label: '订单管理',
+          link: '/user/orderList'
+        },
+        {
+          label: '用户信息',
+          link: '/user/information'
+        },
+        {
+          label: '收货地址',
+          link: '/user/addressList'
+        }
+      ]
     }
   },
   computed: {
@@ -181,6 +194,7 @@ export default {
     } else {
       this.$store.commit('INIT_BUYCART')
     }
+
     setTimeout(() => {
       this.navFixed()
     }, 300)
@@ -191,20 +205,42 @@ export default {
     async getCartList() {
       const res = await fetchCartList()
       if (res.data.status === '0') {
-        // this.cartList = res.data.data.list
+        const list = res.data.list
+        list.forEach(item => {
+          item.checked = item.checked === 1
+        })
+        this.$store.commit('SET_CART', { list })
       }
+    },
+    async loginOut() {
+      await sessionStorage.removeItem('token')
+      removeStore('buyCart')
+      this.$router.push({ path: '/login' })
     },
     // 控制购物车显示
     cartShowState(state) {
       this.$store.commit('SHOW_CART', { showCart: state })
     },
     // 删除购物车中某件商品
-    async delGoods(productId) {
+    async handleDelete(productId) {
       if (this.login) {
         // 如果登陆从后台删除购物车数据，并删除本地数据
+        const res = await deleteCart({ productId: productId })
+        if (res.data.status === '0') {
+          this.$message({
+            type: 'success',
+            message: '删除成功'
+          })
+          this.$store.commit('EDIT_CART', { productId })
+        }
       } else {
         this.$store.commit('EDIT_CART', { productId })
       }
+    },
+    handleSearch() {
+      this.$router.push({
+        path: `/goodsList?searchContent=${this.searchContent}`
+      })
     },
     toCart() {
       this.$router.push({ path: '/cart' })

@@ -24,6 +24,7 @@
 </template>
 <script>
 import { mapState } from 'vuex'
+import { addCart } from '@/api/cart'
 export default {
   props: {
     msg: ''
@@ -38,26 +39,28 @@ export default {
     } */
   },
   methods: {
-    handleAddCart(id, price, name, img) {
+    async handleAddCart(id, price, name, img) {
+      const dom = event.target
+      // 动画是否在运动
       if (!this.showMoveImg) {
-        // 动画是否在运动
+        const data = {
+          productId: id,
+          productName: name,
+          productPrice: price,
+          productNum: 1,
+          productImg: img
+        }
         if (this.login) {
           // 登录了 直接存在用户名下
-          /* addCart({productId: id}).then(res => {
-              // 并不重新请求数据
-              this.ADD_CART({productId: id, productPrice: price, productName: name, productImg: img})
-            }) */
+          const add = await addCart(data)
+          if (add.data.status === '0') {
+            this.$store.commit('ADD_CART', data)
+          }
         } else {
           // 未登录 vuex
-          this.$store.commit('ADD_CART', {
-            productId: id,
-            productPrice: price,
-            productName: name,
-            productImg: img
-          })
+          this.$store.commit('ADD_CART', data)
         }
         // 加入购物车动画
-        const dom = event.target
 
         // 获取点击的坐标
         const elLeft = dom.getBoundingClientRect().left + dom.offsetWidth / 2

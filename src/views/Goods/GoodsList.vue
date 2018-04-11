@@ -3,7 +3,7 @@
 
     <el-row class="mt20">
       <el-col style="margin-left:18%">
-        <el-radio-group @change="handleSort" size="small" v-model="sort">
+        <el-radio-group @change="handleSort" size="small" v-model="listQuery.sort">
           <el-radio-button label="综合排序"></el-radio-button>
           <el-radio-button label="价格升序"></el-radio-button>
           <el-radio-button label="价格降序"></el-radio-button>
@@ -11,10 +11,11 @@
       </el-col>
     </el-row>
 
-    <!--商品-->
+    <!--商品列表-->
     <div class="goods-box w mt20">
       <goods-card v-for="(item,i) in goodsList" :key="i" :msg="item"></goods-card>
     </div>
+
     <!--下拉无限滚动-->
     <div v-show="!busy" class="w load-more" v-infinite-scroll="loadMore" infinite-scroll-disabled="busy" infinite-scroll-distance="100">
       正在加载中...
@@ -23,6 +24,7 @@
 </template>
 <script>
 import GoodsCard from '@/components/GoodsCard'
+import { fetchGoodsList } from '@/api/goods'
 export default {
   name: 'GoodsList',
   components: {
@@ -30,85 +32,53 @@ export default {
   },
   data() {
     return {
-      sort: '综合排序',
-      sortType: 1,
-      goodsList: [
-        {
-          productId: '001',
-          productName: '名字1',
-          desc: 'subTitle111',
-          productPrice: '50',
-          productImg: '/images/pic01.jpg',
-          totalNum: '5'
-        },
-        {
-          productId: '002',
-          productName: '名字1',
-          desc: 'subTitle111',
-          productPrice: '50',
-          productImg: '/images/pic01.jpg',
-          totalNum: '5'
-        },
-        {
-          productId: '003',
-          productName: '名字1',
-          desc: 'subTitle111',
-          productPrice: '50',
-          productImg: '/images/pic01.jpg',
-          totalNum: '5'
-        },
-        {
-          productId: '004',
-          productName: '名字1',
-          desc: 'subTitle111',
-          productPrice: '50',
-          productImg: '/images/pic01.jpg',
-          totalNum: '5'
-        },
-        {
-          productId: '005',
-          productName: '名字1',
-          desc: 'subTitle111',
-          productPrice: '50',
-          productImg: '/images/pic01.jpg',
-          totalNum: '5'
-        },
-        {
-          productId: '006',
-          productName: '名字1',
-          desc: 'subTitle111',
-          productPrice: '50',
-          productImg: '/images/pic01.jpg',
-          totalNum: '5'
-        },
-        {
-          productId: '007',
-          productName: '名字1',
-          desc: 'subTitle111',
-          productPrice: '50',
-          productImg: '/images/pic01.jpg',
-          totalNum: '5'
-        },
-        {
-          productId: '008',
-          productName: '名字1',
-          desc: 'subTitle111',
-          productPrice: '50',
-          productImg: '/images/pic01.jpg',
-          totalNum: '5'
-        }
-      ],
-      busy: false
+      timer: null,
+      goodsList: [],
+      busy: false,
+      listQuery: {
+        pageNum: 1,
+        type: this.$route.query.type,
+        sort: '综合排序',
+        searchContent: this.$route.query.searchContent
+      }
     }
   },
+  created() {
+    this.init()
+  },
   methods: {
+    async init() {
+      await this.getGoodsList()
+    },
+    async getGoodsList(flag) {
+      const res = await fetchGoodsList(this.listQuery)
+      if (res.data.status === '0') {
+        const list = res.data.list
+        if (list && list.length) {
+          if (flag) {
+            this.goodsList = this.goodsList.concat(list)
+          } else {
+            this.goodsList = list
+          }
+        } else {
+          clearTimeout(this.timer)
+          this.busy = true
+        }
+      }
+    },
     loadMore() {
       this.busy = true
-      setTimeout(() => {
+      this.timer = setTimeout(() => {
+        this.listQuery.pageNum++
+        this.getGoodsList(true)
         this.busy = false
       }, 500)
     },
-    handleSort() {}
+    handleSort() {
+      this.busy = false
+      this.listQuery.pageNum = 1
+      this.getGoodsList()
+    }
   }
 }
 </script>

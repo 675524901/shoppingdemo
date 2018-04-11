@@ -42,7 +42,7 @@ export default {
           desc: 'subTitle111',
           productId: '001',
           productPrice: '12',
-          productImg: '/images/pic01.jpg',
+          productImg: '/images/goods/pic01.jpg',
           totalNum: '5'
         },
         {
@@ -50,7 +50,7 @@ export default {
           desc: 'subTitle222',
           productId: '002',
           productPrice: '14',
-          productImg: '/images/pic02.jpg',
+          productImg: '/images/goods/pic02.jpg',
           totalNum: '5'
         }
       ],
@@ -62,11 +62,11 @@ export default {
               desc: 'subTitle111',
               productId: '003',
               productPrice: '50',
-              productImg: '/images/pic03.jpg',
+              productImg: '/images/goods/pic03.jpg',
               totalNum: '5'
             }
           ],
-          image: '/images/pic01.jpg',
+          image: '/images/goods/pic01.jpg',
           title: '111'
         },
         {
@@ -76,11 +76,11 @@ export default {
               desc: 'subTitle222',
               productId: '004',
               productPrice: '50',
-              productImg: '/images/pic01.jpg',
+              productImg: '/images/goods/pic01.jpg',
               totalNum: '5'
             }
           ],
-          image: '/images/pic01.jpg',
+          image: '/images/goods/pic01.jpg',
           title: '222'
         }
       ],
@@ -100,10 +100,12 @@ export default {
     GoodsCard
   },
   created() {
+    console.log('login', this.$store.state.login)
+
     // 获取轮播图，热卖商品等列表
     // sessionStorage.removeItem('token')
     const token = sessionStorage.getItem('token')
-    console.log(token)
+    console.log('token', token)
   },
   methods: {}
 }
