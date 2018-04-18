@@ -6,7 +6,7 @@
         <el-button style="float: right;" plain size="small" type="primary" @click="handleAddAddress">添加</el-button>
       </div>
 
-      <el-table :data="addressList" style="width: 100%" :row-class-name="tableRowClassName" border>
+      <el-table v-loading="tableLoading" element-loading-text="拼命加载中" :data="addressList" style="width: 100%" :row-class-name="tableRowClassName" border>
         <el-table-column align="center" label="收货人姓名" width="170">
           <template slot-scope="scope">
             {{scope.row.name}}
@@ -79,6 +79,7 @@ export default {
         address: '',
         isDefault: false
       },
+      tableLoading: false,
       dialogVisible: false,
       addressList: [],
       rules: {
@@ -107,9 +108,11 @@ export default {
       await this.getaddressList()
     },
     async getaddressList() {
+      this.tableLoading = true
       const res = await fetchAddressList()
       if (res.data.status === '0') {
         this.addressList = res.data.list
+        this.tableLoading = false
       }
     },
     async handleSetDefault(id) {
@@ -119,9 +122,11 @@ export default {
       }
     },
     handleAddAddress() {
+      this.resetForm()
       this.dialogVisible = true
     },
     handleEdit(row) {
+      this.resetForm()
       this.form = { ...row }
       this.form.isDefault = row.isDefault === 1
       this.dialogVisible = true
@@ -151,7 +156,6 @@ export default {
     handleClose() {
       this.$refs.tempForm.resetFields()
       this.dialogVisible = false
-      this.resetForm()
     },
     handleDelete(id) {
       this.$confirm('确认删除该条收货地址吗', '提示', {
