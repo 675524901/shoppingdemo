@@ -123,6 +123,7 @@ export default {
     },
     handleEdit(row) {
       this.form = { ...row }
+      this.form.isDefault = row.isDefault === 1
       this.dialogVisible = true
     },
     async addAddress() {

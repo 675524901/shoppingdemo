@@ -129,6 +129,9 @@ export default {
     } else {
       state.userInfo = null
     }
+  },
+  SET_USERINFO(state, info) {
+    state.userInfo = info
   }
 
 }

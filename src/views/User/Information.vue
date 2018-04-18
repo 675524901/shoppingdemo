@@ -14,33 +14,43 @@
   </div>
 </template>
 <script>
-// import { uploadUserImg } from '@/api/user'
-import UShelf from '@/components/Shelf'
+import { mapMutations, mapState } from 'vuex'
+import { getUserInfo } from '@/api/login'
 export default {
   name: 'UserInformation',
-  components: {
-    UShelf
-  },
   data() {
-    return {
-      imageUrl: ''
-    }
+    return {}
   },
   computed: {
+    ...mapState(['userInfo']),
     headers() {
       const token = sessionStorage.getItem('token')
       const item = {}
       item.Authorization = 'Bearer ' + token
       return item
+    },
+    imageUrl() {
+      return this.userInfo.image
     }
   },
   methods: {
+    ...mapMutations(['SET_USERINFO']),
     myUpload(content) {
       console.log(content.action)
     },
-    handleAvatarSuccess(res, file) {},
+    async handleAvatarSuccess(res, file) {
+      if (res.status && res.status === '0') {
+        this.$message({
+          type: 'success',
+          message: '上传成功'
+        })
+        const res = await getUserInfo()
+        if (res.data.status === '0') {
+          this.SET_USERINFO(res.data.userInfo)
+        }
+      }
+    },
     async beforeAvatarUpload(file) {
-      console.log('file', file)
       const isPic = file.type === 'image/jpeg' || 'image/png'
       const isLt2M = file.size / 1024 / 1024 < 2
       if (!isPic) {

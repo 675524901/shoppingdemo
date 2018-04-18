@@ -1,5 +1,5 @@
 import axios from 'axios'
-import router from 'vue-router'
+import router from '../router'
 import { removeStore } from '@/utils/storage'
 // 创建axios实例
 const fetch = axios.create({
