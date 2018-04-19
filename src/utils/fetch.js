@@ -8,9 +8,9 @@ const fetch = axios.create({
 })
 
 // request拦截器
-fetch.interceptors.request.use(config => {
+fetch.interceptors.request.use(async config => {
   // 让每个请求携带token
-  const token = sessionStorage.getItem('token')
+  const token = await sessionStorage.getItem('token')
   config.headers.common['Authorization'] = 'Bearer ' + token
   return config
 }, error => {
@@ -22,12 +22,12 @@ fetch.interceptors.request.use(config => {
 // respone拦截器
 fetch.interceptors.response.use(
   response => response,
-  error => {
+  async error => {
     if (error.response) {
       switch (error.response.status) {
         case 401:
           // 返回 401 清除token信息并跳转到登录页面
-          sessionStorage.removeItem('token')
+          await sessionStorage.removeItem('token')
           removeStore('buyCart')
           router.push({
             path: '/login'

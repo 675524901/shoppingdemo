@@ -163,7 +163,7 @@ export default {
           }
           const res = await userLogin(data)
           if (res.data.status && res.data.status === '0') {
-            await sessionStorage.setItem('token', res.data.token) // 用sessionStorage把token存下来
+            sessionStorage.setItem('token', res.data.token) // 用sessionStorage把token存下来
             this.$message({
               showClose: true,
               message: '登陆成功',
