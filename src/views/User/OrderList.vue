@@ -4,24 +4,27 @@
       <div slot="header" class="header">
         <span>订单详情</span>
       </div>
-      <el-table :data="orderList" style="width: 100%">
+      <el-table v-loading="tableLoading" element-loading-text="拼命加载中" :data="orderList" style="width: 100%">
         <el-table-column type="expand">
           <template slot-scope="scope">
             <el-form label-position="left" inline class="demo-table-expand">
-              <div v-for="item in scope.row.goods" :key="item.goodsId">
-                <el-form-item label="商品名称">
-                  <span>{{ item.goodsName }}</span>
-                </el-form-item>
-                <el-form-item label="商品分类">
-                  <span>{{ item.goodsNum }}</span>
-                </el-form-item>
-              </div>
+              <el-form-item label="商品名称">
+                <span>{{ scope.row.goodsName }}</span>
+              </el-form-item>
+              <el-form-item label="商品数量">
+                <span>{{ scope.row.goodsNum }}</span>
+              </el-form-item>
+              <el-form-item label="商品数量">
+                <span>{{ scope.row.address }}</span>
+              </el-form-item>
             </el-form>
           </template>
         </el-table-column>
         <el-table-column label="订单号" prop="id">
         </el-table-column>
-        <el-table-column label="商品名称" prop="name">
+        <el-table-column label="订单日期" prop="date">
+        </el-table-column>
+        <el-table-column label="金额" prop="cost">
         </el-table-column>
         <el-table-column label="描述" prop="desc">
         </el-table-column>
@@ -30,26 +33,25 @@
   </div>
 </template>
 <script>
-import UShelf from '@/components/Shelf'
 export default {
   name: 'orderList',
-  components: {
-    UShelf
-  },
   data() {
     return {
+      tableLoading: false,
       orderList: [
         {
           id: '111',
-          desc: 'desc',
-          name: 'name',
-          goods: [
-            {
-              goodsId: '111',
-              goodsName: '玩具',
-              goodsNum: 3
-            }
-          ]
+          address: 'address',
+          cost: 12,
+          desc: '玩具*1',
+          date: '2017-8-12'
+        },
+        {
+          id: '222',
+          cost: 45,
+          desc: '食物*1',
+          address: 'address',
+          date: '2017-8-12'
         }
       ]
     }
