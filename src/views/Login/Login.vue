@@ -171,11 +171,9 @@ export default {
             })
             // 成功登陆后同步数据库购物车,删除本地购物车
             if (this.cart && this.cart.length) {
-              const add = await addSeveralCart(this.cart)
-              if (add.data.status === '0') {
-                localStorage.removeItem('buyCart')
-                this.$router.go(-1)
-              }
+              await addSeveralCart(this.cart)
+              localStorage.removeItem('buyCart')
+              this.$router.go(-1)
             } else {
               this.$router.go(-1)
             }

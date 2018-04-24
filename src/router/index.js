@@ -10,6 +10,8 @@ import UserIndex from '@/views/User/UserIndex'
 import AddressList from '@/views/User/AddressList'
 import Information from '@/views/User/Information'
 import OrderList from '@/views/User/OrderList'
+import PurchaseIndex from '@/views/Purchase/index'
+import Checkout from '@/views/Purchase/Checkout'
 
 Vue.use(Router)
 
@@ -42,6 +44,14 @@ export default new Router({
         { path: 'addressList', name: '收货地址', meta: { requireAuth: true }, component: AddressList },
         { path: 'information', name: '用户信息', meta: { requireAuth: true }, component: Information },
         { path: 'orderList', name: '订单管理', meta: { requireAuth: true }, component: OrderList }
+      ]
+    },
+    {
+      path: '/purchase',
+      name: 'Purchase',
+      component: PurchaseIndex,
+      children: [
+        { path: 'checkout', name: '确认订单', meta: { requireAuth: true }, component: Checkout }
       ]
     }
   ]

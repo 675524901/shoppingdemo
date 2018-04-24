@@ -24,7 +24,7 @@ Vue.use(VueLazyload, {
 router.beforeEach(async (to, from, next) => {
   const token = sessionStorage.getItem('token')
   // 已经登陆
-  if (token !== '' && token !== null) {
+  if (token && token !== '' && token !== null) {
     const res = await getUserInfo()
     if (res.data.status === '0') {
       store.state.userInfo = res.data.userInfo

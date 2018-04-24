@@ -3,10 +3,10 @@
     <el-card class="card-container">
       <div slot="header" class="header clearfix">
         <span>收货地址</span>
-        <el-button style="float: right;" plain size="small" type="primary" @click="handleAddAddress">添加</el-button>
+        <el-button v-on:click="handleAddAddress" style="float: right;" plain size="small" type="primary">添加</el-button>
       </div>
 
-      <el-table v-loading="tableLoading" element-loading-text="拼命加载中" :data="addressList" style="width: 100%" :row-class-name="tableRowClassName" border>
+      <el-table v-loading="tableLoading" element-loading-text="拼命加载中" v-bind:data="addressList" style="width: 100%" :row-class-name="tableRowClassName" border>
         <el-table-column align="center" label="收货人姓名" width="170">
           <template slot-scope="scope">
             {{scope.row.name}}
@@ -132,26 +132,34 @@ export default {
       this.dialogVisible = true
     },
     async addAddress() {
-      const res = await createAddress(this.form)
-      if (res.data.status === '0') {
-        this.$message({
-          type: 'success',
-          message: '添加成功'
-        })
-        this.dialogVisible = false
-        this.getaddressList()
-      }
+      this.$refs.tempForm.validate(async valid => {
+        if (valid) {
+          const res = await createAddress(this.form)
+          if (res.data.status === '0') {
+            this.$message({
+              type: 'success',
+              message: '添加成功'
+            })
+            this.dialogVisible = false
+            this.getaddressList()
+          }
+        }
+      })
     },
     async updateAdd() {
-      const res = await updateAddress(this.form)
-      if (res.data.status === '0') {
-        this.$message({
-          type: 'success',
-          message: '添加成功'
-        })
-        this.dialogVisible = false
-        this.getaddressList()
-      }
+      this.$refs.tempForm.validate(async valid => {
+        if (valid) {
+          const res = await updateAddress(this.form)
+          if (res.data.status === '0') {
+            this.$message({
+              type: 'success',
+              message: '添加成功'
+            })
+            this.dialogVisible = false
+            this.getaddressList()
+          }
+        }
+      })
     },
     handleClose() {
       this.$refs.tempForm.resetFields()
@@ -202,6 +210,9 @@ export default {
 <style lang="scss">
 .address-list {
   min-height: 600px;
+  .el-dialog {
+    border-radius: 8px;
+  }
   .card-container {
     border-radius: 9px;
     .header {
