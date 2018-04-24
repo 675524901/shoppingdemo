@@ -163,7 +163,7 @@ export default {
           }
           const res = await userLogin(data)
           if (res.data.status && res.data.status === '0') {
-            await sessionStorage.setItem('token', res.data.token) // 用sessionStorage把token存下来
+            sessionStorage.setItem('token', res.data.token) // 用sessionStorage把token存下来
             this.$message({
               showClose: true,
               message: '登陆成功',
@@ -171,11 +171,9 @@ export default {
             })
             // 成功登陆后同步数据库购物车,删除本地购物车
             if (this.cart && this.cart.length) {
-              const add = await addSeveralCart(this.cart)
-              if (add.data.status === '0') {
-                localStorage.removeItem('buyCart')
-                this.$router.go(-1)
-              }
+              await addSeveralCart(this.cart)
+              localStorage.removeItem('buyCart')
+              this.$router.go(-1)
             } else {
               this.$router.go(-1)
             }

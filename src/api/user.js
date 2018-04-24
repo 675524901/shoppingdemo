@@ -51,3 +51,11 @@ export function uploadUserImg(data) {
     data
   })
 }
+
+// 用户获取订单列表
+export function fetchOrderList() {
+  return fetch({
+    url: 'nodeapi/order/fetchOrderList',
+    method: 'get'
+  })
+}
