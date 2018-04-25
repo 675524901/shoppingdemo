@@ -13,6 +13,7 @@ import OrderList from '@/views/User/OrderList'
 import PurchaseIndex from '@/views/Purchase/Index'
 import Checkout from '@/views/Purchase/Checkout'
 import Payment from '@/views/Purchase/Payment'
+import Result from '@/views/Purchase/PaymentResult'
 
 Vue.use(Router)
 
@@ -53,7 +54,8 @@ export default new Router({
       component: PurchaseIndex,
       children: [
         { path: 'checkout', name: '确认订单', meta: { requireAuth: true }, component: Checkout },
-        { path: 'payment', name: '支付订单', meta: { requireAuth: true }, component: Payment }
+        { path: 'payment', name: '支付订单', meta: { requireAuth: true }, component: Payment },
+        { path: 'result', name: '支付结果', meta: { requireAuth: true }, component: Result }
       ]
     }
   ]

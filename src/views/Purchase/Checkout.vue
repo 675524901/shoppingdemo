@@ -19,7 +19,7 @@
           </el-col>
           <el-col :span="6">
             <li class="card-item-add" @click="handleCreateAddress">
-              <i class="el-icon-circle-plus"></i>
+              <img src="/static/images/logo-dog.png" style="width:30px;height:30px;" alt="">
               <p>添加收获地址</p>
             </li>
           </el-col>
@@ -85,7 +85,7 @@
                   </h4>
                 </div>
               </div>
-              <el-button @click="handlePayment" size="large" type="primary">提交订单</el-button>
+              <el-button @click="handleToPayment" size="large" type="primary">提交订单</el-button>
             </div>
           </div>
         </div>
@@ -258,7 +258,12 @@ export default {
         }
       })
     },
-    handlePayment() {},
+    handleToPayment() {
+      this.$router.push({
+        path: '/purchase/payment',
+        query: { addressId: this.selectedId }
+      })
+    },
     handleSelect(id) {
       this.selectedId = id
     },
