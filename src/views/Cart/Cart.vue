@@ -56,7 +56,7 @@
                         <number-select :num="parseInt(item.productNum)" :id="item.productId" :checked="item.checked" :cartId="item.cartId" style="height: 140px;
                                    display: flex;
                                    align-items: center;
-                                   justify-content: center;" :limit="parseInt(5)" @edit-num="handleEditNum">
+                                   justify-content: center;" :limit="parseInt(21)" @edit-num="handleEditNum">
                         </number-select>
                         <!--单价-->
                         <div class="price1">¥ {{item.productPrice}}</div>
@@ -92,7 +92,7 @@
                     <h5 class="shipping-tips ng-scope">已包含所需运费</h5>
                   </div>
                 </div>
-                <el-button :disabled="checkNum>0?false:true" @click="checkout" type="primary" plain>去结算</el-button>
+                <el-button :disabled="checkNum>0?false:true" @click="handleCheckout" type="primary" plain>去结算</el-button>
               </div>
             </div>
           </div>
@@ -122,7 +122,12 @@ import CHeader from '@/components/Header'
 import CFooter from '@/components/Footer'
 import NumberSelect from '@/components/NumberSelect'
 import { mapState } from 'vuex'
-import { deleteCart, editCart, editSelectAll } from '@/api/cart'
+import {
+  deleteCart,
+  editCart,
+  editSelectAll,
+  checkoutCartNum
+} from '@/api/cart'
 export default {
   name: 'ShoppingCart',
   components: {
@@ -241,7 +246,17 @@ export default {
         this.$store.commit('EDIT_CART', { productId })
       }
     },
-    checkout() {}
+    async handleCheckout() {
+      const res = await checkoutCartNum()
+      if (res.data.status && res.data.status === '0') {
+        this.$router.push('/purchase/checkout')
+      } else {
+        this.$message({
+          type: 'error',
+          message: `库存不足：${res.data.errorMsg}`
+        })
+      }
+    }
   }
 }
 </script>

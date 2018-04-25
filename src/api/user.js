@@ -2,7 +2,7 @@ import fetch from '../utils/fetch'
 // 获取收获地址列表
 export function fetchAddressList() {
   return fetch({
-    url: 'nodeapi/address/fetchAddressList',
+    url: '/nodeapi/address/fetchAddressList',
     method: 'get'
   })
 }
@@ -10,7 +10,7 @@ export function fetchAddressList() {
 // 删除某一条收获地址
 export function deleteAddress(data) {
   return fetch({
-    url: 'nodeapi/address/deleteAddress',
+    url: '/nodeapi/address/deleteAddress',
     method: 'get',
     params: data
   })
@@ -19,7 +19,7 @@ export function deleteAddress(data) {
 // 添加收获地址
 export function createAddress(data) {
   return fetch({
-    url: 'nodeapi/address/createAddress',
+    url: '/nodeapi/address/createAddress',
     method: 'post',
     data
   })
@@ -28,7 +28,7 @@ export function createAddress(data) {
 // 设为默认地址
 export function setDefaultAddress(data) {
   return fetch({
-    url: 'nodeapi/address/setDefaultAddress',
+    url: '/nodeapi/address/setDefaultAddress',
     method: 'get',
     params: data
   })
@@ -37,16 +37,25 @@ export function setDefaultAddress(data) {
 // 更新收货地址
 export function updateAddress(data) {
   return fetch({
-    url: 'nodeapi/address/updateAddress',
+    url: '/nodeapi/address/updateAddress',
     method: 'post',
     data
+  })
+}
+
+// 根据id获取详细收获地址
+export function fetchAddressDetail(data) {
+  return fetch({
+    url: '/nodeapi/address/fetchAddressDetail',
+    method: 'get',
+    params: data
   })
 }
 
 // 上传用户图片
 export function uploadUserImg(data) {
   return fetch({
-    url: 'nodeapi/users/uploadUserImg',
+    url: '/nodeapi/users/uploadUserImg',
     methods: 'post',
     data
   })
@@ -55,7 +64,7 @@ export function uploadUserImg(data) {
 // 用户获取订单列表
 export function fetchOrderList() {
   return fetch({
-    url: 'nodeapi/order/fetchOrderList',
+    url: '/nodeapi/order/fetchOrderList',
     method: 'get'
   })
 }

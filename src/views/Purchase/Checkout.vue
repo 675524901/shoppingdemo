@@ -19,14 +19,14 @@
           </el-col>
           <el-col :span="6">
             <li class="card-item-add" @click="handleCreateAddress">
-              <i class="el-icon-circle-plus"></i>
+              <img src="/static/images/logo-dog.png" style="width:30px;height:30px;" alt="">
               <p>添加收获地址</p>
             </li>
           </el-col>
         </el-row>
       </div>
     </el-card>
-    <el-card class="w clearfix card-container">
+    <el-card class="w clearfix card-container goods-list">
       <div slot="header" style="font-size:21px;">
         <span>订单详情</span>
       </div>
@@ -40,7 +40,7 @@
             <span class="price">单价</span>
           </div>
           <!--列表-->
-          <div class="cart-table" v-for="(item,i) in cartList" :key="i" v-if="item.checked === '1'">
+          <div class="cart-table" v-for="(item,i) in cartList" :key="i" v-if="item.checked">
             <div class="cart-group divide pr" :data-productid="item.productId">
               <div class="cart-top-items">
                 <div class="cart-items clearfix">
@@ -64,9 +64,7 @@
                     <div class="subtotal" style="font-size: 14px">¥ {{item.productPrice * item.productNum}}</div>
                     <!--数量-->
                     <div class="item-cols-num">
-                      <div class="select">
-                        <span v-text="item.productNum"></span>
-                      </div>
+                      <span v-text="item.productNum"></span>
                     </div>
                     <!--价格-->
                     <div class="price">¥ {{item.productPrice}}</div>
@@ -76,22 +74,21 @@
             </div>
           </div>
         </div>
-        <!-- 合计 -->
-        <!-- <div class="cart-bottom-bg fix-bottom">
+        <!-- 总价 -->
+        <div class="cart-bottom-bg fix-bottom">
           <div class="fix-bottom-inner">
             <div class="shipping">
               <div class="shipping-box" style="padding: 0 40px;">
                 <div class="shipping-total shipping-price">
                   <h4 class="highlight">应付总额：
-                    <em>￥{{checkPrice}}</em>
+                    <em>￥{{totalPrice}}</em>
                   </h4>
                 </div>
               </div>
-              <y-button class="big-main-btn" classStyle="main-btn" style="margin: 0;width: 130px;height: 50px;line-height: 50px;font-size: 16px" text="提交订单" @btnClick="payment">
-              </y-button>
+              <el-button @click="handleToPayment" size="large" type="primary">提交订单</el-button>
             </div>
           </div>
-        </div> -->
+        </div>
       </div>
     </el-card>
     <el-dialog title="收获地址管理" :visible.sync="dialogVisible" :before-close="handleClose" width="700px">
@@ -159,6 +156,17 @@ export default {
   },
   created() {
     this.init()
+  },
+  computed: {
+    totalPrice() {
+      let totalPrice = 0
+      this.cartList.forEach(item => {
+        if (item.checked) {
+          totalPrice += item.productNum * item.productPrice
+        }
+      })
+      return totalPrice
+    }
   },
   methods: {
     async init() {
@@ -250,6 +258,12 @@ export default {
         }
       })
     },
+    handleToPayment() {
+      this.$router.push({
+        path: '/purchase/payment',
+        query: { addressId: this.selectedId }
+      })
+    },
     handleSelect(id) {
       this.selectedId = id
     },
@@ -272,6 +286,11 @@ export default {
 .checkout-container {
   .el-dialog {
     border-radius: 8px;
+  }
+  .goods-list {
+    .el-card__body {
+      padding: 0;
+    }
   }
   .card-container {
     .el-card__body {

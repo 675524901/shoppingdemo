@@ -110,28 +110,13 @@ export default {
     // 存入localStorage
     setStore('buyCart', state.cartList)
   },
-  // 记录用户信息
-  RECORD_USERINFO(state, info) {
-    state.userInfo = info
-    state.login = true
-    setStore('userInfo', info)
-  },
-  // 获取用户信息
-  GET_USERINFO(state, info) {
-    if (state.userInfo && (state.userInfo.username !== info.username)) {
-      return
-    }
-    if (!state.login) {
-      return
-    }
-    if (!info.message) {
-      state.userInfo = { ...info }
-    } else {
-      state.userInfo = null
-    }
-  },
+  // 设置用户信息
   SET_USERINFO(state, info) {
-    state.userInfo = info
+    state.userInfo = { ...info }
+  },
+  INIT_LOGIN(state) {
+    state.login = false
+    state.userInfo = []
+    state.cartList = []
   }
-
 }

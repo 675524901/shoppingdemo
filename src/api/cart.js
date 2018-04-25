@@ -52,3 +52,12 @@ export function editSelectAll(data) {
     params: data
   })
 }
+
+// 核对购物车数量与库存数量
+export function checkoutCartNum() {
+  return fetch({
+    url: '/nodeapi/cart/checkoutCartNum',
+    method: 'get'
+  })
+}
+
