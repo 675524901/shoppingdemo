@@ -43,6 +43,14 @@ export default {
       }
     }
   },
+  watch: {
+    $route() {
+      this.busy = false
+      this.listQuery.pageNum = 1
+      this.listQuery.type = this.$route.query.type
+      this.getGoodsList()
+    }
+  },
   created() {
     this.init()
   },

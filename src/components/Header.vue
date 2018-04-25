@@ -213,9 +213,14 @@ export default {
       }
     },
     async loginOut() {
+      this.$store.commit('INIT_LOGIN')
       await sessionStorage.removeItem('token')
-      removeStore('buyCart')
-      this.$router.push({ path: '/login' })
+      await removeStore('buyCart')
+      if (this.$route.path === '/home') {
+        this.$router.go(0)
+      } else {
+        this.$router.push({ path: '/' })
+      }
     },
     // 控制购物车显示
     cartShowState(state) {
