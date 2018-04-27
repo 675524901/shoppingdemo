@@ -5,13 +5,12 @@
         <span>支付订单</span>
       </div>
       <div class="card-content">
-        <!-- <div class="box-inner order-info">
-          <h3>提交订单成功</h3>
+        <div class="box-inner order-info">
           <p class="payment-detail">请在
             <span>24 小时内</span>完成支付，超时订单将自动取消。</p>
           <p class="payment-detail">我们将在您完成支付后的 72 小时内发货</p>
-        </div> -->
-        <el-table :data="orderList" style="width:100%;margin-top:40px;">
+        </div>
+        <el-table :data="productsList" style="width:100%;margin-top:40px;">
           <el-table-column prop="productName" label="商品名称" align="center"></el-table-column>
           <el-table-column prop="productPrice" label="单价" align="center"></el-table-column>
           <el-table-column prop="productNum" label="数量" align="center"></el-table-column>
@@ -21,15 +20,15 @@
             </template>
           </el-table-column>
         </el-table>
-        <el-form style="margin:40px auto;width:1000px;" :model="addressDetail">
+        <el-form style="margin:40px auto;width:1000px;" :model="orderDetail">
           <el-form-item label="收货人">
-            {{addressDetail.name}}
+            {{orderDetail.name}}
           </el-form-item>
           <el-form-item label="手机号">
-            {{addressDetail.phone}}
+            {{orderDetail.phone}}
           </el-form-item>
           <el-form-item label="收货地址">
-            {{addressDetail.address}}
+            {{orderDetail.address}}
           </el-form-item>
         </el-form>
         <!--支付方式-->
@@ -59,47 +58,47 @@
   </div>
 </template>
 <script>
-import { mapState } from 'vuex'
-import { fetchAddressDetail } from '@/api/user'
+import { fetchOrderDetail, fetchOrderProducts } from '@/api/user'
 export default {
   name: 'Payment',
   data() {
     return {
-      orderList: [],
+      productsList: [],
       payType: '1',
-      addressDetail: {}
+      orderDetail: {}
     }
   },
   created() {
     this.init()
   },
   computed: {
-    ...mapState(['cartList']),
     totalPrice() {
       let totalPrice = 0
-      this.cartList.forEach(item => {
-        if (item.checked) {
-          totalPrice += item.productNum * item.productPrice
-        }
+      this.productsList.forEach(item => {
+        totalPrice += item.productNum * item.productPrice
       })
       return totalPrice
     }
   },
   methods: {
     async init() {
-      await this.getAddressDetail()
-      this.cartList.forEach(item => {
-        if (item.checked) {
-          this.orderList.push(item)
-        }
-      })
+      if (this.$route.query.orderId) {
+        await this.getOrderDetail()
+        await this.getOrderProducts()
+      }
     },
-    async getAddressDetail() {
-      const data = { addressId: this.$route.query.addressId }
-      const res = await fetchAddressDetail(data)
+    async getOrderDetail() {
+      const data = { orderId: this.$route.query.orderId }
+      const res = await fetchOrderDetail(data)
       if (res.data.status && res.data.status === '0') {
-        this.addressDetail = res.data.detail
-        console.log(this.addressDetail)
+        this.orderDetail = res.data.detail
+      }
+    },
+    async getOrderProducts() {
+      const data = { orderId: this.$route.query.orderId }
+      const res = await fetchOrderProducts(data)
+      if (res.data.status && res.data.status === '0') {
+        this.productsList = res.data.list
       }
     },
     handlePay() {},

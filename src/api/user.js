@@ -68,3 +68,31 @@ export function fetchOrderList() {
     method: 'get'
   })
 }
+
+// 创建订单
+export function createOrder(data) {
+  return fetch({
+    url: '/nodeapi/order/createOrder',
+    method: 'post',
+    data
+  })
+}
+
+// 获取订单表详情
+export function fetchOrderDetail(data) {
+  return fetch({
+    url: '/nodeapi/order/fetchOrderDetail',
+    method: 'get',
+    params: data
+  })
+}
+
+// 获取订单商品表列
+export function fetchOrderProducts(data) {
+  return fetch({
+    url: '/nodeapi/order/fetchOrderProducts',
+    method: 'get',
+    params: data
+  })
+}
+

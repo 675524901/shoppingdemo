@@ -20,32 +20,68 @@
             </el-form>
           </template>
         </el-table-column>
-        <el-table-column label="订单号" prop="orderId">
+        <el-table-column label="订单号">
+          <template slot-scope="scope">
+            <el-button type="text" @click="handleViewProducts(scope.row.orderId)">{{scope.row.orderId}}</el-button>
+          </template>
         </el-table-column>
-        <el-table-column label="订单日期" prop="date">
+        <el-table-column label="订单日期">
+          <template slot-scope="scope">
+            {{scope.row.createDate|timeFilter}}
+          </template>
         </el-table-column>
         <el-table-column label="金额" prop="payment">
         </el-table-column>
-        <el-table-column label="商品名称" prop="goodsName">
-        </el-table-column>
-        <el-table-column label="数量" prop="goodsNum">
+        <el-table-column label="订单状态">
+          <template slot-scope="scope">
+            <el-tag :type="handleTagType(scope.row.state)">{{scope.row.state|stateFilter}}</el-tag>
+          </template>
         </el-table-column>
       </el-table>
     </el-card>
+    <el-dialog title="商品清单" :visible.sync="dialogVisible" :before-close="handleClose" width="700px">
+      <div class="margin-left:80px;">
+        <el-row v-for="item in productsList" :key="item.id">
+          <el-col>商品名称：{{item.productName}}</el-col>
+        </el-row>
+      </div>
+    </el-dialog>
   </div>
 </template>
 <script>
-import { fetchOrderList } from '@/api/user'
+const stateList = [
+  { id: '0', value: '未支付' },
+  { id: '1', value: '已支付' },
+  { id: '2', value: '已失效' }
+]
+const tagTypes = [
+  { id: '0', value: 'danger' },
+  { id: '1', value: '' },
+  { id: '2', value: 'info' }
+]
+import { fetchOrderList, fetchOrderProducts } from '@/api/user'
+import { parseTime } from '@/utils/index'
 export default {
   name: 'orderList',
   data() {
     return {
+      productsList: [],
+      dialogVisible: false,
       tableLoading: false,
       orderList: []
     }
   },
   created() {
     this.init()
+  },
+  filters: {
+    timeFilter(time) {
+      return parseTime(time, '{y}-{m}-{d}')
+    },
+    stateFilter(state) {
+      const temp = stateList.find(item => item.id === state)
+      return temp ? temp.value : ''
+    }
   },
   methods: {
     async init() {
@@ -56,6 +92,21 @@ export default {
       if (res.data.status && res.data.status === '0') {
         this.orderList = res.data.list
       }
+    },
+    async handleViewProducts(id) {
+      const res = await fetchOrderProducts({ orderId: id })
+      if (res.data.status && res.data.status === '0') {
+        this.productsList = res.data.list
+        this.dialogVisible = true
+      }
+    },
+    handleTagType(state) {
+      const result = tagTypes.find(item => item.id === state)
+      return result ? result.value : ''
+    },
+    handleClose() {
+      this.dialogVisible = false
+      this.productsList = []
     }
   }
 }
