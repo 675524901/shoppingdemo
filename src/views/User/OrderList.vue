@@ -8,13 +8,13 @@
         <el-table-column type="expand">
           <template slot-scope="scope">
             <el-form label-position="left" inline class="demo-table-expand">
-              <el-form-item label="收获人">
+              <el-form-item label="收货人">
                 <span>{{ scope.row.name }}</span>
               </el-form-item>
               <el-form-item label="收货人手机号">
                 <span>{{ scope.row.phone }}</span>
               </el-form-item>
-              <el-form-item label="收获地址">
+              <el-form-item label="收货地址">
                 <span>{{ scope.row.address }}</span>
               </el-form-item>
             </el-form>
