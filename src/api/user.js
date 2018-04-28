@@ -96,3 +96,12 @@ export function fetchOrderProducts(data) {
   })
 }
 
+// 支付成功
+export function paymentSuccess(data) {
+  return fetch({
+    url: '/nodeapi/order/paymentSuccess',
+    method: 'get',
+    params: data
+  })
+}
+

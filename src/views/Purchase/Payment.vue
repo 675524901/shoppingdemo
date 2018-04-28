@@ -48,7 +48,7 @@
               </span>
               <em>
                 <span>¥</span>{{totalPrice}}</em>
-              <el-button text="立刻支付" classStyle="main-btn" type="primary" @btnClick="handlePay()">立即支付</el-button>
+              <el-button :loading="buttonLoading" classStyle="main-btn" type="primary" @click="handlePay()">立即支付</el-button>
             </div>
           </div>
         </div>
@@ -58,11 +58,16 @@
   </div>
 </template>
 <script>
-import { fetchOrderDetail, fetchOrderProducts } from '@/api/user'
+import {
+  fetchOrderDetail,
+  fetchOrderProducts,
+  paymentSuccess
+} from '@/api/user'
 export default {
   name: 'Payment',
   data() {
     return {
+      buttonLoading: false,
       productsList: [],
       payType: '1',
       orderDetail: {}
@@ -101,7 +106,26 @@ export default {
         this.productsList = res.data.list
       }
     },
-    handlePay() {},
+    async handlePay() {
+      if (this.$route.query.orderId) {
+        this.buttonLoading = true
+        const res = await paymentSuccess({
+          orderId: this.$route.query.orderId
+        })
+        if (res.data.status && res.data.status === '0') {
+          this.$router.push({
+            path: '/purchase/result',
+            query: { payment: this.totalPrice }
+          })
+        } else {
+          this.$message({
+            type: 'error',
+            message: '支付失败！'
+          })
+        }
+        this.buttonLoading = false
+      }
+    },
     handleSelect(data) {
       this.payType = data
     }

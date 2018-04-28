@@ -20,30 +20,38 @@
             </el-form>
           </template>
         </el-table-column>
-        <el-table-column label="订单号">
+        <el-table-column label="订单号" align="center">
           <template slot-scope="scope">
             <el-button type="text" @click="handleViewProducts(scope.row.orderId)">{{scope.row.orderId}}</el-button>
           </template>
         </el-table-column>
-        <el-table-column label="订单日期">
+        <el-table-column label="订单日期" align="center">
           <template slot-scope="scope">
             {{scope.row.createDate|timeFilter}}
           </template>
         </el-table-column>
-        <el-table-column label="金额" prop="payment">
+        <el-table-column label="金额" prop="payment" align="center">
         </el-table-column>
-        <el-table-column label="订单状态">
+        <el-table-column label="订单状态" align="center">
           <template slot-scope="scope">
             <el-tag :type="handleTagType(scope.row.state)">{{scope.row.state|stateFilter}}</el-tag>
+          </template>
+        </el-table-column>
+        <el-table-column label="操作" align="center">
+          <template slot-scope="scope">
+            <el-button v-if="scope.row.state==='0'" type="text" @click="handleToPay(scope.row.orderId)">去支付</el-button>
+            <el-button type="text" @click="handleViewProducts(scope.row.orderId)">查看</el-button>
           </template>
         </el-table-column>
       </el-table>
     </el-card>
     <el-dialog title="商品清单" :visible.sync="dialogVisible" :before-close="handleClose" width="700px">
-      <div class="margin-left:80px;">
-        <el-row v-for="item in productsList" :key="item.id">
-          <el-col>商品名称：{{item.productName}}</el-col>
-        </el-row>
+      <el-table :data="productsList" style="height:400px;">
+        <el-table-column align="center" label="商品名称" prop="productName"></el-table-column>
+        <el-table-column align="center" label="商品数量" prop="productNum"></el-table-column>
+      </el-table>
+      <div slot="footer">
+        <el-button @click="handleClose">关闭</el-button>
       </div>
     </el-dialog>
   </div>
@@ -93,8 +101,8 @@ export default {
         this.orderList = res.data.list
       }
     },
-    async handleViewProducts(id) {
-      const res = await fetchOrderProducts({ orderId: id })
+    async handleViewProducts(orderId) {
+      const res = await fetchOrderProducts({ orderId: orderId })
       if (res.data.status && res.data.status === '0') {
         this.productsList = res.data.list
         this.dialogVisible = true
@@ -103,6 +111,12 @@ export default {
     handleTagType(state) {
       const result = tagTypes.find(item => item.id === state)
       return result ? result.value : ''
+    },
+    handleToPay(orderId) {
+      this.$router.push({
+        path: '/purchase/payment',
+        query: { orderId: orderId }
+      })
     },
     handleClose() {
       this.dialogVisible = false
