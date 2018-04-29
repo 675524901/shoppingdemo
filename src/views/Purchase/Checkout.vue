@@ -7,7 +7,7 @@
       <div class="address-container">
         <el-row :gutter="8">
           <el-col v-for="item in addressList" :key="item.id" :span="6">
-            <li @click="handleSelect(item.addressId)" class="card-item" :class="{'card-item-default':item.addressId===selectedId}">
+            <li @click="handleSelect(item)" class="card-item" :class="{'card-item-default':item.addressId===selectedAddress.addressId}">
               <div slot="header" class="item-header">
                 <i size="small" @click="handleDeleteAddress(item.addressId)" class="el-icon-delete" style="float:right;width:30px;"></i>
                 <i size="small" @click="handleEditAddress(item)" class="el-icon-edit" style="float:right;width:30px;"></i>
@@ -40,7 +40,7 @@
             <span class="price">单价</span>
           </div>
           <!--列表-->
-          <div class="cart-table" v-for="(item,i) in cartList" :key="i" v-if="item.checked">
+          <div class="cart-table" v-for="item in orderList" :key="item.cartId">
             <div class="cart-group divide pr" :data-productid="item.productId">
               <div class="cart-top-items">
                 <div class="cart-items clearfix">
@@ -85,7 +85,7 @@
                   </h4>
                 </div>
               </div>
-              <el-button @click="handleToPayment" size="large" type="primary">提交订单</el-button>
+              <el-button :loading="buttonLoading" @click="handleToPayment" size="large" type="primary">提交订单</el-button>
             </div>
           </div>
         </div>
@@ -120,14 +120,16 @@ import {
   fetchAddressList,
   updateAddress,
   createAddress,
-  deleteAddress
+  deleteAddress,
+  createOrder
 } from '@/api/user'
 export default {
   name: 'Checkout',
   data() {
     return {
-      cartList: [],
-      selectedId: '',
+      buttonLoading: false,
+      orderList: [],
+      selectedAddress: {},
       form: {
         name: '',
         phone: '',
@@ -160,7 +162,7 @@ export default {
   computed: {
     totalPrice() {
       let totalPrice = 0
-      this.cartList.forEach(item => {
+      this.orderList.forEach(item => {
         if (item.checked) {
           totalPrice += item.productNum * item.productPrice
         }
@@ -171,14 +173,22 @@ export default {
   methods: {
     async init() {
       await this.getAddressList()
-      this.cartList = this.$store.state.cartList
+      this.handleOrderList()
+    },
+    handleOrderList() {
+      const cartList = this.$store.state.cartList
+      cartList.forEach(item => {
+        if (item.checked) {
+          this.orderList.push(item)
+        }
+      })
     },
     async getAddressList() {
       const res = await fetchAddressList()
       if (res.data.status && res.data.status === '0') {
         this.addressList = res.data.list
         this.addressList.forEach(item => {
-          if (item.isDefault === 1) this.selectedId = item.addressId
+          if (item.isDefault === 1) this.selectedAddress = { ...item }
         })
       }
     },
@@ -258,14 +268,41 @@ export default {
         }
       })
     },
-    handleToPayment() {
-      this.$router.push({
-        path: '/purchase/payment',
-        query: { addressId: this.selectedId }
+    async handleToPayment() {
+      this.buttonLoading = true
+      const list = []
+      this.orderList.forEach(item => {
+        const temp = {
+          productId: item.productId,
+          productName: item.productName,
+          productPrice: item.productPrice,
+          productNum: item.productNum,
+          productImg: item.productImg
+        }
+        list.push(temp)
       })
+      const { name, address, phone } = this.selectedAddress
+      const data = {
+        order: {
+          payment: this.totalPrice,
+          name: name,
+          address: address,
+          phone: phone
+        },
+        products: list
+      }
+      const res = await createOrder(data)
+      if (res.data.status && res.data.status === '0') {
+        this.$router.push({
+          path: '/purchase/payment',
+          query: { orderId: res.data.orderId }
+        })
+      } else {
+        this.buttonLoading = false
+      }
     },
-    handleSelect(id) {
-      this.selectedId = id
+    handleSelect(item) {
+      this.selectedAddress = { ...item }
     },
     handleClose() {
       this.$refs.tempForm.resetFields()
