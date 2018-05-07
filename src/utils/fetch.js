@@ -1,6 +1,6 @@
 import axios from 'axios'
-import router from '../router'
-import { removeStore } from '@/utils/storage'
+import { Message } from 'element-ui'
+import store from '../store'
 // 创建axios实例
 const fetch = axios.create({
   baseURL: process.env.BASE_API, // api的base_url
@@ -11,7 +11,9 @@ const fetch = axios.create({
 fetch.interceptors.request.use(async config => {
   // 让每个请求携带token
   const token = await sessionStorage.getItem('token')
-  config.headers.common['Authorization'] = 'Bearer ' + token
+  if (token) {
+    config.headers.common['Authorization'] = 'Bearer ' + token
+  }
   return config
 }, error => {
   // Do something with request error
@@ -21,20 +23,29 @@ fetch.interceptors.request.use(async config => {
 
 // respone拦截器
 fetch.interceptors.response.use(
-  response => response,
+  response => {
+    const res = response.data
+    if (res.code === 401) {
+      store.dispatch('FedLogOut').then(() => {
+        location.reload() // 为了重新实例化vue-router对象 避免bug
+      })
+    } else if (res.code === 500) {
+      Message({
+        message: res.msg,
+        type: 'error',
+        duration: 5 * 1000
+      })
+    } else return response
+  },
   async error => {
     if (error.response) {
       switch (error.response.status) {
         case 401:
-          // 返回 401 清除token信息并跳转到登录页面
-          await sessionStorage.removeItem('token')
-          removeStore('buyCart')
-          router.push({
-            path: '/login'
+          store.dispatch('FedLogOut').then(() => {
+            location.reload() // 为了重新实例化vue-router对象 避免bug
           })
       }
     }
-
     return Promise.reject(error)
   })
 
