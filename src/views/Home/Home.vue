@@ -101,7 +101,6 @@ export default {
   },
   created() {
     // 获取轮播图，热卖商品等列表
-    // sessionStorage.removeItem('token')
   },
   methods: {}
 }

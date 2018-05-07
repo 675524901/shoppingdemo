@@ -1,18 +1,18 @@
 import axios from 'axios'
 import { Message } from 'element-ui'
 import store from '../store'
+import { getToken } from '@/utils/session'
 // 创建axios实例
 const fetch = axios.create({
   baseURL: process.env.BASE_API, // api的base_url
-  timeout: 5000 // 请求超时时间
+  timeout: 15000 // 请求超时时间
 })
 
 // request拦截器
 fetch.interceptors.request.use(async config => {
   // 让每个请求携带token
-  const token = await sessionStorage.getItem('token')
-  if (token) {
-    config.headers.common['Authorization'] = 'Bearer ' + token
+  if (getToken()) {
+    config.headers.common['Authorization'] = 'Bearer ' + getToken()
   }
   return config
 }, error => {
