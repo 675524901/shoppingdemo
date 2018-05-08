@@ -298,6 +298,10 @@ export default {
           query: { orderId: res.data.orderId }
         })
       } else {
+        this.$message({
+          type: 'error',
+          message: '支付失败！'
+        })
         this.buttonLoading = false
       }
     },

@@ -3,7 +3,8 @@
     <!--轮播图片-->
     <div class="w mt30 clearfix">
       <el-carousel height="400px">
-        <el-carousel-item v-for="item in 4" :key="item">
+        <el-carousel-item v-for="item in carousels" :key="item.id">
+          <img style="width:100%;height:100%;" :src="item.url" alt="">
         </el-carousel-item>
       </el-carousel>
     </div>
@@ -32,10 +33,12 @@
 <script>
 import HShelf from '@/components/Shelf'
 import GoodsCard from '@/components/GoodsCard'
+import { fetchSettings } from '@/api/home'
 export default {
   name: 'HomePage',
   data() {
     return {
+      carousels: [],
       hotGoods: [
         {
           productName: '音响',
@@ -100,9 +103,24 @@ export default {
     GoodsCard
   },
   created() {
-    // 获取轮播图，热卖商品等列表
+    this.init()
   },
-  methods: {}
+  methods: {
+    async init() {
+      await this.getCarousels()
+    },
+    async getCarousels() {
+      const res = await fetchSettings({ type: 'carousel' })
+      if (res.data.status && res.data.status === '0') {
+        this.carousels = res.data.list.map(item => {
+          return {
+            id: item.id,
+            url: item.carousel
+          }
+        })
+      }
+    }
+  }
 }
 </script>
 <style lang="scss" scoped>
