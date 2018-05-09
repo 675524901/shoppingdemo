@@ -39,24 +39,7 @@ export default {
   data() {
     return {
       carousels: [],
-      hotGoods: [
-        {
-          productName: '音响',
-          desc: 'subTitle111',
-          productId: '001',
-          productPrice: '12',
-          productImg: '/images/goods/pic01.jpg',
-          totalNum: '5'
-        },
-        {
-          productName: '充电器',
-          desc: 'subTitle222',
-          productId: '002',
-          productPrice: '14',
-          productImg: '/images/goods/pic02.jpg',
-          totalNum: '5'
-        }
-      ],
+      hotGoods: [],
       saleGoods: [
         {
           tabs: [
@@ -108,6 +91,7 @@ export default {
   methods: {
     async init() {
       await this.getCarousels()
+      await this.getHostList()
     },
     async getCarousels() {
       const res = await fetchSettings({ type: 'carousel' })
@@ -118,6 +102,12 @@ export default {
             url: item.carousel
           }
         })
+      }
+    },
+    async getHostList() {
+      const res = await fetchSettings({ type: 'hot' })
+      if (res.data.status && res.data.status === '0') {
+        this.hotGoods = res.data.list
       }
     }
   }
