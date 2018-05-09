@@ -47,7 +47,7 @@
         </div>
         <div class="buy">
           <el-button style="width: 145px" type="primary" :disabled="Number(product.totalNum)===0" plain @click="handleAddCart()">加入购物车</el-button>
-          <el-button style="width: 145px" type="primary" :disabled="Number(product.totalNum)===0">现在购买</el-button>
+          <el-button style="width: 145px" type="primary" :disabled="Number(product.totalNum)===0" @click="handleToBuy">现在购买</el-button>
         </div>
       </div>
     </div>
@@ -163,6 +163,30 @@ export default {
         if (!this.showCart) {
           this.$store.commit('SHOW_CART', { showCart: true })
         } */
+      }
+    },
+    async handleToBuy() {
+      if (this.login) {
+        // 已经登陆
+        const add = await addCart(this.product)
+        if (add.data.status === '0') {
+          this.$store.commit('ADD_CART', {
+            productId: this.product.productId,
+            productPrice: this.product.productPrice,
+            productName: this.product.productName,
+            productImg: this.product.productImg,
+            productNum: this.product.productNum
+          })
+          this.$router.push('/cart')
+        } else {
+          this.$message({
+            showClose: true,
+            type: 'error',
+            message: '购买失败'
+          })
+        }
+      } else {
+        this.$router.push({ path: '/login' })
       }
     }
   }
