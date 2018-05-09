@@ -7,3 +7,10 @@ export function fetchSettings(data) {
     params: data
   })
 }
+
+export function fetchNewUpGoods() {
+  return fetch({
+    url: '/nodeapi/setting/fetchNewUpGoods',
+    method: 'get'
+  })
+}

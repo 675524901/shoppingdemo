@@ -18,6 +18,15 @@
       </h-shelf>
     </section>
 
+    <!--上新商品-->
+    <section class="w mt30 clearfix">
+      <h-shelf title="商品上新">
+        <div slot="content" class="floors">
+          <goods-card v-for="(item,i) in newGoods" :msg="item" :key="i"></goods-card>
+        </div>
+      </h-shelf>
+    </section>
+
     <section class="w mt30 clearfix" v-for="(item,i) in saleGoods" :key="i">
       <h-shelf :title="item.title">
         <div slot="content" class="floors">
@@ -33,13 +42,14 @@
 <script>
 import HShelf from '@/components/Shelf'
 import GoodsCard from '@/components/GoodsCard'
-import { fetchSettings } from '@/api/home'
+import { fetchSettings, fetchNewUpGoods } from '@/api/home'
 export default {
   name: 'HomePage',
   data() {
     return {
       carousels: [],
       hotGoods: [],
+      newGoods: [],
       saleGoods: [
         {
           tabs: [
@@ -92,6 +102,7 @@ export default {
     async init() {
       await this.getCarousels()
       await this.getHostList()
+      await this.getNewUpGoods()
     },
     async getCarousels() {
       const res = await fetchSettings({ type: 'carousel' })
@@ -108,6 +119,12 @@ export default {
       const res = await fetchSettings({ type: 'hot' })
       if (res.data.status && res.data.status === '0') {
         this.hotGoods = res.data.list
+      }
+    },
+    async getNewUpGoods() {
+      const res = await fetchNewUpGoods()
+      if (res.data.status && res.data.status === '0') {
+        this.newGoods = res.data.list
       }
     }
   }
