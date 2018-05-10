@@ -15,3 +15,4 @@ export function fetchGoodsList(data) {
     params: data
   })
 }
+

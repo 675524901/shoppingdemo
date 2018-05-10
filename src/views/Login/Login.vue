@@ -65,6 +65,7 @@
 <script>
 import { userLogin, userRegister, checkAccount } from '@/api/login'
 import { addSeveralCart } from '@/api/cart'
+import { setToken, removeToken } from '@/utils/session'
 export default {
   name: 'loginPage',
   data() {
@@ -163,7 +164,7 @@ export default {
           }
           const res = await userLogin(data)
           if (res.data.status && res.data.status === '0') {
-            sessionStorage.setItem('token', res.data.token) // 用sessionStorage把token存下来
+            setToken(res.data.token) // 用sessionStorage把token存下来
             this.$message({
               showClose: true,
               message: '登陆成功',
@@ -183,7 +184,7 @@ export default {
               message: '账号或密码错误',
               type: 'error'
             })
-            sessionStorage.setItem('token', null) // 将token清空
+            removeToken() // 将token清空
           }
         }
       })

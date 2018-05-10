@@ -3,7 +3,8 @@
     <!--轮播图片-->
     <div class="w mt30 clearfix">
       <el-carousel height="400px">
-        <el-carousel-item v-for="item in 4" :key="item">
+        <el-carousel-item v-for="item in carousels" :key="item.id">
+          <img style="width:100%;height:100%;" :src="item.url" alt="">
         </el-carousel-item>
       </el-carousel>
     </div>
@@ -13,6 +14,15 @@
       <h-shelf title="热门商品">
         <div slot="content" class="floors">
           <goods-card v-for="(item,i) in hotGoods" :msg="item" :key="i"></goods-card>
+        </div>
+      </h-shelf>
+    </section>
+
+    <!--上新商品-->
+    <section class="w mt30 clearfix">
+      <h-shelf title="商品上新">
+        <div slot="content" class="floors">
+          <goods-card v-for="(item,i) in newGoods" :msg="item" :key="i"></goods-card>
         </div>
       </h-shelf>
     </section>
@@ -32,28 +42,14 @@
 <script>
 import HShelf from '@/components/Shelf'
 import GoodsCard from '@/components/GoodsCard'
+import { fetchSettings, fetchNewUpGoods } from '@/api/home'
 export default {
   name: 'HomePage',
   data() {
     return {
-      hotGoods: [
-        {
-          productName: '音响',
-          desc: 'subTitle111',
-          productId: '001',
-          productPrice: '12',
-          productImg: '/images/goods/pic01.jpg',
-          totalNum: '5'
-        },
-        {
-          productName: '充电器',
-          desc: 'subTitle222',
-          productId: '002',
-          productPrice: '14',
-          productImg: '/images/goods/pic02.jpg',
-          totalNum: '5'
-        }
-      ],
+      carousels: [],
+      hotGoods: [],
+      newGoods: [],
       saleGoods: [
         {
           tabs: [
@@ -100,10 +96,38 @@ export default {
     GoodsCard
   },
   created() {
-    // 获取轮播图，热卖商品等列表
-    // sessionStorage.removeItem('token')
+    this.init()
   },
-  methods: {}
+  methods: {
+    async init() {
+      await this.getCarousels()
+      await this.getHostList()
+      await this.getNewUpGoods()
+    },
+    async getCarousels() {
+      const res = await fetchSettings({ type: 'carousel' })
+      if (res.data.status && res.data.status === '0') {
+        this.carousels = res.data.list.map(item => {
+          return {
+            id: item.id,
+            url: item.carousel
+          }
+        })
+      }
+    },
+    async getHostList() {
+      const res = await fetchSettings({ type: 'hot' })
+      if (res.data.status && res.data.status === '0') {
+        this.hotGoods = res.data.list
+      }
+    },
+    async getNewUpGoods() {
+      const res = await fetchNewUpGoods()
+      if (res.data.status && res.data.status === '0') {
+        this.newGoods = res.data.list
+      }
+    }
+  }
 }
 </script>
 <style lang="scss" scoped>

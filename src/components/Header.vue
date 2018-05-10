@@ -136,6 +136,7 @@ import { mapState } from 'vuex'
 import { fetchCartList } from '@/api/cart'
 import { deleteCart } from '@/api/cart'
 import { removeStore } from '@/utils/storage'
+import { removeToken } from '@/utils/session'
 export default {
   name: 'Header',
   props: {
@@ -214,7 +215,7 @@ export default {
     },
     async loginOut() {
       this.$store.commit('INIT_LOGIN')
-      await sessionStorage.removeItem('token')
+      await removeToken()
       await removeStore('buyCart')
       if (this.$route.path === '/home') {
         this.$router.go(0)

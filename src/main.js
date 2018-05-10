@@ -9,6 +9,7 @@ import store from './store/index'
 import infiniteScroll from 'vue-infinite-scroll'
 import VueLazyload from 'vue-lazyload'
 import { getUserInfo } from '@/api/login'
+import { getToken } from '@/utils/session'
 
 Vue.prototype.$http = axios
 Vue.config.productionTip = false
@@ -22,9 +23,7 @@ Vue.use(VueLazyload, {
 })
 
 router.beforeEach(async (to, from, next) => {
-  const token = sessionStorage.getItem('token')
-  // 已经登陆
-  if (token && token !== '' && token !== null) {
+  if (getToken()) {
     const res = await getUserInfo()
     if (res.data.status === '0') {
       store.state.userInfo = res.data.userInfo

@@ -173,7 +173,7 @@ export default {
       })
         .then(async () => {
           const res = await deleteAddress({ addressId: id })
-          if (res.data.status) {
+          if (res.data.status && res.data.status === '0') {
             const index = this.addressList.findIndex(
               item => item.addressId === id
             )

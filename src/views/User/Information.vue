@@ -16,6 +16,7 @@
 <script>
 import { mapMutations, mapState } from 'vuex'
 import { getUserInfo } from '@/api/login'
+import { getToken } from '@/utils/session'
 export default {
   name: 'UserInformation',
   data() {
@@ -24,7 +25,7 @@ export default {
   computed: {
     ...mapState(['userInfo']),
     headers() {
-      const token = sessionStorage.getItem('token')
+      const token = getToken()
       const item = {}
       item.Authorization = 'Bearer ' + token
       return item
