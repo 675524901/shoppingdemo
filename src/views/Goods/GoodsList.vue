@@ -47,7 +47,8 @@ export default {
     $route() {
       this.busy = false
       this.listQuery.pageNum = 1
-      this.listQuery.type = this.$route.query.type
+      this.listQuery.type = this.$route.query.type || null
+      this.listQuery.searchContent = this.$route.query.searchContent || null
       this.getGoodsList()
     }
   },
