@@ -4,7 +4,7 @@
       <div class="w-box">
         <div class="nav-logo">
           <h1>
-            <router-link to="/" title="宠物商城">宠物商城</router-link>
+            <router-link to="/" title="宠物商城"></router-link>
           </h1>
         </div>
         <div class="right-box">
@@ -382,12 +382,19 @@ header {
     display: flex;
     align-items: center;
     > a {
-      background: url(/static/images/global-logo-red@2x.png) no-repeat 50%;
+      // background: url(/static/images/global-logo-red@2x.png) no-repeat 50%;
+      // background-size: cover;
+      // display: block;
+      // @include wh(50px, 40px);
+      // text-indent: -9999px;
+      // background-position: 0 0;
+
+      background: url(/static/images/header-logo-01.jpg) no-repeat 100%;
       background-size: cover;
       display: block;
-      @include wh(50px, 40px);
-      text-indent: -9999px;
       background-position: 0 0;
+      @include wh(50px, 50px);
+      border-radius: 25px;
     }
   }
   .nav-list {
