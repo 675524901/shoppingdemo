@@ -53,7 +53,7 @@
     </div>
     <!--详情介绍-->
 
-    <el-card style="margin-top:20px;">
+    <!-- <el-card style="margin-top:20px;">
       <el-tabs v-model="activeName">
         <el-tab-pane label="商品数据" name="first">
           <el-table :data="productTable" border style="width: 100%">
@@ -69,7 +69,7 @@
         </el-tab-pane>
         <el-tab-pane label="配置管理" name="second">配置管理</el-tab-pane>
       </el-tabs>
-    </el-card>
+    </el-card> -->
 
   </div>
 </template>

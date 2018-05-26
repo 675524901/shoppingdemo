@@ -237,9 +237,32 @@ export default {
       text-align: center;
       width: 450px;
       .title {
+        background: linear-gradient(#fff, #f5f5f5);
+        overflow: visible;
+        position: relative;
+        background-image: url(/static/images/header-logo-01.jpg);
+        background-size: 80px 80px;
+        background-position: top center;
+        background-repeat: no-repeat;
+        height: 120px;
+        margin: 23px 0 30px;
+        padding: 75px 0 0;
+
         h4 {
+          // color: #666;
+          // font-size: 20px;
+          padding: 0;
+          text-align: center;
+          position: absolute;
+          bottom: 0;
+          width: 100%;
+          margin-bottom: 0px;
+          box-shadow: none;
+          line-height: 1em;
+          height: auto;
           color: #666;
           font-size: 20px;
+          font-weight: 400;
         }
       }
     }

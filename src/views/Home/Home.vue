@@ -27,7 +27,7 @@
       </h-shelf>
     </section>
 
-    <section class="w mt30 clearfix" v-for="(item,i) in saleGoods" :key="i">
+    <!-- <section class="w mt30 clearfix" v-for="(item,i) in saleGoods" :key="i">
       <h-shelf :title="item.title">
         <div slot="content" class="floors">
           <div class="imgbanner">
@@ -36,7 +36,7 @@
           <goods-card :msg="tab" v-for="(tab,i) in item.tabs" :key="i"></goods-card>
         </div>
       </h-shelf>
-    </section>
+    </section> -->
   </div>
 </template>
 <script>
