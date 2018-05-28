@@ -10,6 +10,7 @@ import UserIndex from '@/views/User/UserIndex'
 import AddressList from '@/views/User/AddressList'
 import Information from '@/views/User/Information'
 import OrderList from '@/views/User/OrderList'
+import ChangePassword from '@/views/User/ChangePassword'
 import PurchaseIndex from '@/views/Purchase/Index'
 import Checkout from '@/views/Purchase/Checkout'
 import Payment from '@/views/Purchase/Payment'
@@ -45,6 +46,7 @@ export default new Router({
       children: [
         { path: 'addressList', name: '收货地址', meta: { requireAuth: true }, component: AddressList },
         { path: 'information', name: '用户信息', meta: { requireAuth: true }, component: Information },
+        { path: 'changePassword', name: '修改密码', meta: { requireAuth: true }, component: ChangePassword },
         { path: 'orderList', name: '订单管理', meta: { requireAuth: true }, component: OrderList }
       ]
     },

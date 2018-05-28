@@ -46,8 +46,9 @@ export default {
     return {
       title: '我的订单',
       nav: [
-        { name: '我的订单', path: 'orderList' },
         { name: '账户资料', path: 'information' },
+        { name: '修改密码', path: 'changePassword' },
+        { name: '我的订单', path: 'orderList' },
         { name: '收货地址', path: 'addressList' }
       ]
     }

@@ -105,3 +105,29 @@ export function paymentSuccess(data) {
   })
 }
 
+// 保存个人信息
+export function saveUserInfo(data) {
+  return fetch({
+    url: '/nodeapi/users/saveUserInfo',
+    method: 'post',
+    data
+  })
+}
+
+// 修改密码时核对旧密码
+export function checkPassword(data) {
+  return fetch({
+    url: '/nodeapi/users/checkPassword',
+    method: 'get',
+    params: data
+  })
+}
+
+// 修改密码
+export function changePassword(data) {
+  return fetch({
+    url: '/nodeapi/users/changePassword',
+    method: 'post',
+    data
+  })
+}

@@ -153,12 +153,16 @@ export default {
       searchContent: '',
       navList: [
         {
-          label: '订单管理',
-          link: '/user/orderList'
-        },
-        {
           label: '用户信息',
           link: '/user/information'
+        },
+        {
+          label: '修改密码',
+          link: '/user/changePassword'
+        },
+        {
+          label: '订单管理',
+          link: '/user/orderList'
         },
         {
           label: '收货地址',
